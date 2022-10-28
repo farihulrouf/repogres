@@ -16,7 +16,7 @@ function loadTable() {
           trHTML += '<tr>'; 
           trHTML += '<td>'+1+'</td>';
           trHTML += '<td>'+object['name']+'</td>';
-          trHTML += '<td>'+object['paguopd']+'</td>';
+          trHTML += '<td>'+object['paguopdp']+'</td>';
           trHTML += '<td>'+object['paguorp']+'</td>';
           trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\''+id_obj+'\')">edit </span></a>';
           trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailPage(\''+id_obj+'\')">edit </span></a>';
@@ -43,7 +43,7 @@ function loadTable() {
     xhttp.open("POST", api_url);
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhttp.send(JSON.stringify({ 
-      "name": name, "paguopd": paguopd, "paguorp": paguorp
+      "name": name, "paguopdp": paguopd, "paguorp": paguorp
     }));
     xhttp.onreadystatechange = function() {
       loadTable();
@@ -119,27 +119,6 @@ function detailPage(id) {
     }
       
   };
-
-
-  /*
-  console.log("id di sni", id)
-  const element = document.getElementById("opdb");
-  element.remove();
-
-  const xhttp = new XMLHttpRequest();
-  let posts = ''
-  xhttp.open("GET", api_url+'/'+id);
-  xhttp.send();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      const objects = JSON.parse(this.responseText);
-      posts = objects.data.data
-        
-    }
-    console.log(posts)
-
-  };
-  */
 }
 
 
@@ -159,7 +138,7 @@ function detailPage(id) {
           html:
             '<input id="id" type="hidden" value='+posts['id']+'>' +
             '<input id="name" class="swal2-input" placeholder="Nama Odp" value="'+posts['name']+'">' +
-            '<input id="paguopd" class="swal2-input" placeholder="Pagu Odp" value="'+posts['paguopd']+'">' +
+            '<input id="paguopd" class="swal2-input" placeholder="Pagu Odp" value="'+posts['paguopdp']+'">' +
             '<input id="paguorp" class="swal2-input" placeholder="Pagu Orp" value="'+posts['paguorp']+'">',
           focusConfirm: false,
           preConfirm: () => {
@@ -184,7 +163,7 @@ function detailPage(id) {
     xhttp.open("PUT", api_url+"/"+id);
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhttp.send(JSON.stringify({ 
-      "name": name, "paguopd": paguopd, "paguorp": paguorp
+      "name": name, "paguopdp": paguopd, "paguorp": paguorp
     }));
     xhttp.onreadystatechange = function() {
       loadTable();
