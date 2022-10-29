@@ -549,3 +549,21 @@ nav .profile-details i{
   background: teal;
   color: white;
 }
+
+#detail {
+  display: none;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  
+
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}

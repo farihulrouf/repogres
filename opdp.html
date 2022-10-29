@@ -106,7 +106,75 @@
             </table>
         </div>
         <div id="detail">
-          
+          <a class="back-button" href="#" onclick="showPagu()">
+            
+              <span class="material-symbols-outlined">
+              arrow_back
+              </span> Kembali
+              
+          </a>
+          <table class="styled-table">
+            <p>Pagu Anggaran</p>
+            <thead>
+                <tr>
+                    <th>NO</th>
+                    <th width="300px">NAMA</th>
+                    <th width="400px">JUMLAH</th>
+                    <th width="100px">ACTION</th>
+                </tr>
+            </thead>
+            <tbody id="anggaran">
+              <tr></tr>
+            </tbody>
+          </table>
+          <table class="styled-table">
+            Tender dan waktu pelaksanaan
+            <thead>
+                <tr>
+                    <th>NO</th>
+                    <th width="300px">SUB BIDANG</th>
+                    <th width="300px">NAMA PAKET</th>
+                    <th width="200px">PAGU</th>
+                    <th width="100px">JADWAL</th>
+                    <th width="100px">ACTION</th>
+                </tr>
+            </thead>
+            <tbody id="tender">
+              <tr></tr>
+            </tbody>
+          </table>
+          <table class="styled-table">
+            Pengadaan Langsung
+            <thead>
+                <tr>
+                    <th>NO</th>
+                    <th width="300px">SUB BIDANG</th>
+                    <th width="300px">NAMA PAKET</th>
+                    <th width="200px">PAGU</th>
+                    <th width="100px">JADWAL</th>
+                    <th width="100px">ACTION</th>
+                </tr>
+            </thead>
+            <tbody id="langsung">
+              <tr></tr>
+            </tbody>
+          </table>
+          <table class="styled-table">
+            Pengadaan Pengecualian
+            <thead>
+                <tr>
+                    <th>NO</th>
+                    <th width="300px">SUB BIDANG</th>
+                    <th width="300px">NAMA PAKET</th>
+                    <th width="200px">PAGU</th>
+                    <th width="100px">JADWAL</th>
+                    <th width="100px">ACTION</th>
+                </tr>
+            </thead>
+            <tbody id="kecuali">
+              <tr></tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -117,7 +185,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
   <script>
    let sidebar = document.querySelector(".sidebar");
-let sidebarBtn = document.querySelector(".sidebarBtn");
+  let sidebarBtn = document.querySelector(".sidebarBtn");
 sidebarBtn.onclick = function() {
   sidebar.classList.toggle("active");
   if(sidebar.classList.contains("active")){

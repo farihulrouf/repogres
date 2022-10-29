@@ -1,6 +1,7 @@
 
 const api_url = "http://localhost:3000/api/pagus";
-
+const api_url_anggaran = "http://localhost:3000/api/anggaran";
+const api_url_tender = "http://localhost:3000/api/tender"
 function loadTable() {
     
     const xhttp = new XMLHttpRequest();
@@ -28,13 +29,13 @@ function loadTable() {
         
       }
     };
-    console.log("data di load sudah");
-  }
+    //console.log("data di load sudah");
+}
 
-  loadTable();
+loadTable();
 
  
-  function paguCreate() {
+function paguCreate() {
     const name = document.getElementById("name").value;
     const paguopd = document.getElementById("paguopd").value;
     const paguorp = document.getElementById("paguorp").value;
@@ -54,9 +55,9 @@ function loadTable() {
         console.log("eksekusi")
       }*/
     };
-  }
+}
 
-  function showUserCreateBox() {
+function showUserCreateBox() {
     Swal.fire({
       title: 'Create Pagu',
       html:
@@ -69,10 +70,10 @@ function loadTable() {
         paguCreate();
       }
     })
-  }
+}
 
 
-  function paguDelete(id) {
+function paguDelete(id) {
     
     console.log("data coba delete id",id)
 
@@ -92,37 +93,85 @@ function loadTable() {
       */
     };
     
-  }
+}
 
 function detailPage(id) {
+    var x = document.getElementById("detail");
+    var y = document.getElementById("opdb")
+    y.style.display = "none";
+    x.style.display = "block";
 
-  let element = document.getElementById("opdb");
-  element.remove();
+    detailAnggaran(id)
+    detailTender(id)
+   
+    
+}
 
+function detailAnggaran(id) {
+  //console.log(id)
   const xhttp = new XMLHttpRequest();
-  let posts = ''
-  xhttp.open("GET", api_url+'/'+id);
+    xhttp.open("GET", api_url_anggaran+'/pagu/'+id);
+    xhttp.send();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {      
+        var trHTML = ''; 
+        const objects = JSON.parse(this.responseText);
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          console.log(id_obj)
+          trHTML += '<tr>'; 
+          trHTML += '<td>'+1+'</td>';
+          trHTML += '<td>'+object['name']+'</td>';
+          trHTML += '<td>'+object['jumlah']+'</td>';
+          trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\''+id_obj+'\')">edit </span></a>';
+          trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailPage(\''+id_obj+'\')">edit </span></a>';
+          trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="paguDelete(\''+id_obj+'\')">delete_forever</span></a></td>';
+         
+          trHTML += "</tr>";
+        }
+        document.getElementById("anggaran").innerHTML = trHTML;
+        
+      }
+    };
+    //console.log("data di load sudah");
+}
+
+function detailTender(id) {
+  console.log("eksekusi id tender", id)
+  
+  const xhttp = new XMLHttpRequest();
+
+  xhttp.open("GET", api_url_tender+'/pagu/'+id)
   xhttp.send();
   xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
+    if (this.readyState == 4 && this.status == 200) {      
+      var trHTML = ''; 
       const objects = JSON.parse(this.responseText);
-      posts = objects.data.data
-      console.log(posts)
-      const para = document.createElement("p");
-      const node = document.createTextNode(posts.name);
-      para.appendChild(node);
-      //para.appendChild(node2);
-      element = document.getElementById("detail");
-      element.appendChild(para);
-      //element.appendChild(para2);
-        
-    }
+      for (let object of objects.data.data) {
+        let id_obj = object['id']
+        //console.log(id_obj)
+        trHTML += '<tr>'; 
+        trHTML += '<td>'+1+'</td>';
+        trHTML += '<td>'+object['name']+'</td>';
+        trHTML += '<td>'+object['paket']+'</td>';
+        trHTML += '<td>'+object['pagu']+'</td>';
+        trHTML += '<td>'+object['jadwal']+'</td>';
+        trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\''+id_obj+'\')">edit </span></a>';
+        trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailPage(\''+id_obj+'\')">edit </span></a>';
+        trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="paguDelete(\''+id_obj+'\')">delete_forever</span></a></td>';
+       
+        trHTML += "</tr>";
+      }
+      document.getElementById("tender").innerHTML = trHTML;
       
+    }
   };
+  
 }
 
 
-  function showUserEditBox(id) {
+
+function showUserEditBox(id) {
     //console.log("id data",id);
     const xhttp = new XMLHttpRequest();
     xhttp.open("GET", api_url+'/'+id);
@@ -149,10 +198,10 @@ function detailPage(id) {
         
       }
     };
-  }
+}
 
 
-  function paguEdit() {
+function paguEdit() {
 
     const id = document.getElementById("id").value;
     const name = document.getElementById("name").value;
@@ -174,6 +223,14 @@ function detailPage(id) {
         console.log("eksekusi")
       }*/
     };
+}
+
+function showPagu(){
+
+    var x = document.getElementById("detail");
+    var y = document.getElementById("opdb")
+    x.style.display = "none";
+    y.style.display = "block";
   }
   
 
