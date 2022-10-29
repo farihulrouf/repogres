@@ -2,6 +2,7 @@
 const api_url = "http://localhost:3000/api/pagus";
 const api_url_anggaran = "http://localhost:3000/api/anggaran";
 const api_url_tender = "http://localhost:3000/api/tender"
+const api_url_langsung = "http://localhost:3000/api/langsung"
 function loadTable() {
     
     const xhttp = new XMLHttpRequest();
@@ -103,6 +104,7 @@ function detailPage(id) {
 
     detailAnggaran(id)
     detailTender(id)
+    detailLangsung(id)
    
     
 }
@@ -163,6 +165,38 @@ function detailTender(id) {
         trHTML += "</tr>";
       }
       document.getElementById("tender").innerHTML = trHTML;
+      
+    }
+  };
+  
+}
+function detailLangsung(id) {
+  console.log("eksekusi id tender", id)
+  
+  const xhttp = new XMLHttpRequest();
+
+  xhttp.open("GET", api_url_langsung+'/pagu/'+id)
+  xhttp.send();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {      
+      var trHTML = ''; 
+      const objects = JSON.parse(this.responseText);
+      for (let object of objects.data.data) {
+        let id_obj = object['id']
+        //console.log(id_obj)
+        trHTML += '<tr>'; 
+        trHTML += '<td>'+1+'</td>';
+        trHTML += '<td>'+object['name']+'</td>';
+        trHTML += '<td>'+object['paket']+'</td>';
+        trHTML += '<td>'+object['pagu']+'</td>';
+        trHTML += '<td>'+object['jadwal']+'</td>';
+        trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\''+id_obj+'\')">edit </span></a>';
+        trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailPage(\''+id_obj+'\')">edit </span></a>';
+        trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="paguDelete(\''+id_obj+'\')">delete_forever</span></a></td>';
+       
+        trHTML += "</tr>";
+      }
+      document.getElementById("langsung").innerHTML = trHTML;
       
     }
   };
