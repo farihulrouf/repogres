@@ -24,8 +24,8 @@ function loadTable() {
           trHTML += '<td>'+object['name']+'</td>';
           trHTML += '<td>'+object['paguopdp']+'</td>';
           trHTML += '<td>'+object['paguorp']+'</td>';
-          trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\''+id_obj+'\')">edit </span></a>';
-          trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailPage(\''+id_obj+'\')">edit </span></a>';
+          trHTML += '<td class="td-icon"><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\''+id_obj+'\')">edit </span></a>';
+          trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailPage(\''+id_obj+'\')">visibility </span></a>';
           trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="paguDelete(\''+id_obj+'\')">delete_forever</span></a></td>';
          
           trHTML += "</tr>";

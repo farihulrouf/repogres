@@ -85,19 +85,24 @@
     <div class="home-content">
       <div class="overview-table">
         <div id="opdb">
-            <div class="header-opdb">
-                <div class="text-pagu">DATA OPDB</div>
-                <button type="button" onclick="showUserCreateBox()">Create</button>
-            </div>
+              <div class="text-detail-pagu">
+                <p>Pagu Anggaran</p>
+                <a href="#" onclick="showUserCreateBox()">
+                <span class="material-symbols-outlined" >
+                  add_circle
+                </span>
+                </a>
+              </div>
+           
             
             <table class="styled-table">
               <thead>
                   <tr>
-                      <th>NO</th>
-                      <th width="300px">NAMA OPDB</th>
-                      <th width="400px">PAGU OPDB</th>
-                      <th width="200px">PAGU ORP</th>
-                      <th width="100px">ACTION</th>
+                      <th width="2%">NO</th>
+                      <th width="30%">NAMA OPDB</th>
+                      <th width="30%">PAGU OPDB</th>
+                      <th width="30%">PAGU ORP</th>
+                      <th width="8%">ACTION</th>
                   </tr>
               </thead>
               <tbody id="mytable">
@@ -114,16 +119,20 @@
               
           </a>
           <table class="styled-table">
-            <div>
+            <div class="text-detail-pagu">
               <p>Pagu Anggaran</p>
-              <button onclick="showCreateAnggaran(`Anggaran`)">Create</button>
+              <a href="#" onclick="showCreateAnggaran(`Anggaran`)">
+              <span class="material-symbols-outlined" >
+                add_circle
+              </span>
+              </a>
             </div>
             <thead>
                 <tr>
-                    <th>NO</th>
-                    <th width="300px">NAMA</th>
-                    <th width="400px">JUMLAH</th>
-                    <th width="100px">ACTION</th>
+                    <th width="2%">NO</th>
+                    <th width="45%">NAMA</th>
+                    <th width="48%">JUMLAH</th>
+                    <th width="5%">ACTION</th>
                 </tr>
             </thead>
             <tbody id="anggaran">
@@ -131,15 +140,24 @@
             </tbody>
           </table>
           <table class="styled-table">
-            Tender dan waktu pelaksanaan
-            <button onclick="showCreateAnggaran(`Tender`)">Create</button>
+            <div class="text-detail-pagu">
+              <p>
+              Tender dan waktu pelaksanaan</p>
+              <a href="#" onclick="showCreateAnggaran(`Tender`)">
+              <span class="material-symbols-outlined" >
+                add_circle
+              </span>
+              </a>
+            </div>
             <thead>
                 <tr>
-                    <th>NO</th>
-                    <th width="300px">SUB BIDANG</th>
-                    <th width="350px">NAMA PAKET</th>
-                    <th width="250px">PAGU</th>
-                    <th width="100px">ACTION</th>
+                  <tr>
+                    <th width="2%">NO</th>
+                    <th width="33%">SUB BIDANG</th>
+                    <th width="30%">NAMA PAKET</th>
+                    <th width="30%%">PAGU</th>
+                    <th width="5%">ACTION</th>
+                </tr>
                 </tr>
             </thead>
             <tbody id="tender">
@@ -147,15 +165,21 @@
             </tbody>
           </table>
           <table class="styled-table">
-            Pengadaan Langsung
-            <button onclick="showCreateAnggaran(`Langsung`)">Create</button>
+            <div class="text-detail-pagu">
+              <p>Pengadaan Langsung</p>
+              <a href="#" onclick="showCreateAnggaran(`Langsung`)">
+              <span class="material-symbols-outlined" >
+                add_circle
+              </span>
+              </a>
+            </div>
             <thead>
                 <tr>
-                    <th>NO</th>
-                    <th width="300px">SUB BIDANG</th>
-                    <th width="350px">NAMA PAKET</th>
-                    <th width="250px">PAGU</th>
-                    <th width="100px">ACTION</th>
+                    <th width="2%">NO</th>
+                    <th width="33%">SUB BIDANG</th>
+                    <th width="30%">NAMA PAKET</th>
+                    <th width="30%%">PAGU</th>
+                    <th width="5%">ACTION</th>
                 </tr>
             </thead>
             <tbody id="langsung">
@@ -163,16 +187,22 @@
             </tbody>
           </table>
           <table class="styled-table">
-            Pengadaan Pengecualian  
-            <button onclick="showCreateAnggaran(`Kecuali`)">Create</button>
+            <div class="text-detail-pagu">
+              <p>Pengadaan Kecuali</p>
+              <a href="#" onclick="showCreateAnggaran(`Kecuali`)">
+              <span class="material-symbols-outlined" >
+                add_circle
+              </span>
+              </a>
+            </div>
             <thead>
-                <tr>
-                    <th>NO</th>
-                    <th width="300px">SUB BIDANG</th>
-                    <th width="350px">NAMA PAKET</th>
-                    <th width="250px">PAGU</th>
-                    <th width="100px">ACTION</th>
-                </tr>
+              <tr>
+                  <th width="2%">NO</th>
+                  <th width="33%">SUB BIDANG</th>
+                  <th width="30%">NAMA PAKET</th>
+                  <th width="30%%">PAGU</th>
+                  <th width="5%">ACTION</th>
+              </tr>
             </thead>
             <tbody id="kecuali">
               <tr></tr>
