@@ -3,6 +3,9 @@ const api_url = "http://localhost:3000/api/pagus";
 const api_url_anggaran = "http://localhost:3000/api/anggaran";
 const api_url_tender = "http://localhost:3000/api/tender"
 const api_url_langsung = "http://localhost:3000/api/langsung"
+const api_url_pengecualian = "http://localhost:3000/api/kecuali"
+var id_global = '';
+
 
 function loadTable() {
     
@@ -82,30 +85,35 @@ function showCreateAnggaran(anggaran) {
     html:
       '<input id="id" type="hidden">' +
       '<input id="name" class="swal2-input" placeholder="Name">' +
-      '<input id="paguopd" class="swal2-input" placeholder="Paguodp">' +
-      '<input id="paguorp" class="swal2-input" placeholder="Paguorp">',
+      '<input id="paket" class="swal2-input" placeholder="Paket">' +
+      '<input id="pagu" class="swal2-input" placeholder="Pagu">',
     focusConfirm: false,
     preConfirm: () => {
       if (header_title == 'Anggaran') {
-         anggaranCreate()
+         //const api_param = api_url_anggaran
+         CreateDetailPagu(api_url_anggaran, header_title)
       }
       else if (header_title == 'Tender') {
-        tenderCreate()
+        //const api_param = api_url_tender
+        CreateDetailPagu(api_url_tender, header_title)
+        
       }
       else if(header_title == 'Langsung') {
-        langsungCreate()
+        //const api_param = api_url_langsung
+        CreateDetailPagu(api_url_langsung, header_title)
       }
-      else {
-        pengecualianCreate()
+      else if(header_title=="Kecuali") {
+        //const api_param = api_url_pengecualian
+        CreateDetailPagu(api_url_pengecualian, header_title)
       }
     }
   })
 }
 
 function anggaranCreate(){
-  /*const name = document.getElementById("name").value;
-  const paguopd = document.getElementById("paguopd").value;
-  const paguorp = document.getElementById("paguorp").value;
+  const name = document.getElementById("name").value;
+  const pagu = document.getElementById("pagu").value;
+  const paket = document.getElementById("paket").value;
     
   const xhttp = new XMLHttpRequest();
   xhttp.open("POST", api_url);
@@ -116,20 +124,37 @@ function anggaranCreate(){
   xhttp.onreadystatechange = function() {
   
   };
-  */
+  
 }
 
-function tenderCreate() {
-  console.log(getId)
+function CreateDetailPagu(api_param, header_title) {
+  const name = document.getElementById("name").value;
+  const paket = document.getElementById("paket").value;
+  const pagu = document.getElementById("pagu").value;
+    
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("POST", api_param);
+  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhttp.send(JSON.stringify({ 
+    "name": name, "paket": paket, "pagu": pagu, "jadwal": "12-12-2022", "idpagu": id_global
+  }));
+  xhttp.onreadystatechange = function() {
+    if(header_title=="Langsung") {
+      detailLangsung(id_global)
+    }
+    else if (header_title=="Anggaran") {
+      detailAnggaran(id_global)
+    }
+    else if (header_title=="Tender") {
+      detailTender(id_global)
+    }
+    else if(header_title="Kecuali"){
+      console.log("kecuali")
+    }
+  };
+  //console.log(id_global)
 }
 
-function langsungCreate() {
-  console.log("langsung")
-}
-
-function pengecualianCreate() {
-  console.log("Pengecualian")
-}
 
 
 function paguDelete(id) {
@@ -159,16 +184,12 @@ function detailPage(id) {
     var y = document.getElementById("opdb")
     y.style.display = "none";
     x.style.display = "block";
-    getId(id)
+    id_global = id;
     detailAnggaran(id)
     detailTender(id)
     detailLangsung(id)
    
     
-}
-
-function getId(id){
-  return id;
 }
 
 
