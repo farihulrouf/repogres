@@ -131,7 +131,7 @@ function CreateDetailPagu(api_param, header_title) {
   const name = document.getElementById("name").value;
   const paket = document.getElementById("paket").value;
   const pagu = document.getElementById("pagu").value;
-    
+  console.log("ini hereader",header_title)
   const xhttp = new XMLHttpRequest();
   xhttp.open("POST", api_param);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -149,7 +149,8 @@ function CreateDetailPagu(api_param, header_title) {
       detailTender(id_global)
     }
     else if(header_title="Kecuali"){
-      console.log("kecuali")
+      detailKecuali(id_global)
+      console.log("ini di eksekusi")
     }
   };
   //console.log(id_global)
@@ -193,6 +194,7 @@ function detailDelete(id, tender, api) {
       detailAnggaran(id_global)
       detailTender(id_global)
       detailLangsung(id_global)
+      detailKecuali(id_global)
       /*
       if(typedelete === 'tender') {
          detailTender(id_global)
@@ -225,6 +227,7 @@ function detailPage(id) {
     detailAnggaran(id)
     detailTender(id)
     detailLangsung(id)
+    detailKecuali(id)
    
     
 }
@@ -259,7 +262,7 @@ function detailAnggaran(id) {
 }
 
 function detailTender(id) {
-  console.log("eksekusi id tender", id)
+  //console.log("eksekusi id tender", id)
   
   const xhttp = new XMLHttpRequest();
 
@@ -289,7 +292,7 @@ function detailTender(id) {
   
 }
 function detailLangsung(id) {
-  console.log("eksekusi id tender", id)
+  //console.log("eksekusi id tender", id)
   
   const xhttp = new XMLHttpRequest();
 
@@ -318,6 +321,38 @@ function detailLangsung(id) {
   };
   
 }
+
+function detailKecuali(id) {
+  //console.log("eksekusi id tender", id)
+  
+  const xhttp = new XMLHttpRequest();
+
+  xhttp.open("GET", api_url_pengecualian+'/pagu/'+id)
+  xhttp.send();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {      
+      var trHTML = ''; 
+      const objects = JSON.parse(this.responseText);
+      for (let object of objects.data.data) {
+        let id_obj = object['id']
+        //console.log(id_obj)
+        trHTML += '<tr>'; 
+        trHTML += '<td>'+1+'</td>';
+        trHTML += '<td>'+object['name']+'</td>';
+        trHTML += '<td>'+object['paket']+'</td>';
+        trHTML += '<td>'+object['pagu']+'</td>';
+        trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\''+id_obj+'\')">edit </span></a>';
+        trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\''+id_obj+'\', `kecuali`,\''+api_url_pengecualian+'\')">delete_forever</span></a></td>';
+       
+        trHTML += "</tr>";
+      }
+      document.getElementById("kecuali").innerHTML = trHTML;
+      
+    }
+  };
+  
+}
+
 
 
 
