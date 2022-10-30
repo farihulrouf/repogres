@@ -178,7 +178,44 @@ function paguDelete(id) {
     };
     
 }
-
+function detailDelete(id, tender, api) {
+    //console.log("data coba delete id", tender)
+    let typedelete = ''
+    console.log("informasi api",api)
+    //console.log(api_param)
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("DELETE", api+"/"+id);
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send(JSON.stringify({ 
+      "id": id
+    }));
+    xhttp.onreadystatechange = function() {
+      detailAnggaran(id_global)
+      detailTender(id_global)
+      detailLangsung(id_global)
+      /*
+      if(typedelete === 'tender') {
+         detailTender(id_global)
+      }
+      else if (typedelete === 'langsung') {
+        console.log("informasi", typedelete)
+        detailLangsung(id_global)
+      }
+      else if ( typedelete === 'anggaran') {
+        detailAnggaran(id_global)
+      }
+      else if (typedelete === "kecuali") {
+        console.log('kecuali')
+      }
+      */
+      /*if (this.readyState == 4) {
+        const objects = JSON.parse(this.responseText);
+        Swal.fire(objects['message']);
+        loadTable();
+      } 
+      */
+    };
+}
 function detailPage(id) {
     var x = document.getElementById("detail");
     var y = document.getElementById("opdb")
@@ -204,13 +241,12 @@ function detailAnggaran(id) {
         const objects = JSON.parse(this.responseText);
         for (let object of objects.data.data) {
           let id_obj = object['id']
-          console.log(id_obj)
+          //console.log(id_obj)
           trHTML += '<tr>'; 
           trHTML += '<td>'+1+'</td>';
           trHTML += '<td>'+object['name']+'</td>';
           trHTML += '<td>'+object['jumlah']+'</td>';
           trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\''+id_obj+'\')">edit </span></a>';
-          trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailPage(\''+id_obj+'\')">edit </span></a>';
           trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="paguDelete(\''+id_obj+'\')">delete_forever</span></a></td>';
          
           trHTML += "</tr>";
@@ -241,10 +277,8 @@ function detailTender(id) {
         trHTML += '<td>'+object['name']+'</td>';
         trHTML += '<td>'+object['paket']+'</td>';
         trHTML += '<td>'+object['pagu']+'</td>';
-        trHTML += '<td>'+object['jadwal']+'</td>';
         trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\''+id_obj+'\')">edit </span></a>';
-        trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailPage(\''+id_obj+'\')">edit </span></a>';
-        trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="paguDelete(\''+id_obj+'\')">delete_forever</span></a></td>';
+        trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\''+id_obj+'\',`tender`,\''+api_url_tender+'\')">delete_forever</span></a></td>';
        
         trHTML += "</tr>";
       }
@@ -273,10 +307,8 @@ function detailLangsung(id) {
         trHTML += '<td>'+object['name']+'</td>';
         trHTML += '<td>'+object['paket']+'</td>';
         trHTML += '<td>'+object['pagu']+'</td>';
-        trHTML += '<td>'+object['jadwal']+'</td>';
         trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\''+id_obj+'\')">edit </span></a>';
-        trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailPage(\''+id_obj+'\')">edit </span></a>';
-        trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="paguDelete(\''+id_obj+'\')">delete_forever</span></a></td>';
+        trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\''+id_obj+'\', `langsung`,\''+api_url_langsung+'\')">delete_forever</span></a></td>';
        
         trHTML += "</tr>";
       }
