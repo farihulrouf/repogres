@@ -168,12 +168,7 @@ function paguDelete(id) {
     }));
     xhttp.onreadystatechange = function() {
       loadTable();
-      /*if (this.readyState == 4) {
-        const objects = JSON.parse(this.responseText);
-        Swal.fire(objects['message']);
-        loadTable();
-      } 
-      */
+    
     };
     
 }
@@ -193,27 +188,7 @@ function detailDelete(id, tender, api) {
       detailTender(id_global)
       detailLangsung(id_global)
       detailKecuali(id_global)
-      /*
-      if(typedelete === 'tender') {
-         detailTender(id_global)
-      }
-      else if (typedelete === 'langsung') {
-        console.log("informasi", typedelete)
-        detailLangsung(id_global)
-      }
-      else if ( typedelete === 'anggaran') {
-        detailAnggaran(id_global)
-      }
-      else if (typedelete === "kecuali") {
-        console.log('kecuali')
-      }
-      */
-      /*if (this.readyState == 4) {
-        const objects = JSON.parse(this.responseText);
-        Swal.fire(objects['message']);
-        loadTable();
-      } 
-      */
+      
     };
 }
 function detailPage(id) {
@@ -222,12 +197,58 @@ function detailPage(id) {
     y.style.display = "none";
     x.style.display = "block";
     id_global = id;
+    detailPaguItem(id)
     detailAnggaran(id)
     detailTender(id)
     detailLangsung(id)
     detailKecuali(id)
    
     
+}
+
+function detailPaguItem(id){
+  const xhttp = new XMLHttpRequest();
+    xhttp.open("GET", api_url+'/'+id);
+    xhttp.send();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        const objects = JSON.parse(this.responseText);
+        //console.log(objects.data.data)
+        const posts = objects.data.data
+        var node = ''
+        console.log(posts);
+        node = document.createTextNode(posts.name);
+        for(i=0;i<3;i++){
+
+        const para = document.createElement("p");
+        if(i==0){
+          node = document.createTextNode(posts.name);
+        }
+        else if (i==1) {
+          node = document.createTextNode(posts.paguopdp);
+        }
+        else if(i==2) {
+          node = document.createTextNode(posts.paguorp);
+        }
+          para.appendChild(node);
+          const element = document.getElementById("infodetail");
+          element.appendChild(para);
+        }
+        
+        
+      }
+    };
+}
+
+function createElement(){
+
+  var text = ["text1", "tex2", "text3", "text4"];
+	text.forEach(function(el) {
+    var div = document.createElement("div");
+    div.className = "finalBlock";
+    div.innerHTML = el;
+    document.body.appendChild(div);
+  })
 }
 
 
