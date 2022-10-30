@@ -3,6 +3,7 @@ const api_url = "http://localhost:3000/api/pagus";
 const api_url_anggaran = "http://localhost:3000/api/anggaran";
 const api_url_tender = "http://localhost:3000/api/tender"
 const api_url_langsung = "http://localhost:3000/api/langsung"
+
 function loadTable() {
     
     const xhttp = new XMLHttpRequest();
@@ -73,6 +74,63 @@ function showUserCreateBox() {
     })
 }
 
+function showCreateAnggaran(anggaran) {
+  console.log(anggaran)
+  let header_title = anggaran
+  Swal.fire({
+    title:  anggaran,
+    html:
+      '<input id="id" type="hidden">' +
+      '<input id="name" class="swal2-input" placeholder="Name">' +
+      '<input id="paguopd" class="swal2-input" placeholder="Paguodp">' +
+      '<input id="paguorp" class="swal2-input" placeholder="Paguorp">',
+    focusConfirm: false,
+    preConfirm: () => {
+      if (header_title == 'Anggaran') {
+         anggaranCreate()
+      }
+      else if (header_title == 'Tender') {
+        tenderCreate()
+      }
+      else if(header_title == 'Langsung') {
+        langsungCreate()
+      }
+      else {
+        pengecualianCreate()
+      }
+    }
+  })
+}
+
+function anggaranCreate(){
+  /*const name = document.getElementById("name").value;
+  const paguopd = document.getElementById("paguopd").value;
+  const paguorp = document.getElementById("paguorp").value;
+    
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("POST", api_url);
+  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhttp.send(JSON.stringify({ 
+    "name": name, "paguopdp": paguopd, "paguorp": paguorp
+  }));
+  xhttp.onreadystatechange = function() {
+  
+  };
+  */
+}
+
+function tenderCreate() {
+  console.log(getId)
+}
+
+function langsungCreate() {
+  console.log("langsung")
+}
+
+function pengecualianCreate() {
+  console.log("Pengecualian")
+}
+
 
 function paguDelete(id) {
     
@@ -101,13 +159,18 @@ function detailPage(id) {
     var y = document.getElementById("opdb")
     y.style.display = "none";
     x.style.display = "block";
-
+    getId(id)
     detailAnggaran(id)
     detailTender(id)
     detailLangsung(id)
    
     
 }
+
+function getId(id){
+  return id;
+}
+
 
 function detailAnggaran(id) {
   //console.log(id)
