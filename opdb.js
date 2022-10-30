@@ -80,52 +80,50 @@ function showUserCreateBox() {
 function showCreateAnggaran(anggaran) {
   console.log(anggaran)
   let header_title = anggaran
-  Swal.fire({
-    title:  anggaran,
-    html:
-      '<input id="id" type="hidden">' +
-      '<input id="name" class="swal2-input" placeholder="Name">' +
-      '<input id="paket" class="swal2-input" placeholder="Paket">' +
-      '<input id="pagu" class="swal2-input" placeholder="Pagu">',
-    focusConfirm: false,
-    preConfirm: () => {
-      if (header_title == 'Anggaran') {
-         //const api_param = api_url_anggaran
-         CreateDetailPagu(api_url_anggaran, header_title)
+  if(header_title=="Anggaran"){
+    Swal.fire({
+      title:  anggaran,
+        html:
+        '<input id="id" type="hidden">' +
+        '<input id="name" class="swal2-input" placeholder="Name">' +
+        '<input id="paket" type="hidden" class="swal2-input" placeholder="Jumlah" value="00000">' +
+        '<input id="pagu" class="swal2-input" placeholder="Jumlah">',
+      focusConfirm: false,
+      preConfirm: () => {
+          CreateDetailPagu(api_url_anggaran, header_title)
+           
       }
-      else if (header_title == 'Tender') {
-        //const api_param = api_url_tender
-        CreateDetailPagu(api_url_tender, header_title)
-        
+    })
+  }
+  else {
+    Swal.fire({
+      title:  anggaran,
+      html:
+        '<input id="id" type="hidden">' +
+        '<input id="name" class="swal2-input" placeholder="Name">' +
+        '<input id="paket"  class="swal2-input" placeholder="Paket">' +
+        '<input id="pagu" class="swal2-input" placeholder="Pagu">',
+      focusConfirm: false,
+      preConfirm: () => {
+        if (header_title == 'Tender') {
+          //const api_param = api_url_tender
+          CreateDetailPagu(api_url_tender, header_title)
+          
+        }
+        else if(header_title == 'Langsung') {
+          //const api_param = api_url_langsung
+          CreateDetailPagu(api_url_langsung, header_title)
+        }
+        else if(header_title=="Kecuali") {
+          //const api_param = api_url_pengecualian
+          CreateDetailPagu(api_url_pengecualian, header_title)
+        }
       }
-      else if(header_title == 'Langsung') {
-        //const api_param = api_url_langsung
-        CreateDetailPagu(api_url_langsung, header_title)
-      }
-      else if(header_title=="Kecuali") {
-        //const api_param = api_url_pengecualian
-        CreateDetailPagu(api_url_pengecualian, header_title)
-      }
-    }
-  })
+    })
+  }
+ 
 }
 
-function anggaranCreate(){
-  const name = document.getElementById("name").value;
-  const pagu = document.getElementById("pagu").value;
-  const paket = document.getElementById("paket").value;
-    
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("POST", api_url);
-  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhttp.send(JSON.stringify({ 
-    "name": name, "paguopdp": paguopd, "paguorp": paguorp
-  }));
-  xhttp.onreadystatechange = function() {
-  
-  };
-  
-}
 
 function CreateDetailPagu(api_param, header_title) {
   const name = document.getElementById("name").value;
@@ -252,9 +250,9 @@ function detailAnggaran(id) {
             trHTML += '<tr>'; 
             trHTML += '<td>'+1+'</td>';
             trHTML += '<td>'+object['name']+'</td>';
-            trHTML += '<td>'+object['jumlah']+'</td>';
+            trHTML += '<td>'+object['pagu']+'</td>';
             trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\''+id_obj+'\')">edit </span></a>';
-            trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="paguDelete(\''+id_obj+'\')">delete_forever</span></a></td>';
+            trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\''+id_obj+'\',`anggaran`,\''+api_url_anggaran+'\')">delete_forever</span></a></td>';
            
             trHTML += "</tr>";
           }
@@ -433,7 +431,7 @@ function showPagu(){
     var y = document.getElementById("opdb")
     x.style.display = "none";
     y.style.display = "block";
-  }
+}
   
 
 
