@@ -68,8 +68,8 @@ function showUserCreateBox() {
       html:
         '<input id="id" type="hidden">' +
         '<input id="name" class="swal2-input" placeholder="Name">' +
-        '<input id="paguopd" class="swal2-input" placeholder="Paguodp">' +
-        '<input id="paguorp" class="swal2-input" placeholder="Paguorp">',
+        '<input id="paguopd" class="swal2-input" placeholder="Pagu ODP">' +
+        '<input id="paguorp" class="swal2-input" placeholder="PAGU ORP">',
       focusConfirm: false,
       preConfirm: () => {
         paguCreate();
@@ -242,18 +242,24 @@ function detailAnggaran(id) {
       if (this.readyState == 4 && this.status == 200) {      
         var trHTML = ''; 
         const objects = JSON.parse(this.responseText);
-        for (let object of objects.data.data) {
-          let id_obj = object['id']
-          //console.log(id_obj)
-          trHTML += '<tr>'; 
-          trHTML += '<td>'+1+'</td>';
-          trHTML += '<td>'+object['name']+'</td>';
-          trHTML += '<td>'+object['jumlah']+'</td>';
-          trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\''+id_obj+'\')">edit </span></a>';
-          trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="paguDelete(\''+id_obj+'\')">delete_forever</span></a></td>';
-         
-          trHTML += "</tr>";
+        if(objects.data.data === null) {
+          console.log('data kosong')
         }
+        else {
+          for (let object of objects.data.data) {
+            let id_obj = object['id']
+            //console.log(id_obj)
+            trHTML += '<tr>'; 
+            trHTML += '<td>'+1+'</td>';
+            trHTML += '<td>'+object['name']+'</td>';
+            trHTML += '<td>'+object['jumlah']+'</td>';
+            trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\''+id_obj+'\')">edit </span></a>';
+            trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="paguDelete(\''+id_obj+'\')">delete_forever</span></a></td>';
+           
+            trHTML += "</tr>";
+          }
+        }
+        
         document.getElementById("anggaran").innerHTML = trHTML;
         
       }
@@ -272,20 +278,26 @@ function detailTender(id) {
     if (this.readyState == 4 && this.status == 200) {      
       var trHTML = ''; 
       const objects = JSON.parse(this.responseText);
-      for (let object of objects.data.data) {
-        let id_obj = object['id']
-        //console.log(id_obj)
-        trHTML += '<tr>'; 
-        trHTML += '<td>'+1+'</td>';
-        trHTML += '<td>'+object['name']+'</td>';
-        trHTML += '<td>'+object['paket']+'</td>';
-        trHTML += '<td>'+object['pagu']+'</td>';
-        trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\''+id_obj+'\')">edit </span></a>';
-        trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\''+id_obj+'\',`tender`,\''+api_url_tender+'\')">delete_forever</span></a></td>';
-       
-        trHTML += "</tr>";
+      if(objects.data.data != null){
+
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          //console.log(id_obj)
+          trHTML += '<tr>'; 
+          trHTML += '<td>'+1+'</td>';
+          trHTML += '<td>'+object['name']+'</td>';
+          trHTML += '<td>'+object['paket']+'</td>';
+          trHTML += '<td>'+object['pagu']+'</td>';
+          trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\''+id_obj+'\')">edit </span></a>';
+          trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\''+id_obj+'\',`tender`,\''+api_url_tender+'\')">delete_forever</span></a></td>';
+        
+          trHTML += "</tr>";
+        }
+        document.getElementById("tender").innerHTML = trHTML;
       }
-      document.getElementById("tender").innerHTML = trHTML;
+      else {
+        console.log('data kosong')
+      }
       
     }
   };
@@ -302,21 +314,23 @@ function detailLangsung(id) {
     if (this.readyState == 4 && this.status == 200) {      
       var trHTML = ''; 
       const objects = JSON.parse(this.responseText);
-      for (let object of objects.data.data) {
-        let id_obj = object['id']
-        //console.log(id_obj)
-        trHTML += '<tr>'; 
-        trHTML += '<td>'+1+'</td>';
-        trHTML += '<td>'+object['name']+'</td>';
-        trHTML += '<td>'+object['paket']+'</td>';
-        trHTML += '<td>'+object['pagu']+'</td>';
-        trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\''+id_obj+'\')">edit </span></a>';
-        trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\''+id_obj+'\', `langsung`,\''+api_url_langsung+'\')">delete_forever</span></a></td>';
-       
-        trHTML += "</tr>";
-      }
-      document.getElementById("langsung").innerHTML = trHTML;
-      
+      if(objects.data.data!=null){
+
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          //console.log(id_obj)
+          trHTML += '<tr>'; 
+          trHTML += '<td>'+1+'</td>';
+          trHTML += '<td>'+object['name']+'</td>';
+          trHTML += '<td>'+object['paket']+'</td>';
+          trHTML += '<td>'+object['pagu']+'</td>';
+          trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\''+id_obj+'\')">edit </span></a>';
+          trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\''+id_obj+'\', `langsung`,\''+api_url_langsung+'\')">delete_forever</span></a></td>';
+        
+          trHTML += "</tr>";
+        }
+        document.getElementById("langsung").innerHTML = trHTML;
+        }
     }
   };
   
@@ -333,20 +347,23 @@ function detailKecuali(id) {
     if (this.readyState == 4 && this.status == 200) {      
       var trHTML = ''; 
       const objects = JSON.parse(this.responseText);
-      for (let object of objects.data.data) {
-        let id_obj = object['id']
-        //console.log(id_obj)
-        trHTML += '<tr>'; 
-        trHTML += '<td>'+1+'</td>';
-        trHTML += '<td>'+object['name']+'</td>';
-        trHTML += '<td>'+object['paket']+'</td>';
-        trHTML += '<td>'+object['pagu']+'</td>';
-        trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\''+id_obj+'\')">edit </span></a>';
-        trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\''+id_obj+'\', `kecuali`,\''+api_url_pengecualian+'\')">delete_forever</span></a></td>';
-       
-        trHTML += "</tr>";
-      }
-      document.getElementById("kecuali").innerHTML = trHTML;
+      if(objects.data.data !=null) {
+
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          //console.log(id_obj)
+          trHTML += '<tr>'; 
+          trHTML += '<td>'+1+'</td>';
+          trHTML += '<td>'+object['name']+'</td>';
+          trHTML += '<td>'+object['paket']+'</td>';
+          trHTML += '<td>'+object['pagu']+'</td>';
+          trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\''+id_obj+'\')">edit </span></a>';
+          trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\''+id_obj+'\', `kecuali`,\''+api_url_pengecualian+'\')">delete_forever</span></a></td>';
+        
+          trHTML += "</tr>";
+        }
+        document.getElementById("kecuali").innerHTML = trHTML;
+        }
       
     }
   };
