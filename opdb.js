@@ -78,7 +78,7 @@ function showUserCreateBox() {
 }
 
 function showCreateAnggaran(anggaran) {
-  console.log(anggaran)
+  //console.log(anggaran)
   let header_title = anggaran
   if(header_title=="Anggaran"){
     Swal.fire({
@@ -135,7 +135,7 @@ function showCreateAnggaran(anggaran) {
           CreateDetailLain(api_url_langsung, header_title)
         }
         else if(header_title ==='Kecuali'){
-          CreateDetailLain(api_url_pengecualian, header_title)
+          CreateDetailLain(api_url_langsung, header_title)
         }
       
       }
@@ -240,6 +240,7 @@ function CreateDetailLain(api_param, header_title) {
     "name": "Penelitian pengembangan Dan perekayasaan",
     "paket": paket,
     "pagu": pagu,
+    "tipe": header_title,
     "jadwal": waktupemanfaatan,
     "pdn": pdn,
     "idpagu": id_global
