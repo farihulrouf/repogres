@@ -130,13 +130,7 @@ function showCreateAnggaran(anggaran) {
       focusConfirm: false,
       preConfirm: () => {
 
-        if(header_title == 'Langsung') {
-          console.log("anggaran langsung di eksekusi")
-          CreateDetailLain(api_url_langsung, header_title)
-        }
-        else if(header_title ==='Kecuali'){
-          CreateDetailLain(api_url_langsung, header_title)
-        }
+        CreateDetailLain(api_url_langsung, header_title)
       
       }
     })
@@ -153,9 +147,6 @@ function showCreateAnggaran(anggaran) {
  
 }
 
-const  CreateTenderCepat = () =>{
-  
-}
 
 
 function CreateDetailPagu(api_param, header_title) {
@@ -190,30 +181,12 @@ function CreateDetailPagu(api_param, header_title) {
     "pdn": pdn,
     "idpagu": id_global
   }));
-/*
-  "name" : "Penelitian pengembangan Dan perekayasaan",
-  "paket" : "silver",
-  "pagu": "10000000",
-  "jadwal": "12-12-2022",
-  "pelaksanaan": "12-12-2022",
-  "pemilihan": "12-12-12",
-  "pdn": "10",
-  "idpagu": "635c8575a49fb441d6ff4670"
-  */
+
   xhttp.onreadystatechange = function() {
-    if(header_title=="Langsung") {
-      detailLangsung(id_global)
-    }
-    else if (header_title=="Anggaran") {
-      detailAnggaran(id_global)
-    }
-    else if (header_title=="Tender") {
-      detailTender(id_global)
-    }
-    else if(header_title="Kecuali"){
-      detailKecuali(id_global)
-      console.log("ini di eksekusi")
-    }
+    
+    detailPenunjukanLangsug(id_global)
+    detailPurchasing(id_global)
+ 
   };
   
   //console.log(id_global)
@@ -247,14 +220,10 @@ function CreateDetailLain(api_param, header_title) {
   }));
 
   xhttp.onreadystatechange = function() {
-    if(header_title=="Langsung") {
       detailLangsung(id_global)
-    }
-   
-    else if(header_title="Kecuali"){
-      detailKecuali(id_global)
-      console.log("ini di eksekusi")
-    }
+      detailPenunjukanLangsug(id_global)
+      detailPurchasing(id_global)
+       detailPengecualian(id_global)
   };
   
   //console.log(id_global)
@@ -307,10 +276,15 @@ function detailPage(id) {
     detailAnggaran(id)
     detailTender(id)
     detailLangsung(id)
-    detailKecuali(id)
-   
+    //detailKecuali(id)
+    detailPenunjukanLangsug(id)
+    detailPurchasing(id)
+    detailPengecualian(id)
     
 }
+
+
+
 
 function detailPaguItem(id){
   const xhttp = new XMLHttpRequest();
@@ -488,7 +462,7 @@ function detailLangsung(id) {
           let id_obj = object['id']
           //console.log(id_obj)
           trHTML += '<tr>'; 
-          trHTML += '<td>'+1+'</td>';
+          trHTML += '<td>'+2+'</td>';
           trHTML += '<td>'+object['name']+'</td>';
           trHTML += '<td>'+object['paket']+'</td>';
           trHTML += '<td>'+object['pagu']+'</td>';
@@ -504,6 +478,105 @@ function detailLangsung(id) {
     }
   };
   
+}
+
+const  detailPenunjukanLangsug = (id) =>{
+  const xhttp = new XMLHttpRequest();
+
+  xhttp.open("GET", api_url_langsung+'/pagu/'+id+'/plangsung')
+  xhttp.send();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {      
+      var trHTML = ''; 
+      const objects = JSON.parse(this.responseText);
+      if(objects.data.data !=null) {
+
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          //console.log(id_obj)
+          trHTML += '<tr>'; 
+          trHTML += '<td>'+1+'</td>';
+          trHTML += '<td>'+object['name']+'</td>';
+          trHTML += '<td>'+object['paket']+'</td>';
+          trHTML += '<td>'+object['pagu']+'</td>';
+          trHTML += '<td>'+object['jadwal']+'</td>';
+          trHTML += '<td>'+object['pdn']+'</td>';
+          trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\''+id_obj+'\')">edit </span></a>';
+          trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\''+id_obj+'\', `kecuali`,\''+api_url_pengecualian+'\')">delete_forever</span></a></td>';
+        
+          trHTML += "</tr>";
+        }
+        document.getElementById("pllangsung").innerHTML = trHTML;
+        }
+      
+    }
+  };
+}
+
+const  detailPurchasing = (id) =>{
+  const xhttp = new XMLHttpRequest();
+
+  xhttp.open("GET", api_url_langsung+'/pagu/'+id+'/purchasing')
+  xhttp.send();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {      
+      var trHTML = ''; 
+      const objects = JSON.parse(this.responseText);
+      if(objects.data.data !=null) {
+
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          //console.log(id_obj)
+          trHTML += '<tr>'; 
+          trHTML += '<td>'+1+'</td>';
+          trHTML += '<td>'+object['name']+'</td>';
+          trHTML += '<td>'+object['paket']+'</td>';
+          trHTML += '<td>'+object['pagu']+'</td>';
+          trHTML += '<td>'+object['jadwal']+'</td>';
+          trHTML += '<td>'+object['pdn']+'</td>';
+          trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\''+id_obj+'\')">edit </span></a>';
+          trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\''+id_obj+'\', `kecuali`,\''+api_url_pengecualian+'\')">delete_forever</span></a></td>';
+        
+          trHTML += "</tr>";
+        }
+        document.getElementById("purchasing").innerHTML = trHTML;
+        }
+      
+    }
+  };
+}
+
+const  detailPengecualian = (id) =>{
+  const xhttp = new XMLHttpRequest();
+
+  xhttp.open("GET", api_url_langsung+'/pagu/'+id+'/kecuali')
+  xhttp.send();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {      
+      var trHTML = ''; 
+      const objects = JSON.parse(this.responseText);
+      if(objects.data.data !=null) {
+
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          //console.log(id_obj)
+          trHTML += '<tr>'; 
+          trHTML += '<td>'+1+'</td>';
+          trHTML += '<td>'+object['name']+'</td>';
+          trHTML += '<td>'+object['paket']+'</td>';
+          trHTML += '<td>'+object['pagu']+'</td>';
+          trHTML += '<td>'+object['jadwal']+'</td>';
+          trHTML += '<td>'+object['pdn']+'</td>';
+          trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\''+id_obj+'\')">edit </span></a>';
+          trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\''+id_obj+'\', `kecuali`,\''+api_url_pengecualian+'\')">delete_forever</span></a></td>';
+        
+          trHTML += "</tr>";
+        }
+        document.getElementById("kecuali").innerHTML = trHTML;
+        }
+      
+    }
+  };
 }
 
 function detailKecuali(id) {
