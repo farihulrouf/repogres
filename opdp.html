@@ -99,9 +99,9 @@
               <thead>
                   <tr>
                       <th width="2%">NO</th>
-                      <th width="30%">NAMA OPDB</th>
-                      <th width="30%">PAGU OPDB</th>
-                      <th width="30%">PAGU ORP</th>
+                      <th width="30%">NAMA SKPD</th>
+                      <th width="30%">PAGU OPD</th>
+                      <th width="30%">PAGU RUP</th>
                       <th width="8%">ACTION</th>
                   </tr>
               </thead>
@@ -134,8 +134,9 @@
             <thead>
                 <tr>
                     <th width="2%">NO</th>
-                    <th width="45%">NAMA</th>
-                    <th width="48%">JUMLAH</th>
+                    <th width="45%">SUB KEGIATAN</th>
+                    <th width="38%">JUMLAH</th>
+                    <th width="10%">PDN (%)</th>
                     <th width="5%">ACTION</th>
                 </tr>
             </thead>
@@ -146,7 +147,8 @@
           <table class="styled-table">
             <div class="text-detail-pagu">
               <p>
-              Tender dan waktu pelaksanaan</p>
+                Tender/ Tender Cepat / Seleksi
+              </p>
               <a href="#" onclick="showCreateAnggaran(`Tender`)">
               <span class="material-symbols-outlined" >
                 add_circle
@@ -157,9 +159,13 @@
                 <tr>
                   <tr>
                     <th width="2%">NO</th>
-                    <th width="33%">SUB BIDANG</th>
-                    <th width="30%">NAMA PAKET</th>
-                    <th width="30%%">PAGU</th>
+                    <th width="22%">SUB KEGIATAN</th>
+                    <th width="20%">NAMA PAKET</th>
+                    <th width="20%%">PAGU</th>
+                    <th width="12%">WAKTU PEMILIHAN</th>
+                    <th width="12%">WAKTU PELAKSANAAN</th>
+                    <th width="12%">WAKTU PEMANFAATAN</th>
+                    <th width="5%">PDN</th>
                     <th width="5%">ACTION</th>
                 </tr>
                 </tr>
@@ -180,9 +186,11 @@
             <thead>
                 <tr>
                     <th width="2%">NO</th>
-                    <th width="33%">SUB BIDANG</th>
+                    <th width="28%">SUB KEGIATAN</th>
                     <th width="30%">NAMA PAKET</th>
-                    <th width="30%%">PAGU</th>
+                    <th width="25%%">PAGU</th>
+                    <th width="10%">PELAKSANAAN</th>
+                    <th width="5%">PDN</th>
                     <th width="5%">ACTION</th>
                 </tr>
             </thead>
@@ -192,7 +200,55 @@
           </table>
           <table class="styled-table">
             <div class="text-detail-pagu">
-              <p>Pengadaan Kecuali</p>
+              <p>Penunjukan Langsung</p>
+              <a href="#" onclick="showCreateAnggaran(`Langsung`)">
+              <span class="material-symbols-outlined" >
+                add_circle
+              </span>
+              </a>
+            </div>
+            <thead>
+                <tr>
+                    <th width="2%">NO</th>
+                    <th width="28%">SUB KEGIATAN</th>
+                    <th width="30%">NAMA PAKET</th>
+                    <th width="25%%">PAGU</th>
+                    <th width="10%">PELAKSANAAN</th>
+                    <th width="5%">PDN</th>
+                    <th width="5%">ACTION</th>
+                </tr>
+            </thead>
+            <tbody id="pllangsung">
+              <tr></tr>
+            </tbody>
+          </table>
+          <table class="styled-table">
+            <div class="text-detail-pagu">
+              <p>E-Purchasing</p>
+              <a href="#" onclick="showCreateAnggaran(`Langsung`)">
+              <span class="material-symbols-outlined" >
+                add_circle
+              </span>
+              </a>
+            </div>
+            <thead>
+                <tr>
+                    <th width="2%">NO</th>
+                    <th width="28%">SUB KEGIATAN</th>
+                    <th width="30%">NAMA PAKET</th>
+                    <th width="25%%">PAGU</th>
+                    <th width="10%">PELAKSANAAN</th>
+                    <th width="5%">PDN</th>
+                    <th width="5%">ACTION</th>
+                </tr>
+            </thead>
+            <tbody id="purchasing">
+              <tr></tr>
+            </tbody>
+          </table>
+          <table class="styled-table">
+            <div class="text-detail-pagu">
+              <p>Pengadaan DI Kecualikan</p>
               <a href="#" onclick="showCreateAnggaran(`Kecuali`)">
               <span class="material-symbols-outlined" >
                 add_circle
@@ -201,11 +257,13 @@
             </div>
             <thead>
               <tr>
-                  <th width="2%">NO</th>
-                  <th width="33%">SUB BIDANG</th>
-                  <th width="30%">NAMA PAKET</th>
-                  <th width="30%%">PAGU</th>
-                  <th width="5%">ACTION</th>
+                    <th width="2%">NO</th>
+                    <th width="28%">SUB KEGIATAN</th>
+                    <th width="30%">NAMA PAKET</th>
+                    <th width="25%%">PAGU</th>
+                    <th width="10%">PELAKSANAAN</th>
+                    <th width="5%">PDN</th>
+                    <th width="5%">ACTION</th>
               </tr>
             </thead>
             <tbody id="kecuali">
