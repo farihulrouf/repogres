@@ -95,7 +95,7 @@ function showCreateAnggaran(anggaran) {
       }
     })
   }
-  else if(header_title=="Tender") {
+  else if(header_title=="tender") {
     Swal.fire({
       title:  anggaran,
       html:
@@ -183,9 +183,9 @@ function CreateDetailPagu(api_param, header_title) {
   }));
 
   xhttp.onreadystatechange = function() {
-    
-    detailPenunjukanLangsug(id_global)
-    detailPurchasing(id_global)
+    detailTender(id_global)
+    //detailPenunjukanLangsug(id_global)
+    //detailPurchasing(id_global)
  
   };
   
