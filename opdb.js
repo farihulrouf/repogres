@@ -80,7 +80,7 @@ function showUserCreateBox() {
 function showCreateAnggaran(anggaran) {
   //console.log(anggaran)
   let header_title = anggaran
-  if(header_title=="Anggaran"){
+  if(header_title=="anggaran"){
     Swal.fire({
       title:  anggaran,
         html:
@@ -90,7 +90,8 @@ function showCreateAnggaran(anggaran) {
         '<input id="pagu" class="swal2-input" placeholder="Jumlah">',
       focusConfirm: false,
       preConfirm: () => {
-          CreateDetailPagu(api_url_anggaran, header_title)
+        CreateAnggaran(api_url_anggaran, header_title)
+          //CreateDetailPagu(api_url_anggaran, header_title)
            
       }
     })
@@ -116,6 +117,23 @@ function showCreateAnggaran(anggaran) {
       }
     })
   }
+  else if(header_title=='swakelola'){
+    Swal.fire({
+      title:  anggaran,
+      html:
+        '<input id="id" type="hidden">' +
+        '<select id="Ultra" class="swal2-input" onchange="alert(this.value)"> <option value="0">Select</option><option value="8">text1</option> <option value="5">text2</option></select>'+
+        '<input id="pagu" class="swal2-input"  placeholder="Pagu">'+
+        '<input id="keterangan" class="swal2-input"  placeholder="Keterangan">'+
+        '<input id="pdn" class="swal2-input" placeholder="PDN %">',
+
+      focusConfirm: false,
+      preConfirm: () => {
+        CreateSwakelola(api_url_langsung, header_title)
+      
+      }
+    })
+  }
   else {
     Swal.fire({
       title:  anggaran,
@@ -134,20 +152,36 @@ function showCreateAnggaran(anggaran) {
       
       }
     })
-    /*
-     if(header_title == 'Langsung') {
-          //const api_param = api_url_langsung
-        }
-        else if(header_title=="Kecuali") {
-          //const api_param = api_url_pengecualian
-        }
-      */
-
   }
  
 }
 
+function CreateAnggaran(api_param, header_title) {
 
+  const paket = document.getElementById("paket").value;
+  const pagu = document.getElementById("pagu").value;
+ 
+  console.log(id_global)
+  
+  console.log("ini hereader",header_title)
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("POST", api_param);
+  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhttp.send(JSON.stringify({ 
+    "name": "Penelitian pengembangan Dan perekayasaan",
+    "paket": paket,
+    "pagu": pagu,
+    "pdn" : "0",
+    "idpagu": id_global
+  }));
+
+  xhttp.onreadystatechange = function() {
+    detailAnggaran(id_global)
+ 
+  };
+  
+  //console.log(id_global)
+}
 
 function CreateDetailPagu(api_param, header_title) {
 
@@ -157,13 +191,7 @@ function CreateDetailPagu(api_param, header_title) {
   const pdn = document.getElementById("pdn").value;
   const paket = document.getElementById("paket").value;
   const pagu = document.getElementById("pagu").value;
-  //console.log(pagu)
-  //console.log(pdn)
-  //console.log(waktupemilihan)
-  //console.log(waktupelaksanaan)
-  //console.log(waktupemilihan)
- // console.log(pagu)
-  //console.log(paket)
+  
   console.log(id_global)
   //console.log(pagu)
   
@@ -192,10 +220,40 @@ function CreateDetailPagu(api_param, header_title) {
   //console.log(id_global)
 }
 
+function CreateSwakelola(api_param, header_title) {
+
+  const pdn = document.getElementById("pdn").value;
+  const pagu = document.getElementById("pagu").value;
+  const keterangan = document.getElementById("keterangan").value
+
+  console.log("ini hereader",header_title)
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("POST", api_param);
+  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhttp.send(JSON.stringify({ 
+    "name": "Penelitian pengembangan Dan perekayasaan",
+    "paket": "default",
+    "pagu": pagu,
+    "tipe": header_title,
+    "jadwal": "12-12-2022",
+    "ket": keterangan,
+    "pdn": pdn,
+    "idpagu": id_global
+  }));
+
+  xhttp.onreadystatechange = function() {
+      detailLangsung(id_global)
+      detailPenunjukanLangsug(id_global)
+      detailPurchasing(id_global)
+      detailPengecualian(id_global)
+      detailSwakelola(id_global)
+  };
+  
+  //console.log(id_global)
+}
+
 function CreateDetailLain(api_param, header_title) {
 
-  //const waktupemilihan = document.getElementById("pemilihan").value;
-  //const waktupelaksanaan = document.getElementById("pelaksanaan").value;
   const waktupemanfaatan = document.getElementById("pelaksanaan").value;
   const pdn = document.getElementById("pdn").value;
   const paket = document.getElementById("paket").value;
@@ -216,6 +274,7 @@ function CreateDetailLain(api_param, header_title) {
     "tipe": header_title,
     "jadwal": waktupemanfaatan,
     "pdn": pdn,
+    "ket": "ket",
     "idpagu": id_global
   }));
 
@@ -280,6 +339,7 @@ function detailPage(id) {
     detailPenunjukanLangsug(id)
     detailPurchasing(id)
     detailPengecualian(id)
+    detailSwakelola(id)
     
 }
 
@@ -578,6 +638,38 @@ const  detailPengecualian = (id) =>{
     }
   };
 }
+const detailSwakelola = (id) =>{
+  const xhttp = new XMLHttpRequest();
+
+  xhttp.open("GET", api_url_langsung+'/pagu/'+id+'/swakelola')
+  xhttp.send();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {      
+      var trHTML = ''; 
+      const objects = JSON.parse(this.responseText);
+      if(objects.data.data !=null) {
+
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          //console.log(id_obj)
+          trHTML += '<tr>'; 
+          trHTML += '<td>'+1+'</td>';
+          trHTML += '<td>'+object['name']+'</td>';
+          trHTML += '<td>'+object['pagu']+'</td>';
+          trHTML += '<td>'+object['ket']+'</td>';
+          trHTML += '<td>'+object['pdn']+'</td>';
+          trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\''+id_obj+'\')">edit </span></a>';
+          trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\''+id_obj+'\', `kecuali`,\''+api_url_pengecualian+'\')">delete_forever</span></a></td>';
+        
+          trHTML += "</tr>";
+        }
+        document.getElementById("swakelola").innerHTML = trHTML;
+        }
+      
+    }
+  };
+}
+
 
 function detailKecuali(id) {
   //console.log("eksekusi id tender", id)
