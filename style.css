@@ -613,5 +613,11 @@ label {
   text-align: left;
   width: 100px;
 }
+#add-data {
+  display: flex;
+  align-items: center;
+  width: 110px;
+  justify-content: space-between;
+}
 
 
