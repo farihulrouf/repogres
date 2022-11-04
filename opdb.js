@@ -321,7 +321,6 @@ function detailDelete(id, tender, api) {
       detailTender(id_global)
       detailLangsung(id_global)
       detailPengecualian(id_global)
-     // detailKecuali(id_global)
       detailSwakelola(id_global)
       detailPurchasing(id_global)
       
@@ -338,7 +337,6 @@ function detailPage(id) {
     detailAnggaran(id)
     detailTender(id)
     detailLangsung(id)
-    //detailKecuali(id)
     detailPenunjukanLangsug(id)
     detailPurchasing(id)
     detailPengecualian(id)
@@ -675,45 +673,6 @@ const detailSwakelola = (id) =>{
     }
   };
 }
-
-
-function detailKecuali(id) {
-  //console.log("eksekusi id tender", id)
-  
-  const xhttp = new XMLHttpRequest();
-
-  xhttp.open("GET", api_url_pengecualian+'/pagu/'+id)
-  xhttp.send();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {      
-      var trHTML = ''; 
-      const objects = JSON.parse(this.responseText);
-      if(objects.data.data !=null) {
-        let i = 0
-        for (let object of objects.data.data) {
-          let id_obj = object['id']
-          i++
-          //console.log(id_obj)
-          trHTML += '<tr>'; 
-          trHTML += '<td>'+i+'</td>';
-          trHTML += '<td>'+object['name']+'</td>';
-          trHTML += '<td>'+object['paket']+'</td>';
-          trHTML += '<td>'+object['pagu']+'</td>';
-          trHTML += '<td>'+object['paket']+'</td>';
-          trHTML += '<td>'+object['pagu']+'</td>';
-          trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\''+id_obj+'\')">edit </span></a>';
-          trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\''+id_obj+'\', `langsung`,\''+api_url_langsung+'\')">delete_forever</span></a></td>';
-        
-          trHTML += "</tr>";
-        }
-        document.getElementById("kecuali").innerHTML = trHTML;
-        }
-      
-    }
-  };
-  
-}
-
 
 
 
