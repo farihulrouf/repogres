@@ -576,11 +576,6 @@ a {
  align-items: center;
 }
 
-select {
-  width: 240px;
-  font-size: 16px;
-  height: 50px;
-}
 
 
 .date-time {
@@ -619,5 +614,20 @@ label {
   width: 110px;
   justify-content: space-between;
 }
+#subkegiatan {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.text-date-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 243px;
+}
+.time-input {
+  min-width: 243px;
+}
+
+
 
 

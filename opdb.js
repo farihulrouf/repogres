@@ -5,8 +5,9 @@ const api_url_tender = "http://localhost:3000/api/tender"
 const api_url_langsung = "http://localhost:3000/api/langsung"
 const api_url_pengecualian = "http://localhost:3000/api/kecuali"
 var id_global = '';
+var subKegiatanGlobal = ''
 
-
+let subKegiatan = [];
 function loadTable() {
 
   const xhttp = new XMLHttpRequest();
@@ -15,11 +16,13 @@ function loadTable() {
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       var trHTML = '';
+      let i = 0
       const objects = JSON.parse(this.responseText);
       for (let object of objects.data.data) {
         let id_obj = object['id']
+        i++
         trHTML += '<tr>';
-        trHTML += '<td>' + 1 + '</td>';
+        trHTML += '<td>' + i + '</td>';
         trHTML += '<td>' + object['name'] + '</td>';
         trHTML += '<td>' + object['paguopdp'] + '</td>';
         trHTML += '<td>' + object['paguorp'] + '</td>';
@@ -30,6 +33,7 @@ function loadTable() {
         trHTML += "</tr>";
       }
       document.getElementById("mytable").innerHTML = trHTML;
+      //console.log(subKegiatan)
 
     }
   };
@@ -51,12 +55,6 @@ function paguCreate() {
   }));
   xhttp.onreadystatechange = function () {
     loadTable();
-    /*if (this.readyState == 4 && this.status == 200) {
-      const objects = JSON.parse(this.responseText);
-      Swal.fire(objects['message']);
-      loadTable();
-      console.log("eksekusi")
-    }*/
   };
 }
 
@@ -92,21 +90,56 @@ function showCreateAnggaran(anggaran) {
     })
   }
   else if (header_title == "tender") {
+    //var array = [{"teachName": "Pending Account", "teachNum": "99999999"}, {"teachName": "test, test", "teachNum": "101-temp"}];
+    var options = {
+      ROP: 'ROP',
+      bananas: 'Bananas',
+      oranges: 'Oranges'
+    };
+    /*array.map(array, function (o) {
+      options[o.teachNum] = o.teachName;
+    });
+    */
     Swal.fire({
       title: anggaran,
+      input: 'select',
+      inputAttributes: {
+        id: "subkegiatan",
+        class: "swal2-input",
+      },
+      inputPlaceholder: 'Sub Kegiatan',
+      inputOptions: options,
+      inputValidator: (value) => {
+        return new Promise((resolve) => {
+          resolve()
+          subKegiatanGlobal = value
+         })
+      },
+      
       html:
-        '<input id="id" type="hidden">' +
-        '<select id="Ultra" class="swal2-input" onchange="alert(this.value)"> <option value="0">Select</option><option value="8">text1</option> <option value="5">text2</option></select>' +
-        '<input id="paket" class="swal2-input"  placeholder="Paket">' +
-        '<input id="pagu" class="swal2-input"  placeholder="Pagu">' +
-        '<input type="date" class="swal2-input" id="pemilihan" name="trip-start" value="2018-07-22" min="2018-01-01" max="2025-12-31">' +
-        '<input type="date" class="swal2-input" id="pelaksanaan" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31">' +
-        '<input type="date" class="swal2-input" id="pemanfaatan" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31">' +
-        '<input id="pdn" class="swal2-input" placeholder="PDN %">',
-
+        '<div>'+
+            '<input id="id" type="hidden">' +
+            '<input id="paket" class="swal2-input"  placeholder="Paket">' +
+            '<input id="pagu" class="swal2-input"  placeholder="Pagu">' +
+            '<input type="date" class="swal2-input time-input" id="pemilihan" name="trip-start" value="2018-07-22" min="2018-01-01" max="2025-12-31">' +
+            '<input type="date" class="swal2-input time-input" id="pelaksanaan" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31">' +
+            '<input type="date" class="swal2-input time-input" id="pemanfaatan" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31">' +
+            '<input id="pdn" class="swal2-input" placeholder="PDN %">'+
+        '</div>',
+      showCancelButton: true,
       focusConfirm: false,
       preConfirm: () => {
+          /*
+            let hero = document.getElementById('subEvent')
+    
+      
 
+            for(i = 0; i < subKegiatan.length; i++){
+              result = "<option value="+i+">"+subKegiatan[i]+"</option>"
+              hero.innerHTML += result
+              
+            }
+            */
         CreateDetailPagu(api_url_tender, header_title)
 
       }
@@ -151,6 +184,7 @@ function showCreateAnggaran(anggaran) {
 
 }
 
+
 function CreateAnggaran(api_param, header_title) {
 
   const paket = document.getElementById("paket").value;
@@ -186,14 +220,18 @@ function CreateDetailPagu(api_param, header_title) {
   const pdn = document.getElementById("pdn").value;
   const paket = document.getElementById("paket").value;
   const pagu = document.getElementById("pagu").value;
-
+  //subkegiatan = document.getElementById("subkegiatan").value
+  //var value = e.value;
+  //var text = e.options[e.selectedIndex].text;
   console.log(id_global)
   console.log("ini hereader", header_title)
+  //console.log(value)
+  
   const xhttp = new XMLHttpRequest();
   xhttp.open("POST", api_param);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(JSON.stringify({
-    "name": "Penelitian pengembangan Dan perekayasaan",
+    "name": subKegiatanGlobal,
     "paket": paket,
     "pagu": pagu,
     "jadwal": waktupemanfaatan,
@@ -206,6 +244,8 @@ function CreateDetailPagu(api_param, header_title) {
   xhttp.onreadystatechange = function () {
     detailTender(id_global)
   };
+  
+  
 }
 
 function CreateSwakelola(api_param, header_title) {
@@ -350,11 +390,12 @@ function detailAnggaran(id) {
         console.log('data kosong')
       }
       else {
+        let i = 0;
         for (let object of objects.data.data) {
           let id_obj = object['id']
-          //console.log(id_obj)
+          i++;
           trHTML += '<tr>';
-          trHTML += '<td>' + 1 + '</td>';
+          trHTML += '<td>' + i + '</td>';
           trHTML += '<td>' + object['name'] + '</td>';
           trHTML += '<td>' + object['pagu'] + '</td>';
           trHTML += '<td>' + object['pagu'] + '</td>';
@@ -384,8 +425,14 @@ function detailGolbalAnggaran() {
         console.log('data kosong')
       }
       else {
+        let i =0
         for (let object of objects.data.data) {
           let id_obj = object['id']
+           console.log("sebelum",subKegiatan)
+          //console.log(objects.data.data[i].name)
+          subKegiatan.push(objects.data.data[i].name)
+          console.log("sesudah",subKegiatan)
+          i++;
           trHTML += '<tr>';
           trHTML += '<td>' + 1 + '</td>';
           trHTML += '<td>' + object['name'] + '</td>';
@@ -414,7 +461,7 @@ function detailPaguItem(id) {
       const objects = JSON.parse(this.responseText);
 
       const posts = objects.data.data
-      console.log(posts)
+      //console.log(posts)
 
        // i++;
         var trHTML = '';
@@ -688,6 +735,41 @@ function showPagu() {
   x.style.display = "none";
   y.style.display = "block";
 
+}
+
+function loadSelectData(){
+  console.log("data di select")
+  let hero = document.getElementById('subEvent')
+  let dataHero = [
+          'aludard', 
+          'alice', 
+          'akai', 
+          'tigreal',
+          'miya', 
+          'claude', 
+          'estes', 
+          'chow', 
+          'balmond', 
+          'lyla'
+          ]
+
+      for(i = 0; i < dataHero.length; i++){
+        result = "<option value="+i+">"+dataHero[i]+"</option>"
+        hero.innerHTML += result
+        
+      }
+}
+
+function loadSelect(value){
+    //let hero = document.getElementById('subEvent')
+    console.log('load select')
+    /*
+		for(i = 0; i < subKegiatan.length; i++){
+			result = "<option value="+i+">"+subKegiatan[i]+"</option>"
+			hero.innerHTML += result
+			
+		}
+    */
 }
 
 
