@@ -444,7 +444,7 @@ function detailGolbalAnggaran() {
           for (let object of objects.data.data) {
           
             let id_obj = object['id']
-            console.log(objects.data.data)
+            //console.log(objects.data.data)
             trHTML += '<tr>'; 
             trHTML += '<td>'+1+'</td>';
             trHTML += '<td>'+object['name']+'</td>';
@@ -476,13 +476,14 @@ function detailTender(id) {
     if (this.readyState == 4 && this.status == 200) {      
       var trHTML = ''; 
       const objects = JSON.parse(this.responseText);
+     
       if(objects.data.data != null){
-
+        let i = 0
         for (let object of objects.data.data) {
           let id_obj = object['id']
-          //console.log(id_obj)
+          i++;
           trHTML += '<tr>'; 
-          trHTML += '<td>'+1+'</td>';
+          trHTML += '<td>'+i+'</td>';
           trHTML += '<td>'+object['name']+'</td>';
           trHTML += '<td>'+object['paket']+'</td>';
           trHTML += '<td>'+object['pagu']+'</td>';
@@ -517,12 +518,13 @@ function detailLangsung(id) {
       var trHTML = ''; 
       const objects = JSON.parse(this.responseText);
       if(objects.data.data!=null){
-
+        let i = 0
         for (let object of objects.data.data) {
           let id_obj = object['id']
+          i = i +1;
           //console.log(id_obj)
           trHTML += '<tr>'; 
-          trHTML += '<td>'+2+'</td>';
+          trHTML += '<td>'+i+'</td>';
           trHTML += '<td>'+object['name']+'</td>';
           trHTML += '<td>'+object['paket']+'</td>';
           trHTML += '<td>'+object['pagu']+'</td>';
@@ -550,12 +552,12 @@ const  detailPenunjukanLangsug = (id) =>{
       var trHTML = ''; 
       const objects = JSON.parse(this.responseText);
       if(objects.data.data !=null) {
-
+        let i = 0
         for (let object of objects.data.data) {
           let id_obj = object['id']
-          //console.log(id_obj)
+          i = i+1
           trHTML += '<tr>'; 
-          trHTML += '<td>'+1+'</td>';
+          trHTML += '<td>'+i+'</td>';
           trHTML += '<td>'+object['name']+'</td>';
           trHTML += '<td>'+object['paket']+'</td>';
           trHTML += '<td>'+object['pagu']+'</td>';
@@ -583,12 +585,12 @@ const  detailPurchasing = (id) =>{
       var trHTML = ''; 
       const objects = JSON.parse(this.responseText);
       if(objects.data.data !=null) {
-
+        let i = 0
         for (let object of objects.data.data) {
           let id_obj = object['id']
-          //console.log(id_obj)
+          i++;
           trHTML += '<tr>'; 
-          trHTML += '<td>'+1+'</td>';
+          trHTML += '<td>'+i+'</td>';
           trHTML += '<td>'+object['name']+'</td>';
           trHTML += '<td>'+object['paket']+'</td>';
           trHTML += '<td>'+object['pagu']+'</td>';
@@ -616,12 +618,12 @@ const  detailPengecualian = (id) =>{
       var trHTML = ''; 
       const objects = JSON.parse(this.responseText);
       if(objects.data.data !=null) {
-
+        let i = 0
         for (let object of objects.data.data) {
           let id_obj = object['id']
-          //console.log(id_obj)
+          i++
           trHTML += '<tr>'; 
-          trHTML += '<td>'+1+'</td>';
+          trHTML += '<td>'+i+'</td>';
           trHTML += '<td>'+object['name']+'</td>';
           trHTML += '<td>'+object['paket']+'</td>';
           trHTML += '<td>'+object['pagu']+'</td>';
@@ -651,9 +653,11 @@ const detailSwakelola = (id) =>{
 
         for (let object of objects.data.data) {
           let id_obj = object['id']
+          console.log("cetak",objects.data)
+          console.log("coba di set")
           //console.log(id_obj)
           trHTML += '<tr>'; 
-          trHTML += '<td>'+1+'</td>';
+          trHTML += '<td>'+i+'</td>';
           trHTML += '<td>'+object['name']+'</td>';
           trHTML += '<td>'+object['pagu']+'</td>';
           trHTML += '<td>'+object['ket']+'</td>';
@@ -683,12 +687,13 @@ function detailKecuali(id) {
       var trHTML = ''; 
       const objects = JSON.parse(this.responseText);
       if(objects.data.data !=null) {
-
+        let i = 0
         for (let object of objects.data.data) {
           let id_obj = object['id']
+          i++
           //console.log(id_obj)
           trHTML += '<tr>'; 
-          trHTML += '<td>'+1+'</td>';
+          trHTML += '<td>'+i+'</td>';
           trHTML += '<td>'+object['name']+'</td>';
           trHTML += '<td>'+object['paket']+'</td>';
           trHTML += '<td>'+object['pagu']+'</td>';
@@ -720,7 +725,7 @@ function showUserEditBox(id) {
         const objects = JSON.parse(this.responseText);
         //console.log(objects.data.data)
         const posts = objects.data.data
-        console.log(posts);
+       // console.log(posts);
         Swal.fire({
           title: 'Edit Pagu',
           html:
