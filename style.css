@@ -590,5 +590,28 @@ select {
 label {
   display: block;
 }
+.detail-info-pagu {
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+.text-header-info {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 100px;
+}
+.info-text-detail-pagu {
+  margin-top: 10px;
+  width: 400px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+}
+
+.name-text-detail-pagu {
+  text-align: left;
+  width: 100px;
+}
 
 

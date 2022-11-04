@@ -1,67 +1,70 @@
 <!DOCTYPE html>
 <!-- Designined by CodingLab | www.youtube.com/codinglabyt -->
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="UTF-8">
-    <title> Gresik Kab </title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Boxicons CDN Link -->
-     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   </head>
+
+<head>
+  <meta charset="UTF-8">
+  <title> Gresik Kab </title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Boxicons CDN Link -->
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
 <body>
   <div class="sidebar">
     <div class="logo-details">
       <i class='bx bxl-c-plus-plus'></i>
       <span class="logo_name">Gresik Kab</span>
     </div>
-      <ul class="nav-links">
-        <li>
-          <a href="/" class="active">
-            <i class='bx bx-grid-alt' ></i>
-            <span class="links_name">Dashboard</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class='bx bx-box' ></i>
-            <span class="links_name">Data Master</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class='bx bx-list-ul' ></i>
-            <span class="links_name">Penyedia</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class='bx bx-pie-chart-alt-2' ></i>
-            <span class="links_name">Tenaga Ahli</span>
-          </a>
-        </li>
-        <li>
-          <a href="opdp.html">
-            <i class='bx bx-coin-stack' ></i>
-            <span class="links_name">OPD</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class='bx bx-book-alt' ></i>
-            <span class="links_name">Laporan</span>
-          </a>
-        </li>
-      
-       
-        <li class="log_out">
-          <a href="#">
-            <i class='bx bx-log-out'></i>
-            <span class="links_name">Log out</span>
-          </a>
-        </li>
-      </ul>
+    <ul class="nav-links">
+      <li>
+        <a href="/" class="active">
+          <i class='bx bx-grid-alt'></i>
+          <span class="links_name">Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-box'></i>
+          <span class="links_name">Data Master</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-list-ul'></i>
+          <span class="links_name">Penyedia</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-pie-chart-alt-2'></i>
+          <span class="links_name">Tenaga Ahli</span>
+        </a>
+      </li>
+      <li>
+        <a href="opdp.html">
+          <i class='bx bx-coin-stack'></i>
+          <span class="links_name">OPD</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-book-alt'></i>
+          <span class="links_name">Laporan</span>
+        </a>
+      </li>
+
+
+      <li class="log_out">
+        <a href="#">
+          <i class='bx bx-log-out'></i>
+          <span class="links_name">Log out</span>
+        </a>
+      </li>
+    </ul>
   </div>
   <section class="home-section">
     <nav>
@@ -71,74 +74,78 @@
       </div>
       <div class="search-box">
         <input type="text" placeholder="Search...">
-        <i class='bx bx-search' ></i>
+        <i class='bx bx-search'></i>
       </div>
       <div class="profile-details">
         <img src="images/profile.jpg" alt="">
         <span class="admin_name">Eko Subhakti</span>
-        <i class='bx bx-chevron-down' ></i>
+        <i class='bx bx-chevron-down'></i>
       </div>
     </nav>
 
-   
+
 
     <div class="home-content">
       <div class="overview-table">
         <div id="opdb">
-              <div class="text-detail-pagu">
-                <p>Pagu Anggaran</p>
-                <a href="#" onclick="showUserCreateBox()">
-                <span class="material-symbols-outlined" >
-                  add_circle
-                </span>
-                </a>
-              </div>
-           
-            
-            <table class="styled-table">
-              <thead>
-                  <tr>
-                      <th width="2%">NO</th>
-                      <th width="30%">NAMA SKPD</th>
-                      <th width="30%">PAGU OPD</th>
-                      <th width="30%">PAGU RUP</th>
-                      <th width="8%">ACTION</th>
-                  </tr>
-              </thead>
-              <tbody id="mytable">
-                <tr></tr>
-              </tbody>
-            </table>
+          <div class="text-detail-pagu">
+            <p>Pagu Anggaran</p>
+            <a href="#" onclick="showUserCreateBox()">
+              <span class="material-symbols-outlined">
+                add_circle
+              </span>
+            </a>
+          </div>
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th width="2%">NO</th>
+                <th width="30%">NAMA SKPD</th>
+                <th width="30%">PAGU OPD</th>
+                <th width="30%">PAGU RUP</th>
+                <th width="8%">ACTION</th>
+              </tr>
+            </thead>
+            <tbody id="mytable">
+              <tr></tr>
+            </tbody>
+          </table>
         </div>
         <div id="detail">
           <a class="back-button" href="#" onclick="showPagu()">
-            
-              <span class="material-symbols-outlined">
+
+            <span class="material-symbols-outlined">
               arrow_back
-              </span> Kembali
-              
+            </span> Kembali
+
           </a>
-          <div id="infodetail">
-            
-          </div>
-          
+            <div>
+              <div class="text-header-info">
+                Hasil Desk Rencana Umum Pengadaan Barang /jasa </br> Tahun Anggaran 2023 Kabupaten Gresik
+              </div>
+             
+              <div id="detailinformasi">
+               
+              </div>
+            </div>
+         
           <table class="styled-table">
             <div class="text-detail-pagu">
               <p>Pagu Anggaran</p>
               <a href="#" onclick="showCreateAnggaran(`anggaran`)">
-              <span class="material-symbols-outlined" >
-                add_circle
-              </span>
+                <span class="material-symbols-outlined">
+                  add_circle
+                </span>
               </a>
             </div>
             <thead>
-                <tr>
-                    <th width="2%">NO</th>
-                    <th width="45%">SUB KEGIATAN</th>
-                    <th width="38%">JUMLAH</th>
-                    <th width="10%">PDN (%)</th>
-                    <th width="5%">ACTION</th>
-                </tr>
+              <tr>
+                <th width="2%">NO</th>
+                <th width="45%">SUB KEGIATAN</th>
+                <th width="38%">JUMLAH</th>
+                <th width="10%">PDN (%)</th>
+                <th width="5%">ACTION</th>
+              </tr>
             </thead>
             <tbody id="anggaran">
               <tr></tr>
@@ -150,25 +157,25 @@
                 Tender/ Tender Cepat / Seleksi
               </p>
               <a href="#" onclick="showCreateAnggaran(`tender`)">
-              <span class="material-symbols-outlined" >
-                add_circle
-              </span>
+                <span class="material-symbols-outlined">
+                  add_circle
+                </span>
               </a>
             </div>
             <thead>
-                <tr>
-                  <tr>
-                    <th width="2%">NO</th>
-                    <th width="22%">SUB KEGIATAN</th>
-                    <th width="20%">NAMA PAKET</th>
-                    <th width="20%%">PAGU</th>
-                    <th width="12%">WAKTU PEMILIHAN</th>
-                    <th width="12%">WAKTU PELAKSANAAN</th>
-                    <th width="12%">WAKTU PEMANFAATAN</th>
-                    <th width="5%">PDN</th>
-                    <th width="5%">ACTION</th>
-                </tr>
-                </tr>
+              <tr>
+              <tr>
+                <th width="2%">NO</th>
+                <th width="22%">SUB KEGIATAN</th>
+                <th width="20%">NAMA PAKET</th>
+                <th width="20%%">PAGU</th>
+                <th width="12%">WAKTU PEMILIHAN</th>
+                <th width="12%">WAKTU PELAKSANAAN</th>
+                <th width="12%">WAKTU PEMANFAATAN</th>
+                <th width="5%">PDN (%)</th>
+                <th width="5%">ACTION</th>
+              </tr>
+              </tr>
             </thead>
             <tbody id="tender">
               <tr></tr>
@@ -178,21 +185,21 @@
             <div class="text-detail-pagu">
               <p>Pengadaan Langsung</p>
               <a href="#" onclick="showCreateAnggaran(`langsung`)">
-              <span class="material-symbols-outlined" >
-                add_circle
-              </span>
+                <span class="material-symbols-outlined">
+                  add_circle
+                </span>
               </a>
             </div>
             <thead>
-                <tr>
-                    <th width="2%">NO</th>
-                    <th width="28%">SUB KEGIATAN</th>
-                    <th width="30%">NAMA PAKET</th>
-                    <th width="25%%">PAGU</th>
-                    <th width="10%">PELAKSANAAN</th>
-                    <th width="5%">PDN</th>
-                    <th width="5%">ACTION</th>
-                </tr>
+              <tr>
+                <th width="2%">NO</th>
+                <th width="28%">SUB KEGIATAN</th>
+                <th width="30%">NAMA PAKET</th>
+                <th width="25%%">PAGU</th>
+                <th width="10%">PELAKSANAAN</th>
+                <th width="5%">PDN (%)</th>
+                <th width="5%">ACTION</th>
+              </tr>
             </thead>
             <tbody id="langsung">
               <tr></tr>
@@ -202,21 +209,21 @@
             <div class="text-detail-pagu">
               <p>Penunjukan Langsung</p>
               <a href="#" onclick="showCreateAnggaran(`plangsung`)">
-              <span class="material-symbols-outlined" >
-                add_circle
-              </span>
+                <span class="material-symbols-outlined">
+                  add_circle
+                </span>
               </a>
             </div>
             <thead>
-                <tr>
-                    <th width="2%">NO</th>
-                    <th width="28%">SUB KEGIATAN</th>
-                    <th width="30%">NAMA PAKET</th>
-                    <th width="25%%">PAGU</th>
-                    <th width="10%">PELAKSANAAN</th>
-                    <th width="5%">PDN</th>
-                    <th width="5%">ACTION</th>
-                </tr>
+              <tr>
+                <th width="2%">NO</th>
+                <th width="28%">SUB KEGIATAN</th>
+                <th width="30%">NAMA PAKET</th>
+                <th width="25%%">PAGU</th>
+                <th width="10%">PELAKSANAAN</th>
+                <th width="5%">PDN (%)</th>
+                <th width="5%">ACTION</th>
+              </tr>
             </thead>
             <tbody id="pllangsung">
               <tr></tr>
@@ -226,21 +233,21 @@
             <div class="text-detail-pagu">
               <p>E-Purchasing</p>
               <a href="#" onclick="showCreateAnggaran(`purchasing`)">
-              <span class="material-symbols-outlined" >
-                add_circle
-              </span>
+                <span class="material-symbols-outlined">
+                  add_circle
+                </span>
               </a>
             </div>
             <thead>
-                <tr>
-                    <th width="2%">NO</th>
-                    <th width="28%">SUB KEGIATAN</th>
-                    <th width="30%">NAMA PAKET</th>
-                    <th width="25%%">PAGU</th>
-                    <th width="10%">PELAKSANAAN</th>
-                    <th width="5%">PDN</th>
-                    <th width="5%">ACTION</th>
-                </tr>
+              <tr>
+                <th width="2%">NO</th>
+                <th width="28%">SUB KEGIATAN</th>
+                <th width="30%">NAMA PAKET</th>
+                <th width="25%%">PAGU</th>
+                <th width="10%">PELAKSANAAN</th>
+                <th width="5%">PDN (%)</th>
+                <th width="5%">ACTION</th>
+              </tr>
             </thead>
             <tbody id="purchasing">
               <tr></tr>
@@ -250,20 +257,20 @@
             <div class="text-detail-pagu">
               <p>Pengadaan DI Kecualikan</p>
               <a href="#" onclick="showCreateAnggaran(`kecuali`)">
-              <span class="material-symbols-outlined" >
-                add_circle
-              </span>
+                <span class="material-symbols-outlined">
+                  add_circle
+                </span>
               </a>
             </div>
             <thead>
               <tr>
-                    <th width="2%">NO</th>
-                    <th width="28%">SUB KEGIATAN</th>
-                    <th width="30%">NAMA PAKET</th>
-                    <th width="25%%">PAGU</th>
-                    <th width="10%">PELAKSANAAN</th>
-                    <th width="5%">PDN</th>
-                    <th width="5%">ACTION</th>
+                <th width="2%">NO</th>
+                <th width="28%">SUB KEGIATAN</th>
+                <th width="30%">NAMA PAKET</th>
+                <th width="25%%">PAGU</th>
+                <th width="10%">PELAKSANAAN</th>
+                <th width="5%">PDN (%)</th>
+                <th width="5%">ACTION</th>
               </tr>
             </thead>
             <tbody id="kecuali">
@@ -275,19 +282,19 @@
             <div class="text-detail-pagu">
               <p>Swakelola</p>
               <a href="#" onclick="showCreateAnggaran(`swakelola`)">
-              <span class="material-symbols-outlined" >
-                add_circle
-              </span>
+                <span class="material-symbols-outlined">
+                  add_circle
+                </span>
               </a>
             </div>
             <thead>
               <tr>
-                    <th width="2%">NO</th>
-                    <th width="28%">SUB KEGIATAN</th>
-                    <th width="25%%">PAGU</th>
-                    <th width="30%%">KETERANGAN</th>
-                    <th width="10%">PDN</th>
-                    <th width="5%">ACTION</th>
+                <th width="2%">NO</th>
+                <th width="28%">SUB KEGIATAN</th>
+                <th width="25%%">PAGU</th>
+                <th width="30%%">KETERANGAN</th>
+                <th width="10%">PDN (%)</th>
+                <th width="5%">ACTION</th>
               </tr>
             </thead>
             <tbody id="swakelola">
@@ -299,20 +306,21 @@
     </div>
   </section>
   <!-- JavaScript Bundle with Popper -->
-  
+
   <script src="opdb.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
   <script>
-   let sidebar = document.querySelector(".sidebar");
-  let sidebarBtn = document.querySelector(".sidebarBtn");
-sidebarBtn.onclick = function() {
-  sidebar.classList.toggle("active");
-  if(sidebar.classList.contains("active")){
-  sidebarBtn.classList.replace("bx-menu" ,"bx-menu-alt-right");
-}else
-  sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
-}
- </script>
+    let sidebar = document.querySelector(".sidebar");
+    let sidebarBtn = document.querySelector(".sidebarBtn");
+    sidebarBtn.onclick = function () {
+      sidebar.classList.toggle("active");
+      if (sidebar.classList.contains("active")) {
+        sidebarBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+      } else
+        sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+    }
+  </script>
 
 </body>
+
 </html>
