@@ -4,6 +4,8 @@ const api_url_anggaran = "http://localhost:3000/api/anggaran";
 const api_url_tender = "http://localhost:3000/api/tender"
 const api_url_langsung = "http://localhost:3000/api/langsung"
 const api_url_pengecualian = "http://localhost:3000/api/kecuali"
+const api_url_total_tender_detail = "http://localhost:3000/api/langsung/totalsemua"
+const api_url_total_paket = "http://localhost:3000/api/tender/totalpaket"
 var id_global = '';
 var subKegiatanGlobal = ''
 let subKegiatanGlobalAll = {}
@@ -40,7 +42,7 @@ function loadTable() {
 }
 
 loadTable();
-
+//detailTotalTenderDetail(id_global)
 
 function paguCreate() {
   const name = document.getElementById("name").value;
@@ -55,6 +57,7 @@ function paguCreate() {
   }));
   xhttp.onreadystatechange = function () {
     loadTable();
+    
   };
 }
 
@@ -81,10 +84,10 @@ function showCreateAnggaran(anggaran) {
       html:
         '<input id="id" type="hidden">' +
         '<input id="name" class="swal2-input" placeholder="Name">' +
-        '<input id="paket" type="hidden" class="swal2-input" placeholder="Jumlah" value="00000">' +
         '<input id="pagu" class="swal2-input" placeholder="Jumlah">',
       focusConfirm: false,
       preConfirm: () => {
+        //console.log('diseksuusi engaran')
         CreateAnggaran(api_url_anggaran, header_title)
       }
     })
@@ -212,33 +215,26 @@ function showCreateAnggaran(anggaran) {
 
 
 function CreateAnggaran(api_param, header_title) {
-
-  const paket = document.getElementById("paket").value;
-  const pagu = document.getElementById("pagu").value;
+  const pagu = document.getElementById("pagu").value
   const name = document.getElementById("name").value
-
-  console.log(id_global)
-
-  console.log("ini hereader", header_title)
+  console.log("isi dari name", name, "dan isi dari pagu", pagu)
   const xhttp = new XMLHttpRequest();
   xhttp.open("POST", api_param);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(JSON.stringify({
     "name": name,
-    "paket": paket,
-    "pagu": pagu,
-    "pdn": "0",
+    "paket": "000",
+    "pagu": parseInt(pagu),
     "jadwal": "12-12-2022",
+    "pdn": parseInt(20),
     "idpagu": id_global
   }));
 
   xhttp.onreadystatechange = function () {
+    //detailTender(id_global)
     detailAnggaran(id_global)
-    detailGolbalAnggaran(id_global)
-
   };
-
-  //console.log(id_global)
+  
 }
 
 function CreateDetailPagu(api_param, header_title) {
@@ -392,6 +388,8 @@ function detailPage(id) {
   detailPurchasing(id)
   detailPengecualian(id)
   detailSwakelola(id)
+  detailTotalTenderDetail(id)
+  detailTotalTenderDetailCepatSeleksi(id)
 
 }
 
@@ -773,28 +771,76 @@ function showPagu() {
   y.style.display = "block";
 
 }
+function detailTotalTenderDetailCepatSeleksi(id) {
+  //console.log("lihat id",id)
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", api_url_total_paket + '/' + id)
+  //xhttp.open("GET", api_url_total_tender_detail+'/'+id)
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var trHTML = '';
+      const objects = JSON.parse(this.responseText);
+      if (objects.data.data != null) {
+        let i = 0
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          i = i + 1;
+          trHTML += '<tr>';
+          trHTML += '<td>' + i + '</td>';
+          trHTML += '<td>' + object['paket'] + '</td>';
+          trHTML += '<td>' + object['totalpagu'] + '</td>';
+          trHTML += '<td>' + object['total'] + '</td>';
 
-function loadSelectData(){
-  console.log("data di select")
-  let hero = document.getElementById('subEvent')
-  let dataHero = [
-          'aludard', 
-          'alice', 
-          'akai', 
-          'tigreal',
-          'miya', 
-          'claude', 
-          'estes', 
-          'chow', 
-          'balmond', 
-          'lyla'
-          ]
-
-      for(i = 0; i < dataHero.length; i++){
-        result = "<option value="+i+">"+dataHero[i]+"</option>"
-        hero.innerHTML += result
-        
+          trHTML += "</tr>";
+        }
+        document.getElementById("tendercepatseleksi").innerHTML = trHTML;
       }
+    }
+  };
+
+}
+
+function detailTotalTenderDetail(id) {
+  //console.log("lihat id",id)
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", api_url_total_tender_detail + '/' + id)
+  //xhttp.open("GET", api_url_total_tender_detail+'/'+id)
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var trHTML = '';
+      var namePengadaan = ''
+      const objects = JSON.parse(this.responseText);
+      if (objects.data.data != null) {
+        let i = 0
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          //console.log(object.tipe)
+          if(object.tipe == 'kecuali'){
+            namePengadaan = 'Pengadaan di kecualikan'
+          }
+          else if(object.tipe == 'plangsung') {
+            namePengadaan = 'Penunjukan Langsung'
+          }
+          else {
+            namePengadaan = object.tipe
+          }
+          
+          i = i + 1;
+          trHTML += '<tr>';
+          trHTML += '<td>' + i + '</td>';
+          trHTML += '<td>' + namePengadaan + '</td>';
+          trHTML += '<td>' + object['totalpagu'] + '</td>';
+          trHTML += '<td>' + object['total'] + '</td>';
+
+          trHTML += "</tr>";
+        }
+        document.getElementById("totalpengadaan").innerHTML = trHTML;
+      }
+    }
+  };
+
 }
 
 function loadSelect(value){
