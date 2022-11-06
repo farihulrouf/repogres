@@ -6,7 +6,7 @@ const api_url_langsung = "http://localhost:3000/api/langsung"
 const api_url_pengecualian = "http://localhost:3000/api/kecuali"
 var id_global = '';
 var subKegiatanGlobal = ''
-
+let subKegiatanGlobalAll = {}
 let subKegiatan = [];
 function loadTable() {
 
@@ -90,16 +90,13 @@ function showCreateAnggaran(anggaran) {
     })
   }
   else if (header_title == "tender") {
-    //var array = [{"teachName": "Pending Account", "teachNum": "99999999"}, {"teachName": "test, test", "teachNum": "101-temp"}];
-    var options = {
-      ROP: 'ROP',
-      bananas: 'Bananas',
-      oranges: 'Oranges'
-    };
-    /*array.map(array, function (o) {
-      options[o.teachNum] = o.teachName;
+
+    const options = {};
+
+    subKegiatan.forEach(element => {
+      options[element] = element;
     });
-    */
+    
     Swal.fire({
       title: anggaran,
       input: 'select',
@@ -113,6 +110,7 @@ function showCreateAnggaran(anggaran) {
         return new Promise((resolve) => {
           resolve()
           subKegiatanGlobal = value
+          //console.log(subKegiatanGlobal)
          })
       },
       
@@ -129,18 +127,8 @@ function showCreateAnggaran(anggaran) {
       showCancelButton: true,
       focusConfirm: false,
       preConfirm: () => {
-          /*
-            let hero = document.getElementById('subEvent')
-    
-      
-
-            for(i = 0; i < subKegiatan.length; i++){
-              result = "<option value="+i+">"+subKegiatan[i]+"</option>"
-              hero.innerHTML += result
-              
-            }
-            */
-        CreateDetailPagu(api_url_tender, header_title)
+        
+         CreateDetailPagu(api_url_tender, header_title)
 
       }
     })
@@ -163,11 +151,31 @@ function showCreateAnggaran(anggaran) {
     })
   }
   else {
+    const options = {};
+
+    subKegiatan.forEach(element => {
+      options[element] = element;
+    });
+    
+    
     Swal.fire({
       title: anggaran,
+      input: 'select',
+      inputAttributes: {
+        id: "subkegiatan",
+        class: "swal2-input",
+      },
+      inputPlaceholder: 'Sub Kegiatan',
+      inputOptions: options,
+      inputValidator: (value) => {
+        return new Promise((resolve) => {
+          resolve()
+          subKegiatanGlobal = value
+          //console.log(subKegiatanGlobal)
+         })
+      },
       html:
         '<input id="id" type="hidden">' +
-        '<select id="Ultra" class="swal2-input" onchange="alert(this.value)"> <option value="0">Select</option><option value="8">text1</option> <option value="5">text2</option></select>' +
         '<input id="paket" class="swal2-input"  placeholder="Paket">' +
         '<input id="pagu" class="swal2-input"  placeholder="Pagu">' +
         '<input type="date" class="swal2-input" id="pelaksanaan" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31">' +
@@ -189,6 +197,7 @@ function CreateAnggaran(api_param, header_title) {
 
   const paket = document.getElementById("paket").value;
   const pagu = document.getElementById("pagu").value;
+  const name = document.getElementById("name").value
 
   console.log(id_global)
 
@@ -197,15 +206,17 @@ function CreateAnggaran(api_param, header_title) {
   xhttp.open("POST", api_param);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(JSON.stringify({
-    "name": "Penelitian pengembangan Dan perekayasaan",
+    "name": name,
     "paket": paket,
     "pagu": pagu,
     "pdn": "0",
+    "jadwal": "12-12-2022",
     "idpagu": id_global
   }));
 
   xhttp.onreadystatechange = function () {
     detailAnggaran(id_global)
+    detailGolbalAnggaran(id_global)
 
   };
 
@@ -220,9 +231,8 @@ function CreateDetailPagu(api_param, header_title) {
   const pdn = document.getElementById("pdn").value;
   const paket = document.getElementById("paket").value;
   const pagu = document.getElementById("pagu").value;
-  //subkegiatan = document.getElementById("subkegiatan").value
-  //var value = e.value;
-  //var text = e.options[e.selectedIndex].text;
+  //
+//let num = parseInt(string);
   console.log(id_global)
   console.log("ini hereader", header_title)
   //console.log(value)
@@ -233,11 +243,11 @@ function CreateDetailPagu(api_param, header_title) {
   xhttp.send(JSON.stringify({
     "name": subKegiatanGlobal,
     "paket": paket,
-    "pagu": pagu,
+    "pagu": parseInt(pagu),
     "jadwal": waktupemanfaatan,
     "pemilihan": waktupemilihan,
     "pelaksanaan": waktupelaksanaan,
-    "pdn": pdn,
+    "pdn": parseInt(pdn),
     "idpagu": id_global
   }));
 
@@ -291,12 +301,12 @@ function CreateDetailLain(api_param, header_title) {
   xhttp.open("POST", api_param);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(JSON.stringify({
-    "name": "Penelitian pengembangan Dan perekayasaan",
+    "name": subKegiatanGlobal,
     "paket": paket,
-    "pagu": pagu,
+    "pagu": parseInt(pagu),
     "tipe": header_title,
     "jadwal": waktupemanfaatan,
-    "pdn": pdn,
+    "pdn": parseInt(pdn),
     "ket": "ket",
     "idpagu": id_global
   }));
@@ -345,6 +355,7 @@ function detailDelete(id, tender, api) {
     detailPengecualian(id_global)
     detailSwakelola(id_global)
     detailPurchasing(id_global)
+    detailGolbalAnggaran(id_global)
 
   };
 }
@@ -428,10 +439,18 @@ function detailGolbalAnggaran() {
         let i =0
         for (let object of objects.data.data) {
           let id_obj = object['id']
-           console.log("sebelum",subKegiatan)
+           //console.log("sebelum",subKegiatan)
           //console.log(objects.data.data[i].name)
+         // let key = 'key'+i
+         // console.log(objects.data.data[i].name)
           subKegiatan.push(objects.data.data[i].name)
-          console.log("sesudah",subKegiatan)
+          //console.log(subKegiatan)
+          //Object.assign(subKegiatanGlobalAll,{key})
+         // console.log("isi dari key",{key: objects.data.data[i].name})
+          //Object.assign(subKegiatanGlobalAll, )
+          //console.log("sesudah",subKegiatan)
+          //console.log(objects.data.data[i].name)
+        
           i++;
           trHTML += '<tr>';
           trHTML += '<td>' + 1 + '</td>';
