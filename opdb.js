@@ -134,11 +134,29 @@ function showCreateAnggaran(anggaran) {
     })
   }
   else if (header_title == 'swakelola') {
+    const options = {};
+
+    subKegiatan.forEach(element => {
+      options[element] = element;
+    });
     Swal.fire({
       title: anggaran,
+      input: 'select',
+      inputAttributes: {
+        id: "subkegiatan",
+        class: "swal2-input",
+      },
+      inputPlaceholder: 'Sub Kegiatan',
+      inputOptions: options,
+      inputValidator: (value) => {
+        return new Promise((resolve) => {
+          resolve()
+          subKegiatanGlobal = value
+          //console.log(subKegiatanGlobal)
+         })
+      },
       html:
         '<input id="id" type="hidden">' +
-        '<select id="Ultra" class="swal2-input" onchange="alert(this.value)"> <option value="0">Select</option><option value="8">text1</option> <option value="5">text2</option></select>' +
         '<input id="pagu" class="swal2-input"  placeholder="Pagu">' +
         '<input id="keterangan" class="swal2-input"  placeholder="Keterangan">' +
         '<input id="pdn" class="swal2-input" placeholder="PDN %">',
@@ -269,13 +287,13 @@ function CreateSwakelola(api_param, header_title) {
   xhttp.open("POST", api_param);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(JSON.stringify({
-    "name": "Penelitian pengembangan Dan perekayasaan",
+    "name": subKegiatanGlobal,
     "paket": "default",
-    "pagu": pagu,
+    "pagu": parseInt(pagu),
     "tipe": header_title,
     "jadwal": "12-12-2022",
     "ket": keterangan,
-    "pdn": pdn,
+    "pdn": parseInt(pdn),
     "idpagu": id_global
   }));
 
