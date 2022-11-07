@@ -1,15 +1,18 @@
 
-const api_url = "http://localhost:3000/api/pagus";
-const api_url_anggaran = "http://localhost:3000/api/anggaran";
-const api_url_tender = "http://localhost:3000/api/tender"
-const api_url_langsung = "http://localhost:3000/api/langsung"
-const api_url_pengecualian = "http://localhost:3000/api/kecuali"
-const api_url_total_tender_detail = "http://localhost:3000/api/langsung/totalsemua"
-const api_url_total_paket = "http://localhost:3000/api/tender/totalpaket"
+
+const api = "http://localhost:3000/"
+const api_url = api+"api/pagus";
+const api_url_anggaran = api+"api/anggaran";
+const api_url_tender = api+"api/tender"
+const api_url_langsung = api+"api/langsung"
+const api_url_pengecualian = api+"api/kecuali"
+const api_url_total_tender_detail = api+"api/langsung/totalsemua"
+const api_url_total_paket = api+"api/tender/totalpaket"
 var id_global = '';
 var subKegiatanGlobal = ''
 let subKegiatanGlobalAll = {}
 let subKegiatan = [];
+let namaSKPD = ''
 function loadTable() {
 
   const xhttp = new XMLHttpRequest();
@@ -122,6 +125,7 @@ function showCreateAnggaran(anggaran) {
             '<input id="id" type="hidden">' +
             '<input id="paket" class="swal2-input"  placeholder="Paket">' +
             '<input id="pagu" class="swal2-input"  placeholder="Pagu">' +
+            '<select class="swal2-input time-input" id="input-select"> <option value="">--Please choose an option--</option><option value="cepat">Cepat</option><option value="seleksi">Seleksi</option><option value="tender cepat">Tender Cepat</option></select>'+
             '<input type="date" class="swal2-input time-input" id="pemilihan" name="trip-start" value="2018-07-22" min="2018-01-01" max="2025-12-31">' +
             '<input type="date" class="swal2-input time-input" id="pelaksanaan" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31">' +
             '<input type="date" class="swal2-input time-input" id="pemanfaatan" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31">' +
@@ -340,7 +344,7 @@ function paguDelete(id) {
   console.log("data coba delete id", id)
 
   const xhttp = new XMLHttpRequest();
-  xhttp.open("DELETE", "http://localhost:3000/api/pagus/" + id);
+  xhttp.open("DELETE", api+"api/pagus/" + id);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(JSON.stringify({
     "id": id
@@ -390,6 +394,9 @@ function detailPage(id) {
   detailSwakelola(id)
   detailTotalTenderDetail(id)
   detailTotalTenderDetailCepatSeleksi(id)
+  detailTotalTenderDetailReport(id)
+  detailTotalTenderDetailReportJumlah(id)
+  skpdName(id)
 
 }
 
@@ -496,8 +503,9 @@ function detailPaguItem(id) {
       const objects = JSON.parse(this.responseText);
 
       const posts = objects.data.data
-      //console.log(posts)
-
+       //console.log(posts.name)
+       namaSKPD = posts.name
+       //console.log(namaSKPD)
        // i++;
         var trHTML = '';
         trHTML += '<div class="detail-info-pagu">';
@@ -509,6 +517,7 @@ function detailPaguItem(id) {
       document.getElementById("detailinformasi").innerHTML = trHTML;
     }
   };
+  //console.log("ceka",namaSKPD)
 }
 
 function detailTender(id) {
@@ -788,7 +797,7 @@ function detailTotalTenderDetailCepatSeleksi(id) {
           i = i + 1;
           trHTML += '<tr>';
           trHTML += '<td>' + i + '</td>';
-          trHTML += '<td>' + object['paket'] + '</td>';
+          trHTML += '<td>' + object['ket'] + '</td>';
           trHTML += '<td>' + object['totalpagu'] + '</td>';
           trHTML += '<td>' + object['total'] + '</td>';
 
@@ -843,20 +852,121 @@ function detailTotalTenderDetail(id) {
 
 }
 
-function loadSelect(value){
-    //let hero = document.getElementById('subEvent')
-    console.log('load select')
-    /*
-		for(i = 0; i < subKegiatan.length; i++){
-			result = "<option value="+i+">"+subKegiatan[i]+"</option>"
-			hero.innerHTML += result
-			
-		}
-    */
+
+function detailTotalTenderDetailReport(id) {
+  //console.log("lihat id",id)
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", api_url_total_tender_detail + '/' + id)
+  //xhttp.open("GET", api_url_total_tender_detail+'/'+id)
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var trHTML = '';
+      var namePengadaan = ''
+      const objects = JSON.parse(this.responseText);
+      
+      if (objects.data.data != null) {
+        let i = 0
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          //console.log(object.tipe)
+          if(object.tipe == 'kecuali'){
+            namePengadaan = 'Pengadaan di kecualikan'
+          }
+          else if(object.tipe == 'plangsung') {
+            namePengadaan = 'Penunjukan Langsung'
+          }
+          else {
+            namePengadaan = object.tipe
+          }
+          
+          i = i + 1;
+
+          // trHTML += '<tr>';
+          trHTML += '<td>' + namePengadaan + '</td>';
+           //trHTML += '<td>' + object['total'] + '</td>';
+          //trHTML += "</tr>";
+
+          
+         // 
+
+        }
+
+        document.getElementById("reporttender").innerHTML = trHTML;
+      }
+    }
+  };
+
 }
 
+function detailTotalTenderDetailReportJumlah(id) {
+  //console.log("lihat id",id)
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", api_url_total_tender_detail + '/' + id)
+  //xhttp.open("GET", api_url_total_tender_detail+'/'+id)
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var trHTML = '';
+      var namePengadaan = ''
+      const objects = JSON.parse(this.responseText);
+      
+      if (objects.data.data != null) {
+        let i = 0
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          //console.log(object.tipe)
+          if(object.tipe == 'kecuali'){
+            namePengadaan = 'Pengadaan di kecualikan'
+          }
+          else if(object.tipe == 'plangsung') {
+            namePengadaan = 'Penunjukan Langsung'
+          }
+          else {
+            namePengadaan = object.tipe
+          }
+          
+          i = i + 1;
 
+          // trHTML += '<tr>';
+          //trHTML += '<td>' + namePengadaan + '</td>';
+           trHTML += '<td>' + object['total'] + '</td>';
+          //trHTML += "</tr>";
 
+          
+         // 
 
+        }
+
+        document.getElementById("reporttenderjumlah").innerHTML = trHTML;
+      }
+    }
+  };
+
+}
+
+function skpdName(id) {
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", api_url + '/' + id);
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const objects = JSON.parse(this.responseText);
+
+      const posts = objects.data.data
+       //console.log(posts.name)
+       namaSKPD = posts.name
+       //console.log(namaSKPD)
+       // i++;
+        var trHTML = '';
+        trHTML += '<tr>';
+        trHTML += '<td>' +  posts['name'] + '</td>';
+        trHTML += "</tr";
+      
+        document.getElementById("skpdname").innerHTML = trHTML;
+    }
+  };
+  //console.log("ceka",namaSKPD)
+}
 
 
