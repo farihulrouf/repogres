@@ -397,6 +397,9 @@ function detailPage(id) {
   detailTotalTenderDetailReport(id)
   detailTotalTenderDetailReportJumlah(id)
   detailTotalTenderDetailReportJumlahPagu(id)
+  detailTotalTenderDetailReportSeleksi(id)
+  detailTotalTenderDetailReportSeleksiJumlah(id)
+  detailTotalTenderDetailReportSeleksiRupiah(id)
   skpdName(id)
 
 }
@@ -991,6 +994,120 @@ function detailTotalTenderDetailReportJumlahPagu(id) {
 
 }
 
+function detailTotalTenderDetailReportSeleksi(id) {
+  //console.log("lihat id",id)
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", api_url_total_paket + '/' + id)
+  //xhttp.open("GET", api_url_total_tender_detail+'/'+id)
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var trHTML = '';
+      //var namePengadaan = ''
+      const objects = JSON.parse(this.responseText);
+      
+      if (objects.data.data != null) {
+        let i = 0
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          //console.log(object.tipe)
+         
+          
+          i = i + 1;
+
+          // trHTML += '<tr>';
+          trHTML += '<td>' + object['ket'] + '</td>';
+           //trHTML += '<td>' + object['total'] + '</td>';
+          //trHTML += "</tr>";
+
+          
+         // 
+
+        }
+
+        document.getElementById("reporttenderseleksi").innerHTML = trHTML;
+      }
+    }
+  };
+
+}
+function detailTotalTenderDetailReportSeleksiJumlah(id) {
+  //console.log("lihat id",id)
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", api_url_total_paket + '/' + id)
+  //xhttp.open("GET", api_url_total_tender_detail+'/'+id)
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var trHTML = '';
+      //var namePengadaan = ''
+      const objects = JSON.parse(this.responseText);
+      
+      if (objects.data.data != null) {
+        let i = 0
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          //console.log(object.tipe)
+         
+          
+          i = i + 1;
+
+          // trHTML += '<tr>';
+          trHTML += '<td>' + object['total'] + '</td>';
+           //trHTML += '<td>' + object['total'] + '</td>';
+          //trHTML += "</tr>";
+
+          
+         // 
+
+        }
+
+        document.getElementById("reporttenderseleksijumlah").innerHTML = trHTML;
+      }
+    }
+  };
+
+}
+
+
+function detailTotalTenderDetailReportSeleksiRupiah(id) {
+  //console.log("lihat id",id)
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", api_url_total_paket + '/' + id)
+  //xhttp.open("GET", api_url_total_tender_detail+'/'+id)
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var trHTML = '';
+      //var namePengadaan = ''
+      const objects = JSON.parse(this.responseText);
+      
+      if (objects.data.data != null) {
+        let i = 0
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          //console.log(object.tipe)
+         
+          
+          i = i + 1;
+
+          // trHTML += '<tr>';
+          trHTML += '<td>' + object['totalpagu'] + '</td>';
+           //trHTML += '<td>' + object['total'] + '</td>';
+          //trHTML += "</tr>";
+
+          
+         // 
+
+        }
+
+        document.getElementById("jumlahrupiahcepat").innerHTML = trHTML;
+      }
+    }
+  };
+
+}
+
 function skpdName(id) {
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api_url + '/' + id);
@@ -1014,5 +1131,6 @@ function skpdName(id) {
   };
   //console.log("ceka",namaSKPD)
 }
+
 
 
