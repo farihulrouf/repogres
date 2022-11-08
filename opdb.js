@@ -396,6 +396,7 @@ function detailPage(id) {
   detailTotalTenderDetailCepatSeleksi(id)
   detailTotalTenderDetailReport(id)
   detailTotalTenderDetailReportJumlah(id)
+  detailTotalTenderDetailReportJumlahPagu(id)
   skpdName(id)
 
 }
@@ -939,6 +940,51 @@ function detailTotalTenderDetailReportJumlah(id) {
         }
 
         document.getElementById("reporttenderjumlah").innerHTML = trHTML;
+      }
+    }
+  };
+
+}
+function detailTotalTenderDetailReportJumlahPagu(id) {
+  //console.log("lihat id",id)
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", api_url_total_tender_detail + '/' + id)
+  //xhttp.open("GET", api_url_total_tender_detail+'/'+id)
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var trHTML = '';
+      var namePengadaan = ''
+      const objects = JSON.parse(this.responseText);
+      
+      if (objects.data.data != null) {
+        let i = 0
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          //console.log(object.tipe)
+          if(object.tipe == 'kecuali'){
+            namePengadaan = 'Pengadaan di kecualikan'
+          }
+          else if(object.tipe == 'plangsung') {
+            namePengadaan = 'Penunjukan Langsung'
+          }
+          else {
+            namePengadaan = object.tipe
+          }
+          
+          i = i + 1;
+
+          // trHTML += '<tr>';
+          //trHTML += '<td>' + namePengadaan + '</td>';
+           trHTML += '<td>' + object['totalpagu'] + '</td>';
+          //trHTML += "</tr>";
+
+          
+         // 
+
+        }
+
+        document.getElementById("reporttenderpagu").innerHTML = trHTML;
       }
     }
   };
