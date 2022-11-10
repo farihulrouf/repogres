@@ -1,13 +1,13 @@
 
 
 const api = "http://localhost:3000/"
-const api_url = api+"api/pagus";
-const api_url_anggaran = api+"api/anggaran";
-const api_url_tender = api+"api/tender"
-const api_url_langsung = api+"api/langsung"
-const api_url_pengecualian = api+"api/kecuali"
-const api_url_total_tender_detail = api+"api/langsung/totalsemua"
-const api_url_total_paket = api+"api/tender/totalpaket"
+const api_url = api + "api/pagus";
+const api_url_anggaran = api + "api/anggaran";
+const api_url_tender = api + "api/tender"
+const api_url_langsung = api + "api/langsung"
+const api_url_pengecualian = api + "api/kecuali"
+const api_url_total_tender_detail = api + "api/langsung/totalsemua"
+const api_url_total_paket = api + "api/tender/totalpaket"
 var id_global = '';
 var subKegiatanGlobal = ''
 let subKegiatanGlobalAll = {}
@@ -60,7 +60,7 @@ function paguCreate() {
   }));
   xhttp.onreadystatechange = function () {
     loadTable();
-    
+
   };
 }
 
@@ -92,17 +92,19 @@ function showCreateAnggaran(anggaran) {
       preConfirm: () => {
         //console.log('diseksuusi engaran')
         CreateAnggaran(api_url_anggaran, header_title)
+        detailGolbalAnggaran(id_global)
       }
     })
   }
   else if (header_title == "tender") {
 
     const options = {};
-
+    console.log("isi dari sub kegitan", subKegiatan)
+    console.log("isi dari sub global", subKegiatanGlobal)
     subKegiatan.forEach(element => {
       options[element] = element;
     });
-    
+
     Swal.fire({
       title: anggaran,
       input: 'select',
@@ -116,26 +118,27 @@ function showCreateAnggaran(anggaran) {
         return new Promise((resolve) => {
           resolve()
           subKegiatanGlobal = value
-          //console.log(subKegiatanGlobal)
-         })
+          //console.log("isi dari sub",subKegiatanGlobal)
+        })
       },
-      
+
       html:
-        '<div>'+
-            '<input id="id" type="hidden">' +
-            '<input id="paket" class="swal2-input"  placeholder="Paket">' +
-            '<input id="pagu" class="swal2-input"  placeholder="Pagu">' +
-            '<select class="swal2-input time-input" id="input-select"> <option value="">--Please choose an option--</option><option value="cepat">Cepat</option><option value="seleksi">Seleksi</option><option value="tender cepat">Tender Cepat</option></select>'+
-            '<input type="date" class="swal2-input time-input" id="pemilihan" name="trip-start" value="2018-07-22" min="2018-01-01" max="2025-12-31">' +
-            '<input type="date" class="swal2-input time-input" id="pelaksanaan" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31">' +
-            '<input type="date" class="swal2-input time-input" id="pemanfaatan" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31">' +
-            '<input id="pdn" class="swal2-input" placeholder="PDN %">'+
+        '<div>' +
+        '<input id="id" type="hidden">' +
+        '<input id="paket" class="swal2-input"  placeholder="Paket">' +
+        '<input id="pagu" class="swal2-input"  placeholder="Pagu">' +
+        '<select class="swal2-input time-input" id="input-select"> <option value="">--Choose an option--</option><option value="Cepat">Cepat</option><option value="Seleksi">Seleksi</option><option value="Tender cepat">Tender Cepat</option></select>' +
+        '<input type="date" class="swal2-input time-input" id="pemilihan" name="trip-start" value="2018-07-22" min="2018-01-01" max="2025-12-31">' +
+        '<input type="date" class="swal2-input time-input" id="pelaksanaan" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31">' +
+        '<input type="date" class="swal2-input time-input" id="pemanfaatan" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31">' +
+        '<input id="pdn" class="swal2-input" placeholder="PDN %">' +
         '</div>',
       showCancelButton: true,
       focusConfirm: false,
       preConfirm: () => {
-        
-         CreateDetailPagu(api_url_tender, header_title)
+
+        CreateDetailPagu(api_url_tender, header_title)
+        refreshTotal()
 
       }
     })
@@ -160,7 +163,7 @@ function showCreateAnggaran(anggaran) {
           resolve()
           subKegiatanGlobal = value
           //console.log(subKegiatanGlobal)
-         })
+        })
       },
       html:
         '<input id="id" type="hidden">' +
@@ -181,8 +184,8 @@ function showCreateAnggaran(anggaran) {
     subKegiatan.forEach(element => {
       options[element] = element;
     });
-    
-    
+
+
     Swal.fire({
       title: anggaran,
       input: 'select',
@@ -197,7 +200,7 @@ function showCreateAnggaran(anggaran) {
           resolve()
           subKegiatanGlobal = value
           //console.log(subKegiatanGlobal)
-         })
+        })
       },
       html:
         '<input id="id" type="hidden">' +
@@ -221,7 +224,7 @@ function showCreateAnggaran(anggaran) {
 function CreateAnggaran(api_param, header_title) {
   const pagu = document.getElementById("pagu").value
   const name = document.getElementById("name").value
-  console.log("isi dari name", name, "dan isi dari pagu", pagu)
+  //console.log("isi dari name", name, "dan isi dari pagu", pagu)
   const xhttp = new XMLHttpRequest();
   xhttp.open("POST", api_param);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -238,22 +241,19 @@ function CreateAnggaran(api_param, header_title) {
     //detailTender(id_global)
     detailAnggaran(id_global)
   };
-  
+
 }
 
 function CreateDetailPagu(api_param, header_title) {
-
+  
+  var selecinput = document.getElementById("input-select").value;
+  
   const waktupemilihan = document.getElementById("pemilihan").value;
   const waktupelaksanaan = document.getElementById("pelaksanaan").value;
   const waktupemanfaatan = document.getElementById("pemanfaatan").value;
   const pdn = document.getElementById("pdn").value;
   const paket = document.getElementById("paket").value;
   const pagu = document.getElementById("pagu").value;
-  //
-//let num = parseInt(string);
-  console.log(id_global)
-  console.log("ini hereader", header_title)
-  //console.log(value)
   
   const xhttp = new XMLHttpRequest();
   xhttp.open("POST", api_param);
@@ -266,6 +266,7 @@ function CreateDetailPagu(api_param, header_title) {
     "pemilihan": waktupemilihan,
     "pelaksanaan": waktupelaksanaan,
     "pdn": parseInt(pdn),
+    "ket": selecinput,
     "idpagu": id_global
   }));
 
@@ -273,7 +274,8 @@ function CreateDetailPagu(api_param, header_title) {
     detailTender(id_global)
   };
   
-  
+
+
 }
 
 function CreateSwakelola(api_param, header_title) {
@@ -344,7 +346,7 @@ function paguDelete(id) {
   console.log("data coba delete id", id)
 
   const xhttp = new XMLHttpRequest();
-  xhttp.open("DELETE", api+"api/pagus/" + id);
+  xhttp.open("DELETE", api + "api/pagus/" + id);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(JSON.stringify({
     "id": id
@@ -383,7 +385,7 @@ function detailPage(id) {
   y.style.display = "none";
   x.style.display = "block";
   id_global = id;
-  detailGolbalAnggaran()
+  detailGolbalAnggaran(id_global)
   detailPaguItem(id)
   detailAnggaran(id)
   detailTender(id)
@@ -450,8 +452,8 @@ function detailAnggaran(id) {
   };
 }
 
-function detailGolbalAnggaran() {
-
+function detailGolbalAnggaran(id_global) {
+  //console.log("di ekseusi")
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api_url_anggaran);
   xhttp.send();
@@ -463,21 +465,12 @@ function detailGolbalAnggaran() {
         console.log('data kosong')
       }
       else {
-        let i =0
+        let i = 0
         for (let object of objects.data.data) {
           let id_obj = object['id']
-           //console.log("sebelum",subKegiatan)
-          //console.log(objects.data.data[i].name)
-         // let key = 'key'+i
-         // console.log(objects.data.data[i].name)
           subKegiatan.push(objects.data.data[i].name)
-          //console.log(subKegiatan)
-          //Object.assign(subKegiatanGlobalAll,{key})
-         // console.log("isi dari key",{key: objects.data.data[i].name})
-          //Object.assign(subKegiatanGlobalAll, )
-          //console.log("sesudah",subKegiatan)
-          //console.log(objects.data.data[i].name)
-        
+          console.log(subKegiatan)
+
           i++;
           trHTML += '<tr>';
           trHTML += '<td>' + 1 + '</td>';
@@ -507,17 +500,17 @@ function detailPaguItem(id) {
       const objects = JSON.parse(this.responseText);
 
       const posts = objects.data.data
-       //console.log(posts.name)
-       namaSKPD = posts.name
-       //console.log(namaSKPD)
-       // i++;
-        var trHTML = '';
-        trHTML += '<div class="detail-info-pagu">';
-        trHTML += '<div class="info-text-detail-pagu">' + '<p>' + `Nama SKPD :` + '</p>' + '<p class="name-text-detail-pagu">'+ posts['name'] + '</p>' + '</div>';
-        trHTML += '<div class="info-text-detail-pagu">' + '<p>' + `Jumlah Pagu OPD :` + '</p>' + '<p class="name-text-detail-pagu">'+ posts['paguopdp'] + '</p>' + '</div>';
-        trHTML += '<div class="info-text-detail-pagu">' + '<p>' + `Jumlah Pagu ORP :` + '</p>' + '<p class="name-text-detail-pagu">'+ posts['paguorp'] + '</p>' + '</div>';
-        trHTML += "</div";
-      
+      //console.log(posts.name)
+      namaSKPD = posts.name
+      //console.log(namaSKPD)
+      // i++;
+      var trHTML = '';
+      trHTML += '<div class="detail-info-pagu">';
+      trHTML += '<div class="info-text-detail-pagu">' + '<p>' + `Nama SKPD :` + '</p>' + '<p class="name-text-detail-pagu">' + posts['name'] + '</p>' + '</div>';
+      trHTML += '<div class="info-text-detail-pagu">' + '<p>' + `Jumlah Pagu OPD :` + '</p>' + '<p class="name-text-detail-pagu">' + posts['paguopdp'] + '</p>' + '</div>';
+      trHTML += '<div class="info-text-detail-pagu">' + '<p>' + `Jumlah Pagu ORP :` + '</p>' + '<p class="name-text-detail-pagu">' + posts['paguorp'] + '</p>' + '</div>';
+      trHTML += "</div";
+
       document.getElementById("detailinformasi").innerHTML = trHTML;
     }
   };
@@ -547,6 +540,7 @@ function detailTender(id) {
           trHTML += '<td>' + object['pemilihan'] + '</td>';
           trHTML += '<td>' + object['pelaksanaan'] + '</td>';
           trHTML += '<td>' + object['jadwal'] + '</td>';
+          trHTML += '<td>' + object['ket'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
           trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
           trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\'' + id_obj + '\',`tender`,\'' + api_url_tender + '\')">delete_forever</span></a></td>';
@@ -830,16 +824,16 @@ function detailTotalTenderDetail(id) {
         for (let object of objects.data.data) {
           let id_obj = object['id']
           //console.log(object.tipe)
-          if(object.tipe == 'kecuali'){
+          if (object.tipe == 'kecuali') {
             namePengadaan = 'Pengadaan di kecualikan'
           }
-          else if(object.tipe == 'plangsung') {
+          else if (object.tipe == 'plangsung') {
             namePengadaan = 'Penunjukan Langsung'
           }
           else {
             namePengadaan = object.tipe
           }
-          
+
           i = i + 1;
           trHTML += '<tr>';
           trHTML += '<td>' + i + '</td>';
@@ -868,31 +862,31 @@ function detailTotalTenderDetailReport(id) {
       var trHTML = '';
       var namePengadaan = ''
       const objects = JSON.parse(this.responseText);
-      
+
       if (objects.data.data != null) {
         let i = 0
         for (let object of objects.data.data) {
           let id_obj = object['id']
           //console.log(object.tipe)
-          if(object.tipe == 'kecuali'){
+          if (object.tipe == 'kecuali') {
             namePengadaan = 'Pengadaan di kecualikan'
           }
-          else if(object.tipe == 'plangsung') {
+          else if (object.tipe == 'plangsung') {
             namePengadaan = 'Penunjukan Langsung'
           }
           else {
             namePengadaan = object.tipe
           }
-          
+
           i = i + 1;
 
           // trHTML += '<tr>';
           trHTML += '<td>' + namePengadaan + '</td>';
-           //trHTML += '<td>' + object['total'] + '</td>';
+          //trHTML += '<td>' + object['total'] + '</td>';
           //trHTML += "</tr>";
 
-          
-         // 
+
+          // 
 
         }
 
@@ -914,31 +908,31 @@ function detailTotalTenderDetailReportJumlah(id) {
       var trHTML = '';
       var namePengadaan = ''
       const objects = JSON.parse(this.responseText);
-      
+
       if (objects.data.data != null) {
         let i = 0
         for (let object of objects.data.data) {
           let id_obj = object['id']
           //console.log(object.tipe)
-          if(object.tipe == 'kecuali'){
+          if (object.tipe == 'kecuali') {
             namePengadaan = 'Pengadaan di kecualikan'
           }
-          else if(object.tipe == 'plangsung') {
+          else if (object.tipe == 'plangsung') {
             namePengadaan = 'Penunjukan Langsung'
           }
           else {
             namePengadaan = object.tipe
           }
-          
+
           i = i + 1;
 
           // trHTML += '<tr>';
           //trHTML += '<td>' + namePengadaan + '</td>';
-           trHTML += '<td>' + object['total'] + '</td>';
+          trHTML += '<td>' + object['total'] + '</td>';
           //trHTML += "</tr>";
 
-          
-         // 
+
+          // 
 
         }
 
@@ -959,31 +953,31 @@ function detailTotalTenderDetailReportJumlahPagu(id) {
       var trHTML = '';
       var namePengadaan = ''
       const objects = JSON.parse(this.responseText);
-      
+
       if (objects.data.data != null) {
         let i = 0
         for (let object of objects.data.data) {
           let id_obj = object['id']
           //console.log(object.tipe)
-          if(object.tipe == 'kecuali'){
+          if (object.tipe == 'kecuali') {
             namePengadaan = 'Pengadaan di kecualikan'
           }
-          else if(object.tipe == 'plangsung') {
+          else if (object.tipe == 'plangsung') {
             namePengadaan = 'Penunjukan Langsung'
           }
           else {
             namePengadaan = object.tipe
           }
-          
+
           i = i + 1;
 
           // trHTML += '<tr>';
           //trHTML += '<td>' + namePengadaan + '</td>';
-           trHTML += '<td>' + object['totalpagu'] + '</td>';
+          trHTML += '<td>' + object['totalpagu'] + '</td>';
           //trHTML += "</tr>";
 
-          
-         // 
+
+          // 
 
         }
 
@@ -1005,23 +999,23 @@ function detailTotalTenderDetailReportSeleksi(id) {
       var trHTML = '';
       //var namePengadaan = ''
       const objects = JSON.parse(this.responseText);
-      
+
       if (objects.data.data != null) {
         let i = 0
         for (let object of objects.data.data) {
           let id_obj = object['id']
           //console.log(object.tipe)
-         
-          
+
+
           i = i + 1;
 
           // trHTML += '<tr>';
           trHTML += '<td>' + object['ket'] + '</td>';
-           //trHTML += '<td>' + object['total'] + '</td>';
+          //trHTML += '<td>' + object['total'] + '</td>';
           //trHTML += "</tr>";
 
-          
-         // 
+
+          // 
 
         }
 
@@ -1042,23 +1036,23 @@ function detailTotalTenderDetailReportSeleksiJumlah(id) {
       var trHTML = '';
       //var namePengadaan = ''
       const objects = JSON.parse(this.responseText);
-      
+
       if (objects.data.data != null) {
         let i = 0
         for (let object of objects.data.data) {
           let id_obj = object['id']
           //console.log(object.tipe)
-         
-          
+
+
           i = i + 1;
 
           // trHTML += '<tr>';
           trHTML += '<td>' + object['total'] + '</td>';
-           //trHTML += '<td>' + object['total'] + '</td>';
+          //trHTML += '<td>' + object['total'] + '</td>';
           //trHTML += "</tr>";
 
-          
-         // 
+
+          // 
 
         }
 
@@ -1081,23 +1075,23 @@ function detailTotalTenderDetailReportSeleksiRupiah(id) {
       var trHTML = '';
       //var namePengadaan = ''
       const objects = JSON.parse(this.responseText);
-      
+
       if (objects.data.data != null) {
         let i = 0
         for (let object of objects.data.data) {
           let id_obj = object['id']
           //console.log(object.tipe)
-         
-          
+
+
           i = i + 1;
 
           // trHTML += '<tr>';
           trHTML += '<td>' + object['totalpagu'] + '</td>';
-           //trHTML += '<td>' + object['total'] + '</td>';
+          //trHTML += '<td>' + object['total'] + '</td>';
           //trHTML += "</tr>";
 
-          
-         // 
+
+          // 
 
         }
 
@@ -1117,20 +1111,33 @@ function skpdName(id) {
       const objects = JSON.parse(this.responseText);
 
       const posts = objects.data.data
-       //console.log(posts.name)
-       namaSKPD = posts.name
-       //console.log(namaSKPD)
-       // i++;
-        var trHTML = '';
-        trHTML += '<tr>';
-        trHTML += '<td>' +  posts['name'] + '</td>';
-        trHTML += "</tr";
-      
-        document.getElementById("skpdname").innerHTML = trHTML;
+      //console.log(posts.name)
+      namaSKPD = posts.name
+      //console.log(namaSKPD)
+      // i++;
+      var trHTML = '';
+      trHTML += '<tr>';
+      trHTML += '<td>' + posts['name'] + '</td>';
+      trHTML += "</tr";
+
+      document.getElementById("skpdname").innerHTML = trHTML;
     }
   };
   //console.log("ceka",namaSKPD)
 }
 
+function refreshTotal(){
+  console.log("refresh di eksekusi")
+  detailTotalTenderDetail(id_global)
+  detailTotalTenderDetailCepatSeleksi(id_global)
+  detailTotalTenderDetailReport(id_global)
+  detailTotalTenderDetailReportJumlah(id_global)
+  detailTotalTenderDetailReportJumlahPagu(id_global)
+  detailTotalTenderDetailReportSeleksi(id_global)
+  detailTotalTenderDetailReportSeleksiJumlah(id_global)
+  detailTotalTenderDetailReportSeleksiRupiah(id_global)
+  //skpdName(id)
+
+}
 
 

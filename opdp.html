@@ -151,6 +151,25 @@
               <tr></tr>
             </tbody>
           </table>
+          <p>Detail Laporan:</p>
+          <button type="button" class="collapsible">Open Section 1</button>
+          <div class="content">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+              ea commodo consequat.</p>
+          </div>
+          <button type="button" class="collapsible">Open Section 2</button>
+          <div class="content">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+              ea commodo consequat.</p>
+          </div>
+          <button type="button" class="collapsible">Open Section 3</button>
+          <div class="content">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+              ea commodo consequat.</p>
+          </div>
         </div>
         <div id="detail">
           <a class="back-button" href="#" onclick="showPagu()">
@@ -209,13 +228,14 @@
               <tr>
               <tr>
                 <th width="2%">NO</th>
-                <th width="19%">SUB KEGIATAN</th>
-                <th width="15%">NAMA PAKET</th>
-                <th width="15%%">PAGU</th>
+                <th width="11%">SUB KEGIATAN</th>
+                <th width="11%">NAMA PAKET</th>
+                <th width="11%%">PAGU</th>
                 <th width="12%">WAKTU PEMILIHAN</th>
                 <th width="12%">WAKTU PELAKSANAAN</th>
                 <th width="12%">WAKTU PEMANFAATAN</th>
-                <th width="8%">PDN (%)</th>
+                <th width="8%">KET</th>
+                <th width="8%">PDN(%)</th>    
                 <th width="5%">ACTION</th>
               </tr>
               </tr>
@@ -392,7 +412,7 @@
                 </tbody>
               </table>
             </div>
-           
+
             <div class="styled-table-vertical">
               <table>
                 <tr id="skpdname">
@@ -402,33 +422,33 @@
             </div>
             <div class="text-detail-pagu">
               <p>Laporan Total Jumlah Pagu</p>
-  
+
             </div>
             <table class="styled-table">
-              
+
               <tr id="reporttender">
-               
+
               </tr>
               <tr id="reporttenderjumlah">
 
               </tr>
-              
+
             </table>
             <div class="text-detail-pagu">
               <p>Laporan Total Jumlah Pengadaan Tender / Tender Cepat/ Seleksi</p>
-  
+
             </div>
             <table class="styled-table">
               <tr id="reporttenderseleksi">
-               
+
               </tr>
               <tr id="reporttenderseleksijumlah">
-               
+
               </tr>
             </table>
             <div class="text-detail-pagu">
               <p>Laporan Total Jumlah Pagu dalam Rupiah</p>
-  
+
             </div>
             <table class="styled-table">
               <tr>
@@ -442,7 +462,7 @@
                   Pengadaan di kecualikan
                 </td>
                 <td>
-                  Penunjukan Langsung	
+                  Penunjukan Langsung
                 </td>
                 <td>
                   langsung
@@ -454,7 +474,7 @@
             </table>
             <div class="text-detail-pagu">
               <p>Laporan Total Jumlah pagu dalam Rupiah Pengadaan Tender / Tender Cepat/ Seleksi</p>
-  
+
             </div>
 
             <table class="styled-table">
@@ -468,7 +488,7 @@
                 <td>
                   Cepat
                 </td>
-                
+
               </tr>
               <tr id="jumlahrupiahcepat">
 
@@ -479,26 +499,10 @@
         </div>
       </div>
     </div>
-    <div class="home-content">
-      <div class="overview-table">
-        <p>Detail Laporan:</p>
-        <button type="button" class="collapsible">Open Section 1</button>
-        <div class="content">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        </div>
-        <button type="button" class="collapsible">Open Section 2</button>
-        <div class="content">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        </div>
-        <button type="button" class="collapsible">Open Section 3</button>
-        <div class="content">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        </div>
-      </div>
-    </div>
+
   </section>
   <!-- JavaScript Bundle with Popper -->
- <script src="totalopd.js"></script>
+  <script src="totalopd.js"></script>
   <script src="opdb.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
   <script>
@@ -514,19 +518,19 @@
   </script>
   <script>
     var coll = document.getElementsByClassName("collapsible");
-var i;
+    var i;
 
-for (i = 0; i < coll.length; i++) {
-  coll[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var content = this.nextElementSibling;
-    if (content.style.display === "block") {
-      content.style.display = "none";
-    } else {
-      content.style.display = "block";
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function () {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
     }
-  });
-}
   </script>
 
 </body>
