@@ -126,12 +126,12 @@ function showCreateAnggaran(anggaran) {
         '<div class="contain-popup">' +
         '<input id="id" type="hidden">' +
         '<input id="paket" class="swal2-input"  placeholder="Paket">' +
-        '<input id="pagu" class="swal2-input"  placeholder="Pagu">' +
+        '<input id="pagu" class="swal2-input"  onfocus="(this.type=`number`)" placeholder="Pagu">' +
         '<select class="swal2-input time-input" id="input-select"> <option value="">Jenis Tender</option><option value="Cepat">Cepat</option><option value="Seleksi">Seleksi</option><option value="Tender cepat">Tender Cepat</option></select>' +
         '<input type="text" onfocus="(this.type=`date`)" placeholder="Waktu Pemilihan" class="swal2-input time-input" id="pemilihan" name="trip-start"  min="2022-11-10" max="2025-12-31">' +
         '<input type="text" onfocus="(this.type=`date`)"  class="swal2-input time-input" placeholder="Waktu Pelakanaan" id="pelaksanaan" name="trip-start"  min="2022-11-10" max="2025-12-31">' +
         '<input type="text" onfocus="(this.type=`date`)"  class="swal2-input time-input" placeholder="Waktu Pemanfaatan" id="pemanfaatan" name="trip-start"  min="2018-11-10" max="2025-12-31">' +
-        '<input id="pdn" type="text" class="swal2-input" placeholder="PDN %">' +
+        '<input id="pdn" type="text" class="swal2-input" onfocus="(this.type=`number`)"  placeholder="PDN %">' +
         '</div>',
       showCancelButton: true,
       focusConfirm: false,
@@ -167,7 +167,7 @@ function showCreateAnggaran(anggaran) {
       },
       html:
         '<input id="id" type="hidden">' +
-        '<input id="pagu" class="swal2-input"  placeholder="Pagu">' +
+        '<input id="pagu" class="swal2-input" onfocus="(this.type=`number`)" placeholder="Pagu">' +
         '<input id="keterangan" class="swal2-input"  placeholder="Keterangan">' +
         '<input id="pdn" class="swal2-input" placeholder="PDN %">',
 
