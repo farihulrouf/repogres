@@ -336,6 +336,7 @@ function CreateDetailLain(api_param, header_title) {
     detailPenunjukanLangsug(id_global)
     detailPurchasing(id_global)
     detailPengecualian(id_global)
+    refreshTotal()
   };
 
 }
