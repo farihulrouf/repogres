@@ -700,10 +700,11 @@ label {
 }
 
 #subkegiatan {
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
 
+  top: 80px;
+}
+.contain-popup {
+}
 .text-date-input {
   display: flex;
   align-items: center;
@@ -718,4 +719,7 @@ label {
 .styled-table-vertical {
   background-color: #0A2558;
   color: white;
+}
+select#input-select {
+  width: 200px;
 }

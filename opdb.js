@@ -106,7 +106,7 @@ function showCreateAnggaran(anggaran) {
     });
 
     Swal.fire({
-      title: anggaran,
+      title: 'Pengadaan'+' '+'Tender',
       input: 'select',
       inputAttributes: {
         id: "subkegiatan",
@@ -123,15 +123,15 @@ function showCreateAnggaran(anggaran) {
       },
 
       html:
-        '<div>' +
+        '<div class="contain-popup">' +
         '<input id="id" type="hidden">' +
         '<input id="paket" class="swal2-input"  placeholder="Paket">' +
         '<input id="pagu" class="swal2-input"  placeholder="Pagu">' +
-        '<select class="swal2-input time-input" id="input-select"> <option value="">--Choose an option--</option><option value="Cepat">Cepat</option><option value="Seleksi">Seleksi</option><option value="Tender cepat">Tender Cepat</option></select>' +
-        '<input type="date" class="swal2-input time-input" id="pemilihan" name="trip-start" value="2018-07-22" min="2018-01-01" max="2025-12-31">' +
-        '<input type="date" class="swal2-input time-input" id="pelaksanaan" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31">' +
-        '<input type="date" class="swal2-input time-input" id="pemanfaatan" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31">' +
-        '<input id="pdn" class="swal2-input" placeholder="PDN %">' +
+        '<select class="swal2-input time-input" id="input-select"> <option value="">Jenis Tender</option><option value="Cepat">Cepat</option><option value="Seleksi">Seleksi</option><option value="Tender cepat">Tender Cepat</option></select>' +
+        '<input type="text" onfocus="(this.type=`date`)" placeholder="Waktu Pemilihan" class="swal2-input time-input" id="pemilihan" name="trip-start"  min="2022-11-10" max="2025-12-31">' +
+        '<input type="text" onfocus="(this.type=`date`)"  class="swal2-input time-input" placeholder="Waktu Pelakanaan" id="pelaksanaan" name="trip-start"  min="2022-11-10" max="2025-12-31">' +
+        '<input type="text" onfocus="(this.type=`date`)"  class="swal2-input time-input" placeholder="Waktu Pemanfaatan" id="pemanfaatan" name="trip-start"  min="2018-11-10" max="2025-12-31">' +
+        '<input id="pdn" type="text" class="swal2-input" placeholder="PDN %">' +
         '</div>',
       showCancelButton: true,
       focusConfirm: false,
@@ -150,7 +150,7 @@ function showCreateAnggaran(anggaran) {
       options[element] = element;
     });
     Swal.fire({
-      title: anggaran,
+      title: 'Swakelola',
       input: 'select',
       inputAttributes: {
         id: "subkegiatan",
@@ -206,7 +206,7 @@ function showCreateAnggaran(anggaran) {
         '<input id="id" type="hidden">' +
         '<input id="paket" class="swal2-input"  placeholder="Paket">' +
         '<input id="pagu" class="swal2-input"  placeholder="Pagu">' +
-        '<input type="date" class="swal2-input" id="pelaksanaan" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31">' +
+        '<input type="text" onfocus="(this.type=`date`)" placeholder="Waktu Pelaksanaan" class="swal2-input" id="pelaksanaan" name="trip-start"  min="2022-11-10" max="2025-12-31">' +
         '<input id="pdn" class="swal2-input" placeholder="PDN %">',
 
       focusConfirm: false,
@@ -299,6 +299,8 @@ function CreateSwakelola(api_param, header_title) {
     "idpagu": id_global
   }));
 
+  
+
   xhttp.onreadystatechange = function () {
     detailLangsung(id_global)
     detailPenunjukanLangsug(id_global)
@@ -387,7 +389,7 @@ function detailPage(id) {
   y.style.display = "none";
   x.style.display = "block";
   id_global = id;
-  detailGolbalAnggaran(id_global)
+  detailGolbalAnggaran(id)
   detailPaguItem(id)
   detailAnggaran(id)
   detailTender(id)
@@ -471,7 +473,7 @@ function detailGolbalAnggaran(id_global) {
         for (let object of objects.data.data) {
           let id_obj = object['id']
           subKegiatan.push(objects.data.data[i].name)
-          console.log(subKegiatan)
+          //console.log(subKegiatan)
 
           i++;
           trHTML += '<tr>';
@@ -618,6 +620,9 @@ const detailPenunjukanLangsug = (id) => {
           trHTML += "</tr>";
         }
         document.getElementById("pllangsung").innerHTML = trHTML;
+      }
+      else {
+        console.log('data detail langsug kosong')
       }
 
     }
@@ -776,8 +781,13 @@ function showPagu() {
   // element.remove()
   var x = document.getElementById("detail");
   var y = document.getElementById("opdb")
+  //x.innerHTML = ""
   x.style.display = "none";
   y.style.display = "block";
+  window.location.reload();
+  //localStorage.clear();
+  //location.reload()
+  //detailPage(id_global)
 
 }
 function detailTotalTenderDetailCepatSeleksi(id) {
