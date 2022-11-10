@@ -99,8 +99,8 @@ function showCreateAnggaran(anggaran) {
   else if (header_title == "tender") {
 
     const options = {};
-    console.log("isi dari sub kegitan", subKegiatan)
-    console.log("isi dari sub global", subKegiatanGlobal)
+    //console.log("isi dari sub kegitan", subKegiatan)
+    //console.log("isi dari sub global", subKegiatanGlobal)
     subKegiatan.forEach(element => {
       options[element] = element;
     });
@@ -376,6 +376,7 @@ function detailDelete(id, tender, api) {
     detailSwakelola(id_global)
     detailPurchasing(id_global)
     detailGolbalAnggaran(id_global)
+    refreshTotal()
 
   };
 }
