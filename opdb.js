@@ -790,6 +790,15 @@ function showPagu() {
   //detailPage(id_global)
 
 }
+
+function hiddenAction(){
+  //td-icon
+  var x = document.getElementById("td-iconx")
+  console.log(x)
+  x.style.display = "none";
+  console.log("di eksekusi")
+}
+
 function detailTotalTenderDetailCepatSeleksi(id) {
   //console.log("lihat id",id)
   const xhttp = new XMLHttpRequest();

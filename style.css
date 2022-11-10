@@ -674,8 +674,8 @@ label {
 .text-header-info {
   text-align: center;
   font-size: 18px;
-  font-weight: 500;
-  margin-bottom: 100px;
+  font-weight: 400px;
+  margin-left: 20px;
 }
 
 .info-text-detail-pagu {
@@ -723,3 +723,27 @@ label {
 select#input-select {
   width: 200px;
 }
+.printpreview {
+  display: flex;
+  justify-content: space-between;
+}
+.logo {
+  width: 100px;
+}
+
+.title-header-format {
+  display: flex;
+  align-items: center;
+  margin-bottom: 150px;
+  margin-top: 50px;
+  justify-content: center;
+}
+
+
+ /* table td:last-child, th:last-child{
+    display:none!important;
+    }
+  */
+  
+
+  
