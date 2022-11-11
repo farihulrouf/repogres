@@ -1,4 +1,4 @@
-const api ="http://localhost:3000/api/anggaran"
+const api_url_cepat ="http://localhost:3000/api/anggaran"
 
 const loadDataKegiatan = () => {
     let dropdown = document.getElementById('dropdown-list');
@@ -13,7 +13,7 @@ const loadDataKegiatan = () => {
     //const url = 'http://localhost:3000/api/pagus';
 
     const request = new XMLHttpRequest();
-    request.open('GET', api, true);
+    request.open('GET', api_url_cepat, true);
 
     request.onload = function () {
         if (request.status === 200) {
