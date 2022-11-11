@@ -80,9 +80,9 @@ function showUserCreateBox() {
     title: 'Create Pagu',
     html:
       '<input id="id" type="hidden">' +
-      '<input id="name" class="swal2-input" placeholder="Name">' +
-      '<input id="paguopd" class="swal2-input" placeholder="Pagu ODP">' +
-      '<input id="paguorp" class="swal2-input" placeholder="PAGU ORP">',
+      '<input id="name" class="swal2-input" placeholder="Nama SKPD">' +
+      '<input id="paguopd" class="swal2-input" placeholder="Pagu SKPD">' +
+      '<input id="paguorp" class="swal2-input" placeholder="Pagu RUP">',
     focusConfirm: false,
     preConfirm: () => {
       paguCreate();
@@ -94,7 +94,7 @@ function showCreateAnggaran(anggaran) {
   let header_title = anggaran
   if (header_title == "anggaran") {
     Swal.fire({
-      title: anggaran,
+      title: namaSKPD,
       html:
         '<input id="id" type="hidden">' +
         '<input id="name" class="swal2-input" placeholder="Sub Kegiatan">' +

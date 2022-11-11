@@ -779,7 +779,9 @@ select#input-select {
   right: 0;
   margin: auto;
 }
-
+#idlaporan {
+  display: none;
+}
   
 
   
