@@ -8,6 +8,7 @@ const api_url_langsung = api + "api/langsung"
 const api_url_pengecualian = api + "api/kecuali"
 const api_url_total_tender_detail = api + "api/langsung/totalsemua"
 const api_url_total_paket = api + "api/tender/totalpaket"
+
 var id_global = '';
 var subKegiatanGlobal = ''
 let subKegiatanGlobalAll = {}
@@ -29,8 +30,18 @@ function loadTable() {
         trHTML += '<tr>';
         trHTML += '<td>' + i + '</td>';
         trHTML += '<td>' + object['name'] + '</td>';
-        trHTML += '<td>' + object['paguopdp'] + '</td>';
-        trHTML += '<td>' + object['paguorp'] + '</td>';
+        trHTML += '<td>' +'Rp'+ ' ' +  new Intl.NumberFormat('en-ID', {
+          style: 'currency',
+          currency: 'IDR'
+        }).format(object['paguopdp']).replace(/[IDR]/gi, '')
+        .replace(/(\.+\d{2})/, '')
+        .trimLeft() + '</td>';
+        trHTML += '<td>' +'Rp' +' ' + new Intl.NumberFormat('en-ID', {
+          style: 'currency',
+          currency: 'IDR'
+        }).format(object['paguorp']).replace(/[IDR]/gi, '')
+        .replace(/(\.+\d{2})/, '')
+        .trimLeft() + '</td>';
         trHTML += '<td class="td-icon"><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
         trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailPage(\'' + id_obj + '\')">visibility </span></a>';
         trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="paguDelete(\'' + id_obj + '\')">delete_forever</span></a></td>';
@@ -86,7 +97,7 @@ function showCreateAnggaran(anggaran) {
       title: anggaran,
       html:
         '<input id="id" type="hidden">' +
-        '<input id="name" class="swal2-input" placeholder="Name">' +
+        '<input id="name" class="swal2-input" placeholder="Sub Kegiatan">' +
         '<input id="pagu" class="swal2-input" placeholder="Jumlah">',
       focusConfirm: false,
       preConfirm: () => {
@@ -125,7 +136,7 @@ function showCreateAnggaran(anggaran) {
       html:
         '<div class="contain-popup">' +
         '<input id="id" type="hidden">' +
-        '<input id="paket" class="swal2-input"  placeholder="Paket">' +
+        '<input id="paket" class="swal2-input"  placeholder="Nama Paket">' +
         '<input id="pagu" class="swal2-input"  onfocus="(this.type=`number`)" placeholder="Pagu">' +
         '<select class="swal2-input time-input" id="input-select"> <option value="">Jenis Tender</option><option value="Cepat">Cepat</option><option value="Seleksi">Seleksi</option><option value="Tender cepat">Tender Cepat</option></select>' +
         '<input type="text" onfocus="(this.type=`date`)" placeholder="Waktu Pemilihan" class="swal2-input time-input" id="pemilihan" name="trip-start"  min="2022-11-10" max="2025-12-31">' +
@@ -204,7 +215,7 @@ function showCreateAnggaran(anggaran) {
       },
       html:
         '<input id="id" type="hidden">' +
-        '<input id="paket" class="swal2-input"  placeholder="Paket">' +
+        '<input id="paket" class="swal2-input"  placeholder="Nama Paket">' +
         '<input id="pagu" class="swal2-input"  placeholder="Pagu">' +
         '<input type="text" onfocus="(this.type=`date`)" placeholder="Waktu Pelaksanaan" class="swal2-input" id="pelaksanaan" name="trip-start"  min="2022-11-10" max="2025-12-31">' +
         '<input id="pdn" class="swal2-input" placeholder="PDN %">',
@@ -441,8 +452,14 @@ function detailAnggaran(id) {
           trHTML += '<tr>';
           trHTML += '<td>' + i + '</td>';
           trHTML += '<td>' + object['name'] + '</td>';
-          trHTML += '<td>' + object['pagu'] + '</td>';
-          trHTML += '<td>' + object['pagu'] + '</td>';
+          trHTML += '<td>' +'Rp' +' '+  new Intl.NumberFormat('en-ID', {
+            style: 'currency',
+            currency: 'IDR'
+          }).format(object['pagu'])
+          .replace(/[IDR]/gi, '')
+          .replace(/(\.+\d{2})/, '')
+          .trimLeft() + '</td>';
+          trHTML += '<td>' + 'Nan' + '</td>';
           trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
           trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')">delete_forever</span></a></td>';
 
@@ -511,8 +528,18 @@ function detailPaguItem(id) {
       var trHTML = '';
       trHTML += '<div class="detail-info-pagu">';
       trHTML += '<div class="info-text-detail-pagu">' + '<p>' + `Nama SKPD :` + '</p>' + '<p class="name-text-detail-pagu">' + posts['name'] + '</p>' + '</div>';
-      trHTML += '<div class="info-text-detail-pagu">' + '<p>' + `Jumlah Pagu OPD :` + '</p>' + '<p class="name-text-detail-pagu">' + posts['paguopdp'] + '</p>' + '</div>';
-      trHTML += '<div class="info-text-detail-pagu">' + '<p>' + `Jumlah Pagu ORP :` + '</p>' + '<p class="name-text-detail-pagu">' + posts['paguorp'] + '</p>' + '</div>';
+      trHTML += '<div class="info-text-detail-pagu">' + '<p>' + `Jumlah Pagu OPD :` + '</p>' + '<p class="name-text-detail-pagu">' +'Rp' +' '+ new Intl.NumberFormat('en-ID', {
+        style: 'currency',
+        currency: 'IDR'
+      }).format(posts['paguopdp']).replace(/[IDR]/gi, '')
+      .replace(/(\.+\d{2})/, '')
+      .trimLeft() + '</p>' + '</div>';
+      trHTML += '<div class="info-text-detail-pagu">' + '<p>' + `Jumlah Pagu ORP :` + '</p>' + '<p class="name-text-detail-pagu">' +'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
+        style: 'currency',
+        currency: 'IDR'
+      }).format(posts['paguorp']).replace(/[IDR]/gi, '')
+      .replace(/(\.+\d{2})/, '')
+      .trimLeft() + '</p>' + '</div>';
       trHTML += "</div";
 
       document.getElementById("detailinformasi").innerHTML = trHTML;
@@ -540,7 +567,13 @@ function detailTender(id) {
           trHTML += '<td>' + i + '</td>';
           trHTML += '<td>' + object['name'] + '</td>';
           trHTML += '<td>' + object['paket'] + '</td>';
-          trHTML += '<td>' + object['pagu'] + '</td>';
+          trHTML += '<td>' +'Rp'+ ' '+  new Intl.NumberFormat('en-ID', {
+            style: 'currency',
+            currency: 'IDR'
+          }).format(object['pagu'])
+          .replace(/[IDR]/gi, '')
+          .replace(/(\.+\d{2})/, '')
+          .trimLeft() + '</td>';
           trHTML += '<td>' + object['pemilihan'] + '</td>';
           trHTML += '<td>' + object['pelaksanaan'] + '</td>';
           trHTML += '<td>' + object['jadwal'] + '</td>';
@@ -578,7 +611,13 @@ function detailLangsung(id) {
           trHTML += '<td>' + i + '</td>';
           trHTML += '<td>' + object['name'] + '</td>';
           trHTML += '<td>' + object['paket'] + '</td>';
-          trHTML += '<td>' + object['pagu'] + '</td>';
+          trHTML += '<td>' +'Rp' +' '+ new Intl.NumberFormat('en-ID', {
+            style: 'currency',
+            currency: 'IDR'
+          }).format(object['pagu'])
+          .replace(/[IDR]/gi, '')
+          .replace(/(\.+\d{2})/, '')
+          .trimLeft() + '</td>';
           trHTML += '<td>' + object['jadwal'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
           trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
@@ -611,7 +650,13 @@ const detailPenunjukanLangsug = (id) => {
           trHTML += '<td>' + i + '</td>';
           trHTML += '<td>' + object['name'] + '</td>';
           trHTML += '<td>' + object['paket'] + '</td>';
-          trHTML += '<td>' + object['pagu'] + '</td>';
+          trHTML += '<td>' +'Rp'  +' ' + new Intl.NumberFormat('en-ID', {
+            style: 'currency',
+            currency: 'IDR'
+          }).format(object['pagu'] )
+          .replace(/[IDR]/gi, '')
+          .replace(/(\.+\d{2})/, '')
+          .trimLeft() + '</td>';
           trHTML += '<td>' + object['jadwal'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
           trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
@@ -647,7 +692,13 @@ const detailPurchasing = (id) => {
           trHTML += '<td>' + i + '</td>';
           trHTML += '<td>' + object['name'] + '</td>';
           trHTML += '<td>' + object['paket'] + '</td>';
-          trHTML += '<td>' + object['pagu'] + '</td>';
+          trHTML += '<td>' + 'Rp' +' ' + new Intl.NumberFormat('en-ID', {
+            style: 'currency',
+            currency: 'IDR'
+          }).format(object['pagu'])
+          .replace(/[IDR]/gi, '')
+          .replace(/(\.+\d{2})/, '')
+          .trimLeft() + '</td>';
           trHTML += '<td>' + object['jadwal'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
           trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
@@ -680,7 +731,13 @@ const detailPengecualian = (id) => {
           trHTML += '<td>' + i + '</td>';
           trHTML += '<td>' + object['name'] + '</td>';
           trHTML += '<td>' + object['paket'] + '</td>';
-          trHTML += '<td>' + object['pagu'] + '</td>';
+          trHTML += '<td>' +'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
+            style: 'currency',
+            currency: 'IDR'
+          }).format(object['pagu'])
+          .replace(/[IDR]/gi, '')
+          .replace(/(\.+\d{2})/, '')
+          .trimLeft() + '</td>';
           trHTML += '<td>' + object['jadwal'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
           trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
@@ -712,7 +769,13 @@ const detailSwakelola = (id) => {
           trHTML += '<tr>';
           trHTML += '<td>' + i + '</td>';
           trHTML += '<td>' + object['name'] + '</td>';
-          trHTML += '<td>' + object['pagu'] + '</td>';
+          trHTML += '<td>' +'Rp' +' ' + new Intl.NumberFormat('en-ID', {
+            style: 'currency',
+            currency: 'IDR'
+          }).format(object['pagu'])
+          .replace(/[IDR]/gi, '')
+          .replace(/(\.+\d{2})/, '')
+          .trimLeft() + '</td>';
           trHTML += '<td>' + object['ket'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
           trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';

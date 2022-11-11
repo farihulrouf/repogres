@@ -26,7 +26,7 @@
   align-items: center;
 }
 .sidebar .logo-details img {
-  width: 50px;
+  width: 60px;
   padding: 10px;
 }
 
@@ -746,7 +746,7 @@ select#input-select {
   margin-bottom: 50px;
   display: flex;
   align-items: center;
-  width: 300px;
+ 
   justify-content: space-between;
   
 }
@@ -755,10 +755,31 @@ select#input-select {
 }
 
 
- /* table td:last-child, th:last-child{
-    display:none!important;
-    }
-  */
+/*-------------------------- spinner */
+#loader {
+  border: 12px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 12px solid #444444;
+  width: 70px;
+  height: 70px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  100% {
+      transform: rotate(360deg);
+  }
+}
+
+.center {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
   
 
   
