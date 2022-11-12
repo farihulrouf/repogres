@@ -647,6 +647,9 @@ nav .profile-details i {
   margin-bottom: 40px;
   margin: 5px;
 
+  min-width: 90px;
+  justify-content: space-between;
+
 }
 
 a {
@@ -815,6 +818,8 @@ select#input-select {
 #allreporttotal {
   display: flex;
   align-items: center;
+  min-width: 110px;
+  justify-content: space-between;
 }
 .icon-delete {
   color: red;
