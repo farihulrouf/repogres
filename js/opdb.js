@@ -315,15 +315,11 @@ function detailDelete(id, tender, api) {
     detailTender(id_global)
     detailLangsung(id_global)
     detailPenunjukanLangsug(id_global)
-   /* detailAnggaran(id_global)
-    detailTender(id_global)
-   
+    detailPurchasing(id_global)
     detailPengecualian(id_global)
     detailSwakelola(id_global)
-    detailPurchasing(id_global)
-    //detailGolbalAnggaran(id_global)
     refreshTotal()
-    */
+ 
 
   };
 }
@@ -599,25 +595,33 @@ const detailPenunjukanLangsug = (id) => {
   
 }
 
+
 const detailPurchasing = (id) => {
   const xhttp = new XMLHttpRequest();
 
   xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/purchasing')
+  //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
   xhttp.send();
+  console.log("anggaran di eksekusi", id)
+  
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       var trHTML = '';
       const objects = JSON.parse(this.responseText);
-      if (objects.data.data != null) {
-        let i = 0
+      if (objects.data.data === null) {
+        console.log('data kosong')
+      }
+      else {
+        let i = 0;
         for (let object of objects.data.data) {
           let id_obj = object['id']
-          i++;
+          i++
+          
           trHTML += '<tr>';
           trHTML += '<td>' + i + '</td>';
           trHTML += '<td>' + object['name'] + '</td>';
           trHTML += '<td>' + object['paket'] + '</td>';
-          trHTML += '<td>' + 'Rp' +' ' + new Intl.NumberFormat('en-ID', {
+          trHTML += '<td>' +'Rp' +' '+ new Intl.NumberFormat('en-ID', {
             style: 'currency',
             currency: 'IDR'
           }).format(object['pagu'])
@@ -627,36 +631,46 @@ const detailPurchasing = (id) => {
           trHTML += '<td>' + object['jadwal'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
           trHTML += '<td><a href="#"><span class="material-symbols-outlined edit-color" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
-          trHTML += '<a href="#"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\', `langsung`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
+          trHTML += '<a href="#"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`purchasing`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
 
           trHTML += "</tr>";
         }
-        document.getElementById("purchasing").innerHTML = trHTML;
       }
+    
+      document.getElementById("purchasing").innerHTML = trHTML;
 
     }
   };
+  
 }
+
 
 const detailPengecualian = (id) => {
   const xhttp = new XMLHttpRequest();
 
   xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/kecuali')
+  //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
   xhttp.send();
+  //console.log("anggaran di eksekusi", id)
+  
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       var trHTML = '';
       const objects = JSON.parse(this.responseText);
-      if (objects.data.data != null) {
-        let i = 0
+      if (objects.data.data === null) {
+        console.log('data kosong')
+      }
+      else {
+        let i = 0;
         for (let object of objects.data.data) {
           let id_obj = object['id']
           i++
+          
           trHTML += '<tr>';
           trHTML += '<td>' + i + '</td>';
           trHTML += '<td>' + object['name'] + '</td>';
           trHTML += '<td>' + object['paket'] + '</td>';
-          trHTML += '<td>' +'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
+          trHTML += '<td>' +'Rp' +' '+ new Intl.NumberFormat('en-ID', {
             style: 'currency',
             currency: 'IDR'
           }).format(object['pagu'])
@@ -666,31 +680,43 @@ const detailPengecualian = (id) => {
           trHTML += '<td>' + object['jadwal'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
           trHTML += '<td><a href="#"><span class="material-symbols-outlined edit-color" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
-          trHTML += '<a href="#"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\', `langsung`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
+          trHTML += '<a href="#"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`kecuali`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
 
           trHTML += "</tr>";
         }
-        document.getElementById("kecuali").innerHTML = trHTML;
       }
+    
+      document.getElementById("kecuali").innerHTML = trHTML;
 
     }
   };
+  
 }
+
+
+
+
 const detailSwakelola = (id) => {
   const xhttp = new XMLHttpRequest();
 
   xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/swakelola')
+  //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
   xhttp.send();
+  console.log("anggaran di eksekusi", id)
+  
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       var trHTML = '';
       const objects = JSON.parse(this.responseText);
-      if (objects.data.data != null) {
+      if (objects.data.data === null) {
+        console.log('data kosong')
+      }
+      else {
         let i = 0;
         for (let object of objects.data.data) {
           let id_obj = object['id']
           i++
-          //console.log(id_obj)
+          
           trHTML += '<tr>';
           trHTML += '<td>' + i + '</td>';
           trHTML += '<td>' + object['name'] + '</td>';
@@ -704,15 +730,17 @@ const detailSwakelola = (id) => {
           trHTML += '<td>' + object['ket'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
           trHTML += '<td><a href="#"><span class="material-symbols-outlined edit-color" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
-          trHTML += '<a href="#"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\', `langsung`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
+          trHTML += '<a href="#"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`swakelola`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
 
           trHTML += "</tr>";
         }
-        document.getElementById("swakelola").innerHTML = trHTML;
       }
+    
+      document.getElementById("swakelola").innerHTML = trHTML;
 
     }
   };
+  
 }
 
 const showUserEditBox = (id) => {
