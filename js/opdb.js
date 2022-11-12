@@ -383,7 +383,7 @@ function detailAnggaran(id) {
         let i = 0;
         for (let object of objects.data.data) {
           let id_obj = object['id']
-          i++;
+          i++
           trHTML += '<tr>';
           trHTML += '<td>' + i + '</td>';
           trHTML += '<td>' + object['name'] + '</td>';
