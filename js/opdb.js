@@ -971,7 +971,7 @@ function detailTotalTenderDetailReport(id) {
           i = i + 1;
 
           // trHTML += '<tr>';
-          trHTML += '<td>' + namePengadaan + '</td>';
+          trHTML += '<td class="bg-td">' + namePengadaan + '</td>';
           //trHTML += '<td>' + object['total'] + '</td>';
           //trHTML += "</tr>";
 
@@ -1100,7 +1100,7 @@ function detailTotalTenderDetailReportSeleksi(id) {
           i = i + 1;
 
           // trHTML += '<tr>';
-          trHTML += '<td>' + object['ket'] + '</td>';
+          trHTML += '<td class="bg-td">' + object['ket'] + '</td>';
           //trHTML += '<td>' + object['total'] + '</td>';
           //trHTML += "</tr>";
 
