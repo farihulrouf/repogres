@@ -99,7 +99,7 @@ function showCreateAnggaran(anggaran) {
       html:
         '<input id="id" type="hidden">' +
         '<input id="name" class="swal2-input" placeholder="Sub Kegiatan">' +
-        '<input id="pagu" class="swal2-input" placeholder="Jumlah">',
+        '<input id="pagu" onfocus="(this.type=`number`)" class="swal2-input" placeholder="Jumlah">',
       focusConfirm: false,
       preConfirm: () => {
         //console.log('diseksuusi engaran')
@@ -131,15 +131,9 @@ function showCreateAnggaran(anggaran) {
     })
   }
   else {
-    const options = {};
-
-    subKegiatan.forEach(element => {
-      options[element] = element;
-    });
-
-
+    
     Swal.fire({
-      title: anggaran,
+      title: anggaran == 'plangsung' ? "Penunjukan Langsung" : anggaran == 'kecuali' ? "Pengadaaan Di kecualikan" : anggaran=='langsung' ? "Pengadaan Langsung" : "E-Purchsing",
       
       html:
         '<input id="id" type="hidden">' +
@@ -423,7 +417,7 @@ function detailPaguItem(id) {
 
       const posts = objects.data.data
       //console.log(posts)
-      //namaSKPD = posts.name
+      namaSKPD = posts.name
       //console.log(namaSKPD)
       // i++;
       id_global = posts.id
