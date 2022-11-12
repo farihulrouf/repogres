@@ -314,6 +314,7 @@ function detailDelete(id, tender, api) {
   xhttp.onreadystatechange = function () {
     detailTender(id_global)
     detailLangsung(id_global)
+    detailPenunjukanLangsug(id_global)
    /* detailAnggaran(id_global)
     detailTender(id_global)
    
@@ -554,42 +555,48 @@ const detailPenunjukanLangsug = (id) => {
   const xhttp = new XMLHttpRequest();
 
   xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/plangsung')
+  //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
   xhttp.send();
+  console.log("anggaran di eksekusi", id)
+  
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       var trHTML = '';
       const objects = JSON.parse(this.responseText);
-      if (objects.data.data != null) {
-        let i = 0
+      if (objects.data.data === null) {
+        console.log('data kosong')
+      }
+      else {
+        let i = 0;
         for (let object of objects.data.data) {
           let id_obj = object['id']
-          i = i + 1
+          i++
+          
           trHTML += '<tr>';
           trHTML += '<td>' + i + '</td>';
           trHTML += '<td>' + object['name'] + '</td>';
           trHTML += '<td>' + object['paket'] + '</td>';
-          trHTML += '<td>' +'Rp'  +' ' + new Intl.NumberFormat('en-ID', {
+          trHTML += '<td>' +'Rp' +' '+ new Intl.NumberFormat('en-ID', {
             style: 'currency',
             currency: 'IDR'
-          }).format(object['pagu'] )
+          }).format(object['pagu'])
           .replace(/[IDR]/gi, '')
           .replace(/(\.+\d{2})/, '')
           .trimLeft() + '</td>';
           trHTML += '<td>' + object['jadwal'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
           trHTML += '<td><a href="#"><span class="material-symbols-outlined edit-color" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
-          trHTML += '<a href="#"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\', `kecuali`,\'' + api_url_pengecualian + '\')">delete_forever</span></a></td>';
+          trHTML += '<a href="#"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`plangsung`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
 
           trHTML += "</tr>";
         }
-        document.getElementById("pllangsung").innerHTML = trHTML;
       }
-      else {
-        console.log('data detail langsug kosong')
-      }
+    
+      document.getElementById("pllangsung").innerHTML = trHTML;
 
     }
   };
+  
 }
 
 const detailPurchasing = (id) => {
