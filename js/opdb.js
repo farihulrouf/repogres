@@ -748,6 +748,7 @@ const showAnggaranEditBox = (id, header_title, api_param_anggaran) => {
 
 
 
+//const printForm = () =>
 
 const editAnggaran = () => {
 
@@ -755,13 +756,13 @@ const editAnggaran = () => {
   const id = document.getElementById("id").value;
   const name = document.getElementById("name").value;
   const paguopd = document.getElementById("pagu").value;
-  const pdn = 0
+
   const xhttp = new XMLHttpRequest();
   xhttp.open("PUT", api_url_anggaran + "/" + id);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(JSON.stringify({
     
-    "name": name, "pagu": parseInt(paguopd), "paket": "default", "jadwal": "default", "pdn": parseInt(pdn), idpagu: id_global
+    "name": name, "pagu": parseInt(paguopd), "paket": "default", "jadwal": "default", "pdn": parseInt(1), idpagu: id_global
   }));
   xhttp.onreadystatechange = function () {
     
