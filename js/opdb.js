@@ -720,7 +720,7 @@ const showUserEditBox = (id) => {
 
 const showAnggaranEditBox = (id, header_title, api_param_anggaran) => {
   console.log(api_param_anggaran)
-  /*const xhttp = new XMLHttpRequest();
+  const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api_param_anggaran + '/' + id);
   xhttp.send();
   xhttp.onreadystatechange = function () {
@@ -736,15 +736,40 @@ const showAnggaranEditBox = (id, header_title, api_param_anggaran) => {
           '<input id="pagu" class="swal2-input" placeholder="Jumlah" value="' + posts['pagu']+'">',
         focusConfirm: false,
         preConfirm: () => {
-          //paguEdit()
+          editAnggaran()
         }
       })
 
 
     }
   };
-  */
+  
 }
+
+
+
+
+const editAnggaran = () => {
+
+
+  const id = document.getElementById("id").value;
+  const name = document.getElementById("name").value;
+  const paguopd = document.getElementById("pagu").value;
+  const pdn = 0
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("PUT", api_url_anggaran + "/" + id);
+  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhttp.send(JSON.stringify({
+    
+    "name": name, "pagu": parseInt(paguopd), "paket": "default", "jadwal": "default", "pdn": parseInt(pdn), idpagu: id_global
+  }));
+  xhttp.onreadystatechange = function () {
+    
+    detailAnggaran(id_global)
+
+  };
+}
+
 
 
 
