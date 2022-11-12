@@ -45,7 +45,7 @@ function loadTable() {
         .trimLeft() + '</td>';
         trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
         trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailPage(\'' + id_obj + '\')">visibility </span></a>';
-        trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="paguDelete(\'' + id_obj + '\')">delete_forever</span></a></td>';
+        trHTML += '<a href="#"><span class="material-symbols-outlined icon-delete" onclick="paguDelete(\'' + id_obj + '\')">delete_forever</span></a></td>';
 
         trHTML += "</tr>";
       }
@@ -392,7 +392,7 @@ function detailAnggaran(id) {
           .trimLeft() + '</td>';
           trHTML += '<td>' + 'Nan' + '</td>';
           trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showAnggaranEditBox(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')">edit </span></a>';
-          trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')">delete_forever</span></a></td>';
+          trHTML += '<a href="#"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')">delete_forever</span></a></td>';
 
           trHTML += "</tr>";
         }
@@ -476,7 +476,7 @@ function detailTender(id) {
           trHTML += '<td>' + object['ket'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
           trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
-          trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\'' + id_obj + '\',`tender`,\'' + api_url_tender + '\')">delete_forever</span></a></td>';
+          trHTML += '<a href="#"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`tender`,\'' + api_url_tender + '\')">delete_forever</span></a></td>';
 
           trHTML += "</tr>";
         }
@@ -517,7 +517,7 @@ function detailLangsung(id) {
           trHTML += '<td>' + object['jadwal'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
           trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
-          trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\'' + id_obj + '\', `langsung`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
+          trHTML += '<a href="#"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\', `langsung`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
 
           trHTML += "</tr>";
         }
@@ -556,7 +556,7 @@ const detailPenunjukanLangsug = (id) => {
           trHTML += '<td>' + object['jadwal'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
           trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
-          trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\'' + id_obj + '\', `kecuali`,\'' + api_url_pengecualian + '\')">delete_forever</span></a></td>';
+          trHTML += '<a href="#"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\', `kecuali`,\'' + api_url_pengecualian + '\')">delete_forever</span></a></td>';
 
           trHTML += "</tr>";
         }
@@ -598,7 +598,7 @@ const detailPurchasing = (id) => {
           trHTML += '<td>' + object['jadwal'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
           trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
-          trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\'' + id_obj + '\', `langsung`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
+          trHTML += '<a href="#"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\', `langsung`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
 
           trHTML += "</tr>";
         }
@@ -637,7 +637,7 @@ const detailPengecualian = (id) => {
           trHTML += '<td>' + object['jadwal'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
           trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
-          trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\'' + id_obj + '\', `langsung`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
+          trHTML += '<a href="#"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\', `langsung`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
 
           trHTML += "</tr>";
         }
@@ -675,7 +675,7 @@ const detailSwakelola = (id) => {
           trHTML += '<td>' + object['ket'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
           trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
-          trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\'' + id_obj + '\', `langsung`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
+          trHTML += '<a href="#"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\', `langsung`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
 
           trHTML += "</tr>";
         }

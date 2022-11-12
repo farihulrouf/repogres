@@ -797,7 +797,7 @@ select#input-select {
   display: none;
 }
 #clickreport{
-  color: teal;
+  color: #0A2558;
   display: flex;
   align-items: center;
 }
@@ -815,6 +815,24 @@ select#input-select {
 #allreporttotal {
   display: flex;
   align-items: center;
+}
+.icon-delete {
+  color: red;
+  
+}
+.icon-delete:hover {
+  background: red;
+  color: white;
+}
+#add-data {
+  color: #0A2558;
+  font-weight: 500;
+}
+#add-data:hover {
+  background: #0A2558;
+  padding-left: 3px;
+  padding-right: 3px;
+  color: white;
 }
   
 
