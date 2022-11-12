@@ -22,7 +22,8 @@ const clickDetailReport = () => {
 }
 
 const inputDetailData = () => {
-  
+  console.log("di eksekusi")
+  /*
   var hideeninpuxbox = document.getElementById("inputbox")
   var idlaporan = document.getElementById("idlaporan")
   var clickreport = document.getElementById("clickreport")
@@ -30,7 +31,8 @@ const inputDetailData = () => {
   hideeninpuxbox.style.display = "block"
   clickreport.style.display = "block"
   printreportid.style.display= "none"
-  idlaporan.style.display = "block"
+  idlaporan.style.display = "none"
+  */
 
 
 }

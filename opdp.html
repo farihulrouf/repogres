@@ -102,10 +102,10 @@
               </select>
             </div>
 
-            <a href="#" id="allreporttotal" onclick="showFastTender()">
-              <span>All Report</span>
+            <a href="#" id="allreporttotal" onclick="reportUmum()">
+              All Report
               <span class="material-symbols-outlined">
-                summarize
+                arrow_back
               </span>
             </a>
 
@@ -133,7 +133,30 @@
               <tr></tr>
             </tbody>
           </table>
+         
 
+        </div>
+        <div id="totalkeseluruhan">
+          <div class="tahun-anggaran">
+            <a href="#" id="allreporttotal" onclick="backToreport()">
+              Kembali
+              <span class="material-symbols-outlined">
+                arrow_back
+              </span>
+            </a>
+            <div>
+              <span>Tahun anggaran</span>
+              <select name="tahun" id="tahun-select">
+                <option value="">Tahun Anggaran</option>
+                <option value="2019">2019</option>
+                <option value="2021">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022" selected>2022</option>
+                <option value="2023">2023</option>
+              </select>
+            </div>
+
+          </div>
           <div class="title-header-format">
             <img src="images/logo.png" class="logo" alt="Logo">
             <div class="text-header-info">
@@ -178,7 +201,6 @@
               <tr></tr>
             </tbody>
           </table>
-
         </div>
         <div id="detail">
           <div class="printpreview">
@@ -194,7 +216,7 @@
               Report
               <span class="material-symbols-outlined">
                 arrow_forward
-              </span> 
+              </span>
 
             </a>
             <div id="printreportid">
@@ -210,7 +232,7 @@
                 Print
                 <span class="material-symbols-outlined">
                   print
-                </span> 
+                </span>
 
               </a>
             </div>
@@ -453,7 +475,7 @@
               </table>
             </div>
 
-           
+
             <div class="text-detail-pagu">
               <p>Laporan Total Jumlah Pagu</p>
 
@@ -514,10 +536,10 @@
             <table class="styled-table">
               <tr>
                 <td>
-                  Cepat
+                  Seleksi
                 </td>
                 <td>
-                  Seleksi
+                  Tender
                 </td>
                 <td>
                   Tender Cepat
@@ -528,6 +550,17 @@
 
               </tr>
             </table>
+
+            <div class="signature">
+              <div>
+                <p>Nama</p>
+                <p style="margin-top: 40px;">------------------</p>
+              </div>
+              <div>
+                <p>TTD</p>
+                <p style="margin-top: 40px;">------------------</p>
+              </div>
+            </div>
           </div>
 
         </div>
@@ -538,6 +571,8 @@
   <!-- JavaScript Bundle with Popper -->
 
   <script src="js/totalopd.js"></script>
+
+  <script src="js/autodisplay.js"></script>
   <script src="js/opdb.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
   <script>

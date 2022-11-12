@@ -792,31 +792,6 @@ function showPagu() {
 
 
 
-const clickDetailReport = () => {
-  //td-icon
-  var hideeninpuxbox = document.getElementById("inputbox")
-  var idlaporan = document.getElementById("idlaporan")
-  var clickreport = document.getElementById("clickreport")
-  var printreportid = document.getElementById("printreportid")
-  hideeninpuxbox.style.display = "none"
-  clickreport.style.display = "none"
-  printreportid.style.display= "flex"
-  idlaporan.style.display = "block"
-}
-
-const inputDetailData = () => {
-  
-  var hideeninpuxbox = document.getElementById("inputbox")
-  var idlaporan = document.getElementById("idlaporan")
-  var clickreport = document.getElementById("clickreport")
-  var printreportid = document.getElementById("printreportid")
-  hideeninpuxbox.style.display = "block"
-  clickreport.style.display = "block"
-  printreportid.style.display= "none"
-  idlaporan.style.display = "block"
-
-
-}
 
 
 const loadDataKegiatan = () => {
@@ -906,6 +881,7 @@ function detailTotalTenderDetailCepatSeleksi(id) {
         let i = 0
         for (let object of objects.data.data) {
           let id_obj = object['id']
+          console.log(objects.data.data)
           i = i + 1;
           trHTML += '<tr>';
           trHTML += '<td>' + i + '</td>';

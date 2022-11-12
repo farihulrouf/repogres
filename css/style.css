@@ -794,6 +794,14 @@ select#input-select {
 #clickreport:hover {
   color: rebeccapurple;
 }
+.signature {
+  margin-top: 100px;
+  display: flex;
+  justify-content: space-between;
+}
+#totalkeseluruhan {
+  display: none;
+}
   
 
   
