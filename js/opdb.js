@@ -104,7 +104,7 @@ function showCreateAnggaran(anggaran) {
       preConfirm: () => {
         //console.log('diseksuusi engaran')
         CreateAnggaran(api_url_anggaran, header_title)
-        detailGolbalAnggaran(id_global)
+        //detailGolbalAnggaran(id_global)
       }
     })
   }
@@ -324,7 +324,7 @@ function detailDelete(id, tender, api) {
     detailPengecualian(id_global)
     detailSwakelola(id_global)
     detailPurchasing(id_global)
-    detailGolbalAnggaran(id_global)
+    //detailGolbalAnggaran(id_global)
     refreshTotal()
 
   };
@@ -335,7 +335,7 @@ function detailPage(id) {
   y.style.display = "none";
   x.style.display = "block";
   id_global = id;
-  detailGolbalAnggaran(id)
+  //detailGolbalAnggaran(id)
   detailPaguItem(id)
   detailAnggaran(id)
   detailTender(id)
@@ -370,8 +370,10 @@ function createElement() {
 
 function detailAnggaran(id) {
   const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", api_url_anggaran + '/pagu/' + id);
+  xhttp.open("GET", api_url_anggaran+ '/pagu/'+id);
   xhttp.send();
+  console.log("anggaran di eksekusi", id)
+  
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       var trHTML = '';
@@ -395,7 +397,7 @@ function detailAnggaran(id) {
           .replace(/(\.+\d{2})/, '')
           .trimLeft() + '</td>';
           trHTML += '<td>' + 'Nan' + '</td>';
-          trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
+          trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showAnggaranEditBox(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')">edit </span></a>';
           trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')">delete_forever</span></a></td>';
 
           trHTML += "</tr>";
@@ -406,46 +408,10 @@ function detailAnggaran(id) {
 
     }
   };
+  
 }
 
-function detailGolbalAnggaran(id_global) {
-  //console.log("di ekseusi")
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", api_url_anggaran);
-  xhttp.send();
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      var trHTML = '';
-      const objects = JSON.parse(this.responseText);
-      if (objects.data.data === null) {
-        console.log('data kosong')
-      }
-      else {
-        let i = 0
-        for (let object of objects.data.data) {
-          let id_obj = object['id']
-          subKegiatan.push(objects.data.data[i].name)
-          //console.log(subKegiatan)
 
-          i++;
-          trHTML += '<tr>';
-          trHTML += '<td>' + 1 + '</td>';
-          trHTML += '<td>' + object['name'] + '</td>';
-          trHTML += '<td>' + object['pagu'] + '</td>';
-          trHTML += '<td>' + object['pagu'] + '</td>';
-          trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
-          trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailDelete(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')">delete_forever</span></a></td>';
-
-          trHTML += "</tr>";
-
-        }
-      }
-
-      document.getElementById("anggaran").innerHTML = trHTML;
-
-    }
-  };
-}
 
 function detailPaguItem(id) {
   const xhttp = new XMLHttpRequest();
@@ -726,9 +692,7 @@ const detailSwakelola = (id) => {
   };
 }
 
-
-
-function showUserEditBox(id) {
+const showUserEditBox = (id) => {
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api_url + '/' + id);
   xhttp.send();
@@ -753,6 +717,35 @@ function showUserEditBox(id) {
     }
   };
 }
+
+const showAnggaranEditBox = (id, header_title, api_param_anggaran) => {
+  console.log(api_param_anggaran)
+  /*const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", api_param_anggaran + '/' + id);
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const objects = JSON.parse(this.responseText);
+      const posts = objects.data.data
+     // console.log(posts)
+      Swal.fire({
+        title: header_title,
+        html:
+          '<input id="id" type="hidden" value=' + posts['id'] + '>' +
+          '<input id="name" class="swal2-input" placeholder="Sub Kegiatan" value="' + posts['name']+'">' +
+          '<input id="pagu" class="swal2-input" placeholder="Jumlah" value="' + posts['pagu']+'">',
+        focusConfirm: false,
+        preConfirm: () => {
+          //paguEdit()
+        }
+      })
+
+
+    }
+  };
+  */
+}
+
 
 
 function paguEdit() {
