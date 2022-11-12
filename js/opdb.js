@@ -792,7 +792,7 @@ function showPagu() {
 
 
 
-function clickDetailReport(){
+const clickDetailReport = () => {
   //td-icon
   var hideeninpuxbox = document.getElementById("inputbox")
   var idlaporan = document.getElementById("idlaporan")

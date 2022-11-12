@@ -9,3 +9,29 @@ sidebarBtn.onclick = function () {
     
     sidebarBtn.classList.replace("bx-menu", "bx-menu-alt-right");
 }
+
+const clickDetailReport = () => {
+  var hideeninpuxbox = document.getElementById("inputbox")
+  var idlaporan = document.getElementById("idlaporan")
+  var clickreport = document.getElementById("clickreport")
+  var printreportid = document.getElementById("printreportid")
+  hideeninpuxbox.style.display = "none"
+  clickreport.style.display = "none"
+  printreportid.style.display= "flex"
+  idlaporan.style.display = "block"
+}
+
+const inputDetailData = () => {
+  
+  var hideeninpuxbox = document.getElementById("inputbox")
+  var idlaporan = document.getElementById("idlaporan")
+  var clickreport = document.getElementById("clickreport")
+  var printreportid = document.getElementById("printreportid")
+  hideeninpuxbox.style.display = "block"
+  clickreport.style.display = "block"
+  printreportid.style.display= "none"
+  idlaporan.style.display = "block"
+
+
+}
+
