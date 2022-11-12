@@ -637,7 +637,7 @@ nav .profile-details i {
   align-items: center;
   margin-top: 40px;
   margin-bottom: 40px;
-
+  margin: 5px;
 
 }
 
@@ -781,6 +781,18 @@ select#input-select {
 }
 #idlaporan {
   display: none;
+}
+#titleformat {
+
+}
+#printreportid {
+  display: none;
+}
+#clickreport{
+  color: teal;
+}
+#clickreport:hover {
+  color: rebeccapurple;
 }
   
 

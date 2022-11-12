@@ -9,6 +9,7 @@ const api_url_pengecualian = api + "api/kecuali"
 const api_url_total_tender_detail = api + "api/langsung/totalsemua"
 const api_url_total_paket = api + "api/tender/totalpaket"
 
+const api_sub_kegiatan = api + "api/anggaran/pagu"
 var id_global = '';
 var subKegiatanGlobal = ''
 let subKegiatanGlobalAll = {}
@@ -107,53 +108,6 @@ function showCreateAnggaran(anggaran) {
       }
     })
   }
-  else if (header_title == "tender") {
-
-    const options = {};
-    //console.log("isi dari sub kegitan", subKegiatan)
-    //console.log("isi dari sub global", subKegiatanGlobal)
-    subKegiatan.forEach(element => {
-      options[element] = element;
-    });
-
-    Swal.fire({
-      title: 'Pengadaan'+' '+'Tender',
-      input: 'select',
-      inputAttributes: {
-        id: "subkegiatan",
-        class: "swal2-input",
-      },
-      inputPlaceholder: 'Sub Kegiatan',
-      inputOptions: options,
-      inputValidator: (value) => {
-        return new Promise((resolve) => {
-          resolve()
-          subKegiatanGlobal = value
-          //console.log("isi dari sub",subKegiatanGlobal)
-        })
-      },
-
-      html:
-        '<div class="contain-popup">' +
-        '<input id="id" type="hidden">' +
-        '<input id="paket" class="swal2-input"  placeholder="Nama Paket">' +
-        '<input id="pagu" class="swal2-input"  onfocus="(this.type=`number`)" placeholder="Pagu">' +
-        '<select class="swal2-input time-input" id="input-select"> <option value="">Jenis Tender</option><option value="Cepat">Cepat</option><option value="Seleksi">Seleksi</option><option value="Tender cepat">Tender Cepat</option></select>' +
-        '<input type="text" onfocus="(this.type=`date`)" placeholder="Waktu Pemilihan" class="swal2-input time-input" id="pemilihan" name="trip-start"  min="2022-11-10" max="2025-12-31">' +
-        '<input type="text" onfocus="(this.type=`date`)"  class="swal2-input time-input" placeholder="Waktu Pelakanaan" id="pelaksanaan" name="trip-start"  min="2022-11-10" max="2025-12-31">' +
-        '<input type="text" onfocus="(this.type=`date`)"  class="swal2-input time-input" placeholder="Waktu Pemanfaatan" id="pemanfaatan" name="trip-start"  min="2018-11-10" max="2025-12-31">' +
-        '<input id="pdn" type="text" class="swal2-input" onfocus="(this.type=`number`)"  placeholder="PDN %">' +
-        '</div>',
-      showCancelButton: true,
-      focusConfirm: false,
-      preConfirm: () => {
-
-        CreateDetailPagu(api_url_tender, header_title)
-        refreshTotal()
-
-      }
-    })
-  }
   else if (header_title == 'swakelola') {
     const options = {};
 
@@ -162,25 +116,12 @@ function showCreateAnggaran(anggaran) {
     });
     Swal.fire({
       title: 'Swakelola',
-      input: 'select',
-      inputAttributes: {
-        id: "subkegiatan",
-        class: "swal2-input",
-      },
-      inputPlaceholder: 'Sub Kegiatan',
-      inputOptions: options,
-      inputValidator: (value) => {
-        return new Promise((resolve) => {
-          resolve()
-          subKegiatanGlobal = value
-          //console.log(subKegiatanGlobal)
-        })
-      },
       html:
         '<input id="id" type="hidden">' +
+        '<select id="dropdown-list" onfocus="loadDataKegiatan()" class="swal2-input"><option value="DEFAULT">Sub Kegiatan SKPD</option></select>' +
         '<input id="pagu" class="swal2-input" onfocus="(this.type=`number`)" placeholder="Pagu">' +
         '<input id="keterangan" class="swal2-input"  placeholder="Keterangan">' +
-        '<input id="pdn" class="swal2-input" placeholder="PDN %">',
+        '<input id="pdn" onfocus="(this.type=`number`)" class="swal2-input" placeholder="PDN %">',
 
       focusConfirm: false,
       preConfirm: () => {
@@ -199,26 +140,14 @@ function showCreateAnggaran(anggaran) {
 
     Swal.fire({
       title: anggaran,
-      input: 'select',
-      inputAttributes: {
-        id: "subkegiatan",
-        class: "swal2-input",
-      },
-      inputPlaceholder: 'Sub Kegiatan',
-      inputOptions: options,
-      inputValidator: (value) => {
-        return new Promise((resolve) => {
-          resolve()
-          subKegiatanGlobal = value
-          //console.log(subKegiatanGlobal)
-        })
-      },
+      
       html:
         '<input id="id" type="hidden">' +
+        '<select id="dropdown-list" onfocus="loadDataKegiatan()" class="swal2-input"><option value="DEFAULT">Sub Kegiatan SKPD</option></select>' +
         '<input id="paket" class="swal2-input"  placeholder="Nama Paket">' +
-        '<input id="pagu" class="swal2-input"  placeholder="Pagu">' +
+        '<input id="pagu" type="tex" onfocus="(this.type=`number`)"  class="swal2-input"  placeholder="Pagu">' +
         '<input type="text" onfocus="(this.type=`date`)" placeholder="Waktu Pelaksanaan" class="swal2-input" id="pelaksanaan" name="trip-start"  min="2022-11-10" max="2025-12-31">' +
-        '<input id="pdn" class="swal2-input" placeholder="PDN %">',
+        '<input id="pdn" type="text" onfocus="(this.type=`number`)" class="swal2-input" placeholder="PDN %">',
 
       focusConfirm: false,
       preConfirm: () => {
@@ -258,19 +187,20 @@ function CreateAnggaran(api_param, header_title) {
 function CreateDetailPagu(api_param, header_title) {
   
   var selecinput = document.getElementById("input-select").value;
-  
+  var selectSubkegiatan = document.getElementById("dropdown-list").value
   const waktupemilihan = document.getElementById("pemilihan").value;
   const waktupelaksanaan = document.getElementById("pelaksanaan").value;
   const waktupemanfaatan = document.getElementById("pemanfaatan").value;
   const pdn = document.getElementById("pdn").value;
   const paket = document.getElementById("paket").value;
   const pagu = document.getElementById("pagu").value;
+  console.log("isidari",selectSubkegiatan)
   
   const xhttp = new XMLHttpRequest();
   xhttp.open("POST", api_param);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(JSON.stringify({
-    "name": subKegiatanGlobal,
+    "name": selectSubkegiatan,
     "paket": paket,
     "pagu": parseInt(pagu),
     "jadwal": waktupemanfaatan,
@@ -285,6 +215,7 @@ function CreateDetailPagu(api_param, header_title) {
     detailTender(id_global)
   };
   
+  
 
 
 }
@@ -294,13 +225,15 @@ function CreateSwakelola(api_param, header_title) {
   const pdn = document.getElementById("pdn").value;
   const pagu = document.getElementById("pagu").value;
   const keterangan = document.getElementById("keterangan").value
-  console.log(keterangan)
+
+  var selectSubkegiatan = document.getElementById("dropdown-list").value
+ // console.log(keterangan)
   console.log("ini hereader", header_title)
   const xhttp = new XMLHttpRequest();
   xhttp.open("POST", api_param);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(JSON.stringify({
-    "name": subKegiatanGlobal,
+    "name": selectSubkegiatan,
     "paket": "default",
     "pagu": parseInt(pagu),
     "tipe": header_title,
@@ -325,6 +258,8 @@ function CreateSwakelola(api_param, header_title) {
 function CreateDetailLain(api_param, header_title) {
 
   const waktupemanfaatan = document.getElementById("pelaksanaan").value;
+
+  var selectSubkegiatan = document.getElementById("dropdown-list").value
   const pdn = document.getElementById("pdn").value;
   const paket = document.getElementById("paket").value;
   const pagu = document.getElementById("pagu").value;
@@ -334,7 +269,7 @@ function CreateDetailLain(api_param, header_title) {
   xhttp.open("POST", api_param);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(JSON.stringify({
-    "name": subKegiatanGlobal,
+    "name": selectSubkegiatan,
     "paket": paket,
     "pagu": parseInt(pagu),
     "tipe": header_title,
@@ -417,7 +352,7 @@ function detailPage(id) {
   detailTotalTenderDetailReportSeleksi(id)
   detailTotalTenderDetailReportSeleksiJumlah(id)
   detailTotalTenderDetailReportSeleksiRupiah(id)
-  skpdName(id)
+  //skpdName(id)
 
 }
 
@@ -521,10 +456,11 @@ function detailPaguItem(id) {
       const objects = JSON.parse(this.responseText);
 
       const posts = objects.data.data
-      //console.log(posts.name)
-      namaSKPD = posts.name
+      //console.log(posts)
+      //namaSKPD = posts.name
       //console.log(namaSKPD)
       // i++;
+      id_global = posts.id
       var trHTML = '';
       trHTML += '<div class="detail-info-pagu">';
       trHTML += '<div class="info-text-detail-pagu">' + '<p>' + `Nama SKPD :` + '</p>' + '<p class="name-text-detail-pagu">' + posts['name'] + '</p>' + '</div>';
@@ -854,13 +790,107 @@ function showPagu() {
 
 }
 
-function hiddenAction(){
+
+
+function clickDetailReport(){
   //td-icon
-  var x = document.getElementById("td-iconx")
-  console.log(x)
-  x.style.display = "none";
-  console.log("di eksekusi")
+  var hideeninpuxbox = document.getElementById("inputbox")
+  var idlaporan = document.getElementById("idlaporan")
+  var clickreport = document.getElementById("clickreport")
+  var printreportid = document.getElementById("printreportid")
+  hideeninpuxbox.style.display = "none"
+  clickreport.style.display = "none"
+  printreportid.style.display= "flex"
+  idlaporan.style.display = "block"
 }
+
+const inputDetailData = () => {
+  
+  var hideeninpuxbox = document.getElementById("inputbox")
+  var idlaporan = document.getElementById("idlaporan")
+  var clickreport = document.getElementById("clickreport")
+  var printreportid = document.getElementById("printreportid")
+  hideeninpuxbox.style.display = "block"
+  clickreport.style.display = "block"
+  printreportid.style.display= "none"
+  idlaporan.style.display = "block"
+
+
+}
+
+
+const loadDataKegiatan = () => {
+  console.log(id_global)
+  let dropdown = document.getElementById('dropdown-list');
+  dropdown.length = 0;
+
+  let defaultOption = document.createElement('option');
+  defaultOption.text = 'Kegiatan SKPD';
+
+  dropdown.add(defaultOption);
+  dropdown.selectedIndex = 0;
+
+  //const url = 'http://localhost:3000/api/pagus';
+
+  const request = new XMLHttpRequest();
+  request.open('GET', api_sub_kegiatan+'/'+id_global, true);
+
+  request.onload = function () {
+      if (request.status === 200) {
+          const objects = JSON.parse(request.responseText);
+          let option;
+          //console.log("isi",objects)
+          console.log(objects.data.data.length)
+          for (let i = 0; i < objects.data.data.length; i++) {
+              //console.log(data)
+              option = document.createElement('option');
+              option.text = objects.data.data[i].name;
+              option.value = objects.data.data[i].name;
+              dropdown.add(option);
+          }
+      } else {
+          console.log("data tidak ada")
+      }
+  }
+
+  request.onerror = function () {
+      console.error('An error occurred fetching the JSON from ' + url);
+  };
+
+  request.send();
+
+}
+
+const showFastTender = (anggaran) => {
+  //console.log("isi id",id)
+  Swal.fire({
+      title: anggaran,
+      html:
+          '<input id="id" type="hidden">' +
+          '<select id="dropdown-list" onfocus="loadDataKegiatan()" class="swal2-input"><option value="DEFAULT">Sub Kegiatan SKPD</option></select>' +
+          '<input id="paket" class="swal2-input"  placeholder="Nama Paket">' +
+          '<input id="pagu" class="swal2-input"  onfocus="(this.type=`number`)" placeholder="Pagu">' +
+          '<select class="swal2-input time-input" id="input-select"> <option value="">Jenis Tender</option><option value="Tender">Tender</option><option value="Seleksi">Seleksi</option><option value="Tender cepat">Tender Cepat</option></select>' +
+          '<input type="text" onfocus="(this.type=`date`)" placeholder="Waktu Pemilihan" class="swal2-input time-input" id="pemilihan" name="trip-start"  min="2022-11-10" max="2025-12-31">' +
+          '<input type="text" onfocus="(this.type=`date`)"  class="swal2-input time-input" placeholder="Waktu Pelakanaan" id="pelaksanaan" name="trip-start"  min="2022-11-10" max="2025-12-31">' +
+          '<input type="text" onfocus="(this.type=`date`)"  class="swal2-input time-input" placeholder="Waktu Pemanfaatan" id="pemanfaatan" name="trip-start"  min="2018-11-10" max="2025-12-31">' +
+          '<input id="pdn" type="text" class="swal2-input" onfocus="(this.type=`number`)"  placeholder="PDN %">',
+      focusConfirm: false,
+
+      preConfirm: () => {
+
+        CreateDetailPagu(api_url_tender, anggaran)
+        refreshTotal()
+          //paguCreate();
+      }
+  })
+}
+
+
+
+
+
+
 
 function detailTotalTenderDetailCepatSeleksi(id) {
   //console.log("lihat id",id)
@@ -1185,7 +1215,7 @@ function detailTotalTenderDetailReportSeleksiRupiah(id) {
   };
 
 }
-
+/*
 function skpdName(id) {
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api_url + '/' + id);
@@ -1209,6 +1239,7 @@ function skpdName(id) {
   };
   //console.log("ceka",namaSKPD)
 }
+*/
 
 function refreshTotal(){
   console.log("refresh di eksekusi")
