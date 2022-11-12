@@ -6,6 +6,8 @@
   <meta charset="UTF-8">
   <title> Gresik Kab </title>
   <link rel="stylesheet" href="css/style.css">
+
+  <link href='css/print.min.css' rel='stylesheet'>
   <!-- Boxicons CDN Link -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet"
@@ -126,7 +128,7 @@
                 <th width="30%">NAMA SKPD</th>
                 <th width="30%">PAGU OPD</th>
                 <th width="30%">PAGU RUP</th>
-                <th id="td-iconx" width="8%">ACTION</th>
+                <th width="8%">ACTION</th>
               </tr>
             </thead>
             <tbody id="mytable">
@@ -163,7 +165,7 @@
               Desk Rencana Umum Pengadaan Barang /jasa </br> Tahun Anggaran 2023 Kabupaten Gresik
             </div>
           </div>
-          <hr>
+          <hr style="margin-top: 100px; width: 100%;">
           </hr>
           <div class="text-detail-pagu">
             <p>Laporan Total Pengadaan Tender / Tender Cepat/ Seleksi</p>
@@ -228,7 +230,7 @@
                 </span> Input Data >>
 
               </a>
-              <a class="back-button" style="color: blueviolet;" href="#">
+              <a class="back-button" style="color: blueviolet;" onclick="printForm()" href="#">
                 Print
                 <span class="material-symbols-outlined">
                   print
@@ -238,18 +240,146 @@
             </div>
           </div>
 
-          <div>
+          <div id="printdetaildesk">
             <div id="titleformat">
               <div class="title-header-format">
                 <img src="images/logo.png" class="logo" alt="logo">
                 <div class="text-header-info">
                   Desk Rencana Umum Pengadaan Barang /jasa </br> Tahun Anggaran 2023 Kabupaten Gresik
                 </div>
-              </div>
-              <hr>
+              </div>     
+              <hr style="margin-top: 100px; width: 100%;">
               </hr>
               <div id="detailinformasi">
 
+              </div>
+            </div>
+            <div id="idlaporan">
+
+              <div id="detailinformasi">
+                <div class="text-detail-pagu">
+                  <p>Laporan Total Pengadaan Tender / Tender Cepat/ Seleksi</p>
+  
+                </div>
+                <table class="styled-table">
+  
+                  <thead>
+                    <tr>
+                      <th width="2%">NO</th>
+                      <th width="28%">JENIS PENGADAAN</th>
+                      <th width="30%">JUMLAH PAGU</th>
+                      <th width="22%%">JUMLAH PAKET</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tendercepatseleksi">
+                    <tr></tr>
+                  </tbody>
+                </table>
+                <div class="text-detail-pagu">
+                  <p>Laporan Total Pengadaan</p>
+  
+                </div>
+                <table class="styled-table">
+  
+                  <thead>
+                    <tr>
+                      <th width="2%">NO</th>
+                      <th width="28%">JENIS PENGADAAN</th>
+                      <th width="30%">JUMLAH PAGU</th>
+                      <th width="22%%">JUMLAH PAKET</th>
+                    </tr>
+                  </thead>
+                  <tbody id="totalpengadaan">
+                    <tr></tr>
+                  </tbody>
+                </table>
+              </div>
+  
+  
+              <div class="text-detail-pagu">
+                <p>Laporan Total Jumlah Pagu</p>
+  
+              </div>
+              <table class="styled-table">
+  
+                <tr id="reporttender">
+  
+                </tr>
+                <tr id="reporttenderjumlah">
+  
+                </tr>
+  
+              </table>
+              <div class="text-detail-pagu">
+                <p>Laporan Total Jumlah Pengadaan Tender / Tender Cepat/ Seleksi</p>
+  
+              </div>
+              <table class="styled-table">
+                <tr id="reporttenderseleksi">
+  
+                </tr>
+                <tr id="reporttenderseleksijumlah">
+  
+                </tr>
+              </table>
+              <div class="text-detail-pagu">
+                <p>Laporan Total Jumlah Pagu dalam Rupiah</p>
+  
+              </div>
+              <table class="styled-table">
+                <tr>
+                  <td>
+                    Pengadaan di kecualikan
+                  </td>
+                  <td>
+                    Pengadaan Langsung
+                  </td>
+                  <td>
+                    Penunjukan Lanngsung
+                  </td>
+                  <td>
+                    Purchasing
+                  </td>
+                  <td>
+                    Swakelola
+                  </td>
+                </tr>
+                <tr id="reporttenderpagu">
+  
+                </tr>
+              </table>
+              <div class="text-detail-pagu">
+                <p>Laporan Total Jumlah pagu dalam Rupiah Pengadaan Tender / Tender Cepat/ Seleksi</p>
+  
+              </div>
+  
+              <table class="styled-table">
+                <tr>
+                  <td class="bg-td">
+                    Seleksi
+                  </td>
+                  <td class="bg-td">
+                    Tender
+                  </td>
+                  <td class="bg-td">
+                    Tender Cepat
+                  </td>
+  
+                </tr>
+                <tr id="jumlahrupiahcepat">
+  
+                </tr>
+              </table>
+  
+              <div class="signature">
+                <div>
+                  <p>Nama</p>
+                  <p style="margin-top: 40px;">------------------</p>
+                </div>
+                <div>
+                  <p>TTD</p>
+                  <p style="margin-top: 40px;">------------------</p>
+                </div>
               </div>
             </div>
           </div>
@@ -434,134 +564,7 @@
               </tbody>
             </table>
           </div>
-          <div id="idlaporan">
-
-            <div id="detailinformasi">
-              <div class="text-detail-pagu">
-                <p>Laporan Total Pengadaan Tender / Tender Cepat/ Seleksi</p>
-
-              </div>
-              <table class="styled-table">
-
-                <thead>
-                  <tr>
-                    <th width="2%">NO</th>
-                    <th width="28%">JENIS PENGADAAN</th>
-                    <th width="30%">JUMLAH PAGU</th>
-                    <th width="22%%">JUMLAH PAKET</th>
-                  </tr>
-                </thead>
-                <tbody id="tendercepatseleksi">
-                  <tr></tr>
-                </tbody>
-              </table>
-              <div class="text-detail-pagu">
-                <p>Laporan Total Pengadaan</p>
-
-              </div>
-              <table class="styled-table">
-
-                <thead>
-                  <tr>
-                    <th width="2%">NO</th>
-                    <th width="28%">JENIS PENGADAAN</th>
-                    <th width="30%">JUMLAH PAGU</th>
-                    <th width="22%%">JUMLAH PAKET</th>
-                  </tr>
-                </thead>
-                <tbody id="totalpengadaan">
-                  <tr></tr>
-                </tbody>
-              </table>
-            </div>
-
-
-            <div class="text-detail-pagu">
-              <p>Laporan Total Jumlah Pagu</p>
-
-            </div>
-            <table class="styled-table">
-
-              <tr id="reporttender">
-
-              </tr>
-              <tr id="reporttenderjumlah">
-
-              </tr>
-
-            </table>
-            <div class="text-detail-pagu">
-              <p>Laporan Total Jumlah Pengadaan Tender / Tender Cepat/ Seleksi</p>
-
-            </div>
-            <table class="styled-table">
-              <tr id="reporttenderseleksi">
-
-              </tr>
-              <tr id="reporttenderseleksijumlah">
-
-              </tr>
-            </table>
-            <div class="text-detail-pagu">
-              <p>Laporan Total Jumlah Pagu dalam Rupiah</p>
-
-            </div>
-            <table class="styled-table">
-              <tr>
-                <td>
-                  Pengadaan di kecualikan
-                </td>
-                <td>
-                  Pengadaan Langsung
-                </td>
-                <td>
-                  Penunjukan Lanngsung
-                </td>
-                <td>
-                  Purchasing
-                </td>
-                <td>
-                  Swakelola
-                </td>
-              </tr>
-              <tr id="reporttenderpagu">
-
-              </tr>
-            </table>
-            <div class="text-detail-pagu">
-              <p>Laporan Total Jumlah pagu dalam Rupiah Pengadaan Tender / Tender Cepat/ Seleksi</p>
-
-            </div>
-
-            <table class="styled-table">
-              <tr>
-                <td>
-                  Seleksi
-                </td>
-                <td>
-                  Tender
-                </td>
-                <td>
-                  Tender Cepat
-                </td>
-
-              </tr>
-              <tr id="jumlahrupiahcepat">
-
-              </tr>
-            </table>
-
-            <div class="signature">
-              <div>
-                <p>Nama</p>
-                <p style="margin-top: 40px;">------------------</p>
-              </div>
-              <div>
-                <p>TTD</p>
-                <p style="margin-top: 40px;">------------------</p>
-              </div>
-            </div>
-          </div>
+        
 
         </div>
       </div>
@@ -572,9 +575,10 @@
 
   <script src="js/totalopd.js"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
   <script src="js/autodisplay.js"></script>
   <script src="js/opdb.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
+  <script src="js/library/print.min.js"></script>
   <script>
     let sidebar = document.querySelector(".sidebar");
     let sidebarBtn = document.querySelector(".sidebarBtn");

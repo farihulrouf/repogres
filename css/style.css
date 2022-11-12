@@ -566,6 +566,13 @@ nav .profile-details i {
 .styled-table {
   margin-bottom: 50px;
   width: 100%;
+
+  border-collapse: collapse;
+  
+}
+.styled-table .bg-td {
+  background: #0A2558;
+  color: #ffffff;
 }
 
 .styled-table thead tr {
@@ -578,6 +585,9 @@ nav .profile-details i {
 .styled-table td {
   padding: 8px 10px;
   font-size: 14px;
+
+  border: 1px solid #ddd;
+  
 }
 
 .styled-table a {
@@ -586,8 +596,6 @@ nav .profile-details i {
 }
 
 .styled-table tbody tr {
-  border-bottom: 1px solid #d3a1a1;
-  background-color: #f3f3f3;
   color: black;
   font-size: 14px;
 }

@@ -37,5 +37,17 @@ const clickDetailReport = () => {
     totalkeseluruhan.style.display="none"
 
   }
+
+const printForm = () => {
+	printJS({
+    printable: 'printdetaildesk',
+    type: 'html',
+    targetStyles: ['*'],
+    header: ''
+ })
+}
+
+
+
   
   

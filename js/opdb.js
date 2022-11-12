@@ -43,7 +43,7 @@ function loadTable() {
         }).format(object['paguorp']).replace(/[IDR]/gi, '')
         .replace(/(\.+\d{2})/, '')
         .trimLeft() + '</td>';
-        trHTML += '<td class="td-icon"><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
+        trHTML += '<td><a href="#"><span class="material-symbols-outlined" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
         trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="detailPage(\'' + id_obj + '\')">visibility </span></a>';
         trHTML += '<a href="#"><span class="material-symbols-outlined" onclick="paguDelete(\'' + id_obj + '\')">delete_forever</span></a></td>';
 
@@ -881,7 +881,7 @@ function detailTotalTenderDetailCepatSeleksi(id) {
         let i = 0
         for (let object of objects.data.data) {
           let id_obj = object['id']
-          console.log(objects.data.data)
+          //console.log(objects.data.data)
           i = i + 1;
           trHTML += '<tr>';
           trHTML += '<td>' + i + '</td>';
