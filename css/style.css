@@ -798,6 +798,8 @@ select#input-select {
 }
 #clickreport{
   color: teal;
+  display: flex;
+  align-items: center;
 }
 #clickreport:hover {
   color: rebeccapurple;
@@ -809,6 +811,10 @@ select#input-select {
 }
 #totalkeseluruhan {
   display: none;
+}
+#allreporttotal {
+  display: flex;
+  align-items: center;
 }
   
 

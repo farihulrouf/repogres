@@ -16,7 +16,7 @@ const clickDetailReport = () => {
     var clickreport = document.getElementById("clickreport")
     var printreportid = document.getElementById("printreportid")
     hideeninpuxbox.style.display = "block"
-    clickreport.style.display = "block"
+    clickreport.style.display = "flex"
     printreportid.style.display= "none"
     idlaporan.style.display = "none"
      
