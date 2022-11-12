@@ -312,7 +312,8 @@ function detailDelete(id, tender, api) {
     "id": id
   }));
   xhttp.onreadystatechange = function () {
-    detailAnggaran(id_global)
+    detailTender(id_global)
+   /* detailAnggaran(id_global)
     detailTender(id_global)
     detailLangsung(id_global)
     detailPengecualian(id_global)
@@ -320,9 +321,16 @@ function detailDelete(id, tender, api) {
     detailPurchasing(id_global)
     //detailGolbalAnggaran(id_global)
     refreshTotal()
+    */
 
   };
 }
+
+const refreshPage = () => [
+    detailAnggaran(id_global)
+]
+
+
 function detailPage(id) {
   var x = document.getElementById("detail");
   var y = document.getElementById("opdb")
@@ -441,24 +449,27 @@ function detailPaguItem(id) {
       document.getElementById("detailinformasi").innerHTML = trHTML;
     }
   };
-  //console.log("ceka",namaSKPD)
 }
 
-function detailTender(id) {
+const detailTender = (id) => {
   const xhttp = new XMLHttpRequest();
-
-  xhttp.open("GET", api_url_tender + '/pagu/' + id)
+  xhttp.open("GET", api_url_tender+ '/pagu/'+id);
   xhttp.send();
+  console.log("anggaran di eksekusi", id)
+  
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       var trHTML = '';
       const objects = JSON.parse(this.responseText);
-
-      if (objects.data.data != null) {
-        let i = 0
+      if (objects.data.data === null) {
+        console.log('data kosong')
+      }
+      else {
+        let i = 0;
         for (let object of objects.data.data) {
           let id_obj = object['id']
-          i++;
+          i++
+          
           trHTML += '<tr>';
           trHTML += '<td>' + i + '</td>';
           trHTML += '<td>' + object['name'] + '</td>';
@@ -480,16 +491,16 @@ function detailTender(id) {
 
           trHTML += "</tr>";
         }
-        document.getElementById("tender").innerHTML = trHTML;
       }
-      else {
-        console.log('data kosong')
-      }
+    
+      document.getElementById("tender").innerHTML = trHTML;
 
     }
   };
-
+  
 }
+
+
 function detailLangsung(id) {
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api_url_langsung + '/pagu/' + id)
