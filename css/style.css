@@ -820,6 +820,14 @@ select#input-select {
   color: red;
   
 }
+.edit-color:hover {
+  color: white;
+  background: #009879;
+}
+.preview-color:hover {
+  color: white;
+  background: #0A2558;
+}
 .icon-delete:hover {
   background: red;
   color: white;
@@ -828,12 +836,25 @@ select#input-select {
   color: #0A2558;
   font-weight: 500;
 }
+#allreporttotal:hover {
+  background: #0A2558;
+  padding-left: 3px;
+  padding-right: 3px;
+  color: white;
+}
 #add-data:hover {
   background: #0A2558;
   padding-left: 3px;
   padding-right: 3px;
   color: white;
 }
+#clickreport:hover{
+  background: #0A2558;
+  padding-left: 3px;
+  padding-right: 3px;
+  color: white;
+}
+
   
 
   
