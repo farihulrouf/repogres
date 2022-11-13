@@ -15,12 +15,21 @@ function detailTotalTenderDetailCepatSeleksiAll() {
                 for (let object of objects.data.data) {
                     let id_obj = object['id']
                     i = i + 1;
+
+                   titlepengadaan = object['tipe'] =='swakelola' ? 'Swakelola' : object['tipe'] == 'plangsung' ? "Penunjukan Langsung" : object['tipe'] == 'kecuali' ? "Pengadaaan Di kecualikan" : object['tipe']=='langsung' ? "Pengadaan Langsung" : "E-Purchsing"   
+                   totalpguall= object['tipe'] =='swakelola' ? '-' : object['totalpagu']
                     trHTML += '<tr>';
                     trHTML += '<td>' + i + '</td>';
-                    trHTML += '<td>' + object['tipe'] + '</td>';
-                    trHTML += '<td>' + object['totalpagu'] + '</td>';
+                    trHTML += '<td>' + titlepengadaan + '</td>';
+                   // trHTML += '<td>' + object['totalpagu'] + '</td>';
+                    trHTML += '<td>' +'Rp' +' '+ new Intl.NumberFormat('en-ID', {
+                        style: 'currency',
+                        currency: 'IDR'
+                      }).format(totalpguall)
+                      .replace(/[IDR]/gi, '')
+                      .replace(/(\.+\d{2})/, '')
+                      .trimLeft() + '</td>';
                     trHTML += '<td>' + object['total'] + '</td>';
-
                     trHTML += "</tr>";
                 }
                 document.getElementById("allreportseleksi").innerHTML = trHTML;
@@ -78,7 +87,14 @@ function detailTotalTenderDetailCepatSeleksi() {
                     trHTML += '<tr>';
                     trHTML += '<td>' + i + '</td>';
                     trHTML += '<td>' + object['ket'] + '</td>';
-                    trHTML += '<td>' + object['totalpagu'] + '</td>';
+                    //trHTML += '<td>' + object['totalpagu'] + '</td>';
+                    trHTML += '<td>' +'Rp' +' '+ new Intl.NumberFormat('en-ID', {
+                        style: 'currency',
+                        currency: 'IDR'
+                      }).format(object['totalpagu'])
+                      .replace(/[IDR]/gi, '')
+                      .replace(/(\.+\d{2})/, '')
+                      .trimLeft() + '</td>';
                     trHTML += '<td>' + object['total'] + '</td>';
 
                     trHTML += "</tr>";

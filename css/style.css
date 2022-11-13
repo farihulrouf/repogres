@@ -909,9 +909,11 @@ select#input-select {
 }
 .bg-detail-report {
   width: 400px;
+  font-size: 18px;
+  font-weight: 500;
 }
-.silversix {
-  width: 200px;
+#totalseluruhcoolapse{
+  /*background: #009879; */
 }
 
 
