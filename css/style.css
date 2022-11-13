@@ -606,7 +606,7 @@ nav .profile-details i {
 }
 
 .styled-table tbody tr:last-of-type {
-  border-bottom: 1px solid #009879;
+  /*border-bottom: 1px solid #009879;*/
 }
 
 .styled-table tbody tr.active-row {
@@ -703,7 +703,7 @@ label {
 
 .name-text-detail-pagu {
   text-align: left;
-  width: 100px;
+  width: 150px;
 }
 
 #add-data {

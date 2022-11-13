@@ -533,7 +533,7 @@ const detailLangsung = (id) => {
           .trimLeft() + '</td>';
           trHTML += '<td>' + object['jadwal'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
-          trHTML += '<td><a href="#"><span class="material-symbols-outlined edit-color" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
+          trHTML += '<td><a href="#"><span class="material-symbols-outlined edit-color" onclick="showLangsungEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')">edit </span></a>';
           trHTML += '<a href="#"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
 
           trHTML += "</tr>";
@@ -788,6 +788,37 @@ const showAnggaranEditBox = (id, header_title, api_param_anggaran) => {
         focusConfirm: false,
         preConfirm: () => {
           editAnggaran()
+        }
+      })
+
+
+    }
+  };
+  
+}
+
+const showLangsungEditBox = (id, header_title, api_param) => {
+  //console.log(api_param_anggaran)
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", api_param + '/' + id);
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const objects = JSON.parse(this.responseText);
+      const posts = objects.data.data
+     // console.log(posts)
+      Swal.fire({
+        title: header_title,
+        html:
+          '<input id="id" type="hidden" value=' + posts['id'] + '>' +
+          '<select id="dropdown-list" onfocus="loadDataKegiatan()" class="swal2-input"><option value="DEFAULT">Sub Kegiatan SKPD</option></select>' +
+          '<input id="name" class="swal2-input" placeholder="Sub Kegiatan" value="' + posts['paket']+'">' +
+          '<input id="pagu" class="swal2-input" placeholder="Jumlah" value="' + posts['pagu']+'">'+
+          '<input id="pdn" type="text" onfocus="(this.type=`number`)" class="swal2-input" placeholder="PDN %" value="' + posts['pdn']+'">'+
+          '<input type="text" onfocus="(this.type=`date`)" placeholder="Waktu Pelaksanaan" class="swal2-input" id="pelaksanaan" name="trip-start"  min="2022-11-10" max="2025-12-31"  value="' + posts['jadwal']+'">',
+        focusConfirm: false,
+        preConfirm: () => {
+         
         }
       })
 
