@@ -885,6 +885,37 @@ select#input-select {
   overflow: hidden;
 }
 
+.report-style {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  /*background: rebeccapurple; */
+}
+.report-style-tr {
+  width: 400px;
+}
+.border-color-p {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 8px;
+  font-size: 14px;
+}
+.border-color-p-center {
+  background: white;
+  border-right: 1px solid #dddd;
+  border-left: 1px solid #dddd;
+  font-size: 14px;
+  padding: 8px;
+}
+.bg-detail-report {
+  width: 400px;
+}
+.silversix {
+  width: 200px;
+}
+
+
+
 
 
 

@@ -47,6 +47,16 @@ const printForm = () => {
  })
 }
 
+const printFormTotal = () => {
+	printJS({
+    printable: 'totalprint',
+    type: 'html',
+    targetStyles: ['*'],
+    header: ''
+ })
+}
+
+
 
 
   

@@ -101,6 +101,7 @@
                 <option value="2021">2021</option>
                 <option value="2022" selected>2022</option>
                 <option value="2023">2023</option>
+                <option value="2024">2024</option>
               </select>
             </div>
 
@@ -147,116 +148,8 @@
               Kembali
             </a>
             <div>
-              <span>Tahun anggaran</span>
-              <select name="tahun" id="tahun-select">
-                <option value="">Tahun Anggaran</option>
-                <option value="2019">2019</option>
-                <option value="2021">2020</option>
-                <option value="2021">2021</option>
-                <option value="2022" selected>2022</option>
-                <option value="2023">2023</option>
-              </select>
-            </div>
 
-          </div>
-          <div class="title-header-format">
-            <img src="images/logo.png" class="logo" alt="Logo">
-            <div class="text-header-info">
-              Desk Rencana Umum Pengadaan Barang /jasa </br> Tahun Anggaran 2023 Kabupaten Gresik
-            </div>
-          </div>
-          <hr style="margin-top: 100px; width: 100%;">
-          </hr>
-          <div class="text-detail-pagu">
-            <p>Laporan Total Pengadaan Tender / Tender Cepat/ Seleksi</p>
-
-          </div>
-          <table class="styled-table">
-
-            <thead>
-              <tr>
-                <th width="2%">NO</th>
-                <th width="28%">JENIS PENGADAAN</th>
-                <th width="30%">JUMLAH PAGU</th>
-                <th width="22%%">JUMLAH PAKET</th>
-              </tr>
-            </thead>
-            <tbody id="allcepatseleksi">
-              <tr></tr>
-            </tbody>
-          </table>
-          <div class="text-detail-pagu">
-            <p>Laporan Total Pengadaan</p>
-
-          </div>
-          <table class="styled-table">
-
-            <thead>
-              <tr>
-                <th width="2%">NO</th>
-                <th width="28%">JENIS PENGADAAN</th>
-                <th width="30%">JUMLAH PAGU</th>
-                <th width="22%%">JUMLAH PAKET</th>
-              </tr>
-            </thead>
-            <tbody id="allreportseleksi">
-              <tr></tr>
-            </tbody>
-          </table>
-          <div id="totalseluruhcoolapse">
-            <!--
-            <h2>Total Laporan</h2>
-            <button class="accordion">Section 1</button>
-            <div class="panel">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex
-                ea commodo consequat
-            </div>
-             -->
-          </div>
-          <!--
-          <div>
-            <h2>Total Laporan</h2>
-            <button class="accordion">Section 1</button>
-            <div class="panel">
-              Hello world
-            </div>
-            <button class="accordion">Section 1</button>
-            <div class="panel">
-              Hello world
-            </div>
-          </div>
-           -->
-
-        </div>
-        <div id="detail">
-          <div class="printpreview">
-            <a class="back-button" href="#" onclick="showPagu()">
-
-              <span class="material-symbols-outlined">
-                arrow_back
-              </span> Kembali
-
-            </a>
-
-            <a class="back-button" href="#" id="clickreport" onclick="clickDetailReport()">
-              Report
-              <span class="material-symbols-outlined">
-                arrow_forward
-              </span>
-
-            </a>
-            <div id="printreportid">
-
-              <a class="back-button" style="color:#0A2558;" href="#" onclick="inputDetailData()">
-
-                <span class="material-symbols-outlined">
-                  arrow_back
-                </span> Input Data >>
-
-              </a>
-              <a class="back-button" style="color: blueviolet;" onclick="printForm()" href="#">
+              <a class="back-button" style="color: blueviolet;" onclick="printFormTotal()" href="javascript:void(0)">
                 Print
                 <span class="material-symbols-outlined">
                   print
@@ -264,338 +157,426 @@
 
               </a>
             </div>
+
           </div>
-
-          <div id="printdetaildesk">
-            <div id="titleformat">
-              <div class="title-header-format">
-                <img src="images/logo.png" class="logo" alt="logo">
-                <div class="text-header-info">
-                  Desk Rencana Umum Pengadaan Barang /jasa </br> Tahun Anggaran 2023 Kabupaten Gresik
-                </div>
-              </div>
-              <hr style="margin-top: 100px; width: 100%;">
-              </hr>
-              <div id="detailinformasi">
-
+          <!-------------Print total----------------->
+          <div id="totalprint">
+            <div class="title-header-format">
+              <img src="images/logo.png" class="logo" alt="Logo">
+              <div class="text-header-info">
+                Desk Rencana Umum Pengadaan Barang /jasa </br> Tahun Anggaran 2023 Kabupaten Gresik
               </div>
             </div>
-            <div id="idlaporan">
+            <hr style="margin-top: 100px; width: 100%;">
+            </hr>
+            <div class="text-detail-pagu">
+              <p>Laporan Total Pengadaan Tender / Tender Cepat/ Seleksi</p>
 
-              <div id="detailinformasi">
+            </div>
+            <table class="styled-table">
+
+              <thead>
+                <tr>
+                  <th width="2%">NO</th>
+                  <th width="28%">JENIS PENGADAAN</th>
+                  <th width="30%">JUMLAH PAGU</th>
+                  <th width="22%%">JUMLAH PAKET</th>
+                </tr>
+              </thead>
+              <tbody id="allcepatseleksi">
+                <tr></tr>
+              </tbody>
+            </table>
+            <div class="text-detail-pagu">
+              <p>Laporan Total Pengadaan</p>
+
+            </div>
+            <table class="styled-table">
+
+              <thead>
+                <tr>
+                  <th width="2%">NO</th>
+                  <th width="28%">JENIS PENGADAAN</th>
+                  <th width="30%">JUMLAH PAGU</th>
+                  <th width="22%%">JUMLAH PAKET</th>
+                </tr>
+              </thead>
+              <tbody id="allreportseleksi">
+                <tr></tr>
+              </tbody>
+            </table>
+            <div id="totalseluruhcoolapse">
+
+            </div>
+            <div id="idelement">
+
+            </div>
+          </div>
+          <div id="detail">
+            <div class="printpreview">
+              <a class="back-button" href="#" onclick="showPagu()">
+
+                <span class="material-symbols-outlined">
+                  arrow_back
+                </span> Kembali
+
+              </a>
+
+              <a class="back-button" href="#" id="clickreport" onclick="clickDetailReport()">
+                Report
+                <span class="material-symbols-outlined">
+                  arrow_forward
+                </span>
+
+              </a>
+              <div id="printreportid">
+
+                <a class="back-button" style="color:#0A2558;" href="#" onclick="inputDetailData()">
+
+                  <span class="material-symbols-outlined">
+                    arrow_back
+                  </span> Input Data >>
+
+                </a>
+                <a class="back-button" style="color: blueviolet;" onclick="printForm()" href="#">
+                  Print
+                  <span class="material-symbols-outlined">
+                    print
+                  </span>
+
+                </a>
+              </div>
+            </div>
+
+            <div id="printdetaildesk">
+              <div id="titleformat">
+                <div class="title-header-format">
+                  <img src="images/logo.png" class="logo" alt="logo">
+                  <div class="text-header-info">
+                    Desk Rencana Umum Pengadaan Barang /jasa </br> Tahun Anggaran 2023 Kabupaten Gresik
+                  </div>
+                </div>
+                <hr style="margin-top: 100px; width: 100%;">
+                </hr>
+                <div id="detailinformasi">
+
+                </div>
+              </div>
+              <div id="idlaporan">
+
+                <div id="detailinformasi">
+                  <div class="text-detail-pagu">
+                    <p>Laporan Total Pengadaan Tender / Tender Cepat/ Seleksi</p>
+
+                  </div>
+                  <table class="styled-table">
+
+                    <thead>
+                      <tr>
+                        <th width="2%">NO</th>
+                        <th width="28%">JENIS PENGADAAN</th>
+                        <th width="30%">JUMLAH PAGU</th>
+                        <th width="22%%">JUMLAH PAKET</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tendercepatseleksi">
+                      <tr></tr>
+                    </tbody>
+                  </table>
+                  <div class="text-detail-pagu">
+                    <p>Laporan Total Pengadaan</p>
+
+                  </div>
+                  <table class="styled-table">
+
+                    <thead>
+                      <tr>
+                        <th width="2%">NO</th>
+                        <th width="28%">JENIS PENGADAAN</th>
+                        <th width="30%">JUMLAH PAGU</th>
+                        <th width="22%%">JUMLAH PAKET</th>
+                      </tr>
+                    </thead>
+                    <tbody id="totalpengadaan">
+                      <tr></tr>
+                    </tbody>
+                  </table>
+                </div>
+
+
                 <div class="text-detail-pagu">
-                  <p>Laporan Total Pengadaan Tender / Tender Cepat/ Seleksi</p>
+                  <p>Laporan Total Jumlah Pagu</p>
 
                 </div>
                 <table class="styled-table">
 
-                  <thead>
-                    <tr>
-                      <th width="2%">NO</th>
-                      <th width="28%">JENIS PENGADAAN</th>
-                      <th width="30%">JUMLAH PAGU</th>
-                      <th width="22%%">JUMLAH PAKET</th>
-                    </tr>
-                  </thead>
-                  <tbody id="tendercepatseleksi">
-                    <tr></tr>
-                  </tbody>
+                  <tr id="reporttender">
+
+                  </tr>
+                  <tr id="reporttenderjumlah">
+
+                  </tr>
+
                 </table>
                 <div class="text-detail-pagu">
-                  <p>Laporan Total Pengadaan</p>
+                  <p>Laporan Total Jumlah Pengadaan Tender / Tender Cepat/ Seleksi</p>
 
                 </div>
                 <table class="styled-table">
+                  <tr id="reporttenderseleksi">
 
-                  <thead>
-                    <tr>
-                      <th width="2%">NO</th>
-                      <th width="28%">JENIS PENGADAAN</th>
-                      <th width="30%">JUMLAH PAGU</th>
-                      <th width="22%%">JUMLAH PAKET</th>
-                    </tr>
-                  </thead>
-                  <tbody id="totalpengadaan">
-                    <tr></tr>
-                  </tbody>
+                  </tr>
+                  <tr id="reporttenderseleksijumlah">
+
+                  </tr>
                 </table>
-              </div>
+                <div class="text-detail-pagu">
+                  <p>Laporan Total Jumlah Pagu dalam Rupiah</p>
 
-
-              <div class="text-detail-pagu">
-                <p>Laporan Total Jumlah Pagu</p>
-
-              </div>
-              <table class="styled-table">
-
-                <tr id="reporttender">
-
-                </tr>
-                <tr id="reporttenderjumlah">
-
-                </tr>
-
-              </table>
-              <div class="text-detail-pagu">
-                <p>Laporan Total Jumlah Pengadaan Tender / Tender Cepat/ Seleksi</p>
-
-              </div>
-              <table class="styled-table">
-                <tr id="reporttenderseleksi">
-
-                </tr>
-                <tr id="reporttenderseleksijumlah">
-
-                </tr>
-              </table>
-              <div class="text-detail-pagu">
-                <p>Laporan Total Jumlah Pagu dalam Rupiah</p>
-
-              </div>
-              <table class="styled-table">
-                <tr>
-                  <td class="bg-td">
-                    Pengadaan di kecualikan
-                  </td>
-                  <td class="bg-td">
-                    Pengadaan Langsung
-                  </td>
-                  <td class="bg-td">
-                    Penunjukan Lanngsung
-                  </td>
-                  <td class="bg-td">
-                    Purchasing
-                  </td>
-                  <td class="bg-td">
-                    Swakelola
-                  </td>
-                </tr>
-                <tr id="reporttenderpagu">
-
-                </tr>
-              </table>
-              <div class="text-detail-pagu">
-                <p>Laporan Total Jumlah pagu dalam Rupiah Pengadaan Tender / Tender Cepat/ Seleksi</p>
-
-              </div>
-
-              <table class="styled-table">
-                <tr>
-                  <td class="bg-td">
-                    Seleksi
-                  </td>
-                  <td class="bg-td">
-                    Tender
-                  </td>
-                  <td class="bg-td">
-                    Tender Cepat
-                  </td>
-
-                </tr>
-                <tr id="jumlahrupiahcepat">
-
-                </tr>
-              </table>
-
-              <div class="signature">
-                <div>
-                  <p>Nama</p>
-                  <p style="margin-top: 40px;">------------------</p>
                 </div>
-                <div>
-                  <p>TTD</p>
-                  <p style="margin-top: 40px;">------------------</p>
+                <table class="styled-table">
+                  <tr>
+                    <td class="bg-td">
+                      Pengadaan di kecualikan
+                    </td>
+                    <td class="bg-td">
+                      Pengadaan Langsung
+                    </td>
+                    <td class="bg-td">
+                      Penunjukan Lanngsung
+                    </td>
+                    <td class="bg-td">
+                      Purchasing
+                    </td>
+                    <td class="bg-td">
+                      Swakelola
+                    </td>
+                  </tr>
+                  <tr id="reporttenderpagu">
+
+                  </tr>
+                </table>
+                <div class="text-detail-pagu">
+                  <p>Laporan Total Jumlah pagu dalam Rupiah Pengadaan Tender / Tender Cepat/ Seleksi</p>
+
+                </div>
+
+                <table class="styled-table">
+                  <tr>
+                    <td class="bg-td">
+                      Seleksi
+                    </td>
+                    <td class="bg-td">
+                      Tender
+                    </td>
+                    <td class="bg-td">
+                      Tender Cepat
+                    </td>
+
+                  </tr>
+                  <tr id="jumlahrupiahcepat">
+
+                  </tr>
+                </table>
+
+                <div class="signature">
+                  <div>
+                    <p>Nama</p>
+                    <p style="margin-top: 40px;">------------------</p>
+                  </div>
+                  <div>
+                    <p>TTD</p>
+                    <p style="margin-top: 40px;">------------------</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div id="inputbox">
-            <table class="styled-table">
-              <div class="text-detail-pagu">
-                <p>Pagu Anggaran</p>
-                <a href="#" id="add-data" onclick="showCreateAnggaran(`anggaran`)">
-                  <span> Add Data</span>
-                  <span class="material-symbols-outlined">
-                    add
-                  </span>
-                </a>
-              </div>
-              <thead>
-                <tr>
-                  <th width="2%">NO</th>
-                  <th width="45%">SUB KEGIATAN</th>
-                  <th width="38%">JUMLAH</th>
-                  <th width="10%">PDN (%)</th>
-                  <th width="5%">ACTION</th>
-                </tr>
-              </thead>
-              <tbody id="anggaran">
-                <tr></tr>
-              </tbody>
-            </table>
-            <table class="styled-table">
-              <div class="text-detail-pagu">
-                <p>
-                  Tender/ Tender Cepat / Seleksi
-                </p>
-                <a href="#" id="add-data" onclick="showFastTender('Tender Cepat/ Seleksi')">
-                  <span> Add Data</span>
-                  <span class="material-symbols-outlined">
-                    add
-                  </span>
-                </a>
-              </div>
-              <thead>
-                <tr>
-                <tr>
-                  <th width="2%">NO</th>
-                  <th width="11%">SUB KEGIATAN</th>
-                  <th width="11%">NAMA PAKET</th>
-                  <th width="11%%">PAGU</th>
-                  <th width="12%">WAKTU PEMILIHAN</th>
-                  <th width="12%">WAKTU PELAKSANAAN</th>
-                  <th width="12%">WAKTU PEMANFAATAN</th>
-                  <th width="8%">KET</th>
-                  <th width="8%">PDN(%)</th>
-                  <th width="5%">ACTION</th>
-                </tr>
-                </tr>
-              </thead>
-              <tbody id="tender">
-                <tr></tr>
-              </tbody>
-            </table>
-            <table class="styled-table">
-              <div class="text-detail-pagu">
-                <p>Pengadaan Langsung</p>
-                <a href="#" id="add-data" onclick="showCreateAnggaran(`langsung`)">
-                  <span> Add Data</span>
-                  <span class="material-symbols-outlined">
-                    add
-                  </span>
-                </a>
-              </div>
-              <thead>
-                <tr>
-                  <th width="2%">NO</th>
-                  <th width="28%">SUB KEGIATAN</th>
-                  <th width="30%">NAMA PAKET</th>
-                  <th width="22%%">PAGU</th>
-                  <th width="10%">PELAKSANAAN</th>
-                  <th width="8%">PDN (%)</th>
-                  <th width="5%">ACTION</th>
-                </tr>
-              </thead>
-              <tbody id="langsung">
-                <tr></tr>
-              </tbody>
-            </table>
-            <table class="styled-table">
-              <div class="text-detail-pagu">
-                <p>Penunjukan Langsung</p>
-                <a href="#" id="add-data" onclick="showCreateAnggaran(`plangsung`)">
-                  <span> Add Data</span>
-                  <span class="material-symbols-outlined">
-                    add
-                  </span>
-                </a>
-              </div>
-              <thead>
-                <tr>
-                  <th width="2%">NO</th>
-                  <th width="28%">SUB KEGIATAN</th>
-                  <th width="30%">NAMA PAKET</th>
-                  <th width="22%%">PAGU</th>
-                  <th width="10%">PELAKSANAAN</th>
-                  <th width="8%">PDN (%)</th>
-                  <th width="5%">ACTION</th>
-                </tr>
-              </thead>
-              <tbody id="pllangsung">
-                <tr></tr>
-              </tbody>
-            </table>
-            <table class="styled-table">
-              <div class="text-detail-pagu">
-                <p>E-Purchasing</p>
-                <a href="#" id="add-data" onclick="showCreateAnggaran(`purchasing`)">
-                  <span> Add Data</span>
-                  <span class="material-symbols-outlined">
-                    add
-                  </span>
-                </a>
-              </div>
-              <thead>
-                <tr>
-                  <th width="2%">NO</th>
-                  <th width="28%">SUB KEGIATAN</th>
-                  <th width="30%">NAMA PAKET</th>
-                  <th width="22%%">PAGU</th>
-                  <th width="10%">PELAKSANAAN</th>
-                  <th width="8%">PDN (%)</th>
-                  <th width="5%">ACTION</th>
-                </tr>
-              </thead>
-              <tbody id="purchasing">
-                <tr></tr>
-              </tbody>
-            </table>
-            <table class="styled-table">
-              <div class="text-detail-pagu">
-                <p>Pengadaan DI Kecualikan</p>
-                <a href="#" id="add-data" onclick="showCreateAnggaran(`kecuali`)">
-                  <span> Add Data</span>
-                  <span class="material-symbols-outlined">
-                    add
-                  </span>
-                </a>
-              </div>
-              <thead>
-                <tr>
-                  <th width="2%">NO</th>
-                  <th width="28%">SUB KEGIATAN</th>
-                  <th width="30%">NAMA PAKET</th>
-                  <th width="22%%">PAGU</th>
-                  <th width="10%">PELAKSANAAN</th>
-                  <th width="8%">PDN (%)</th>
-                  <th width="5%">ACTION</th>
-                </tr>
-              </thead>
-              <tbody id="kecuali">
-                <tr></tr>
-              </tbody>
-            </table>
-            <table class="styled-table">
-              <div class="text-detail-pagu">
-                <p>Swakelola</p>
-                <a href="#" id="add-data" onclick="showCreateAnggaran(`swakelola`)">
-                  <span> Add Data</span>
-                  <span class="material-symbols-outlined">
-                    add
-                  </span>
-                </a>
-              </div>
-              <thead>
-                <tr>
-                  <th width="2%">NO</th>
-                  <th width="28%">SUB KEGIATAN</th>
-                  <th width="25%%">PAGU</th>
-                  <th width="30%%">KETERANGAN</th>
-                  <th width="10%">PDN (%)</th>
-                  <th width="5%">ACTION</th>
-                </tr>
-              </thead>
-              <tbody id="swakelola">
-                <tr></tr>
-              </tbody>
-            </table>
-          </div>
+            <div id="inputbox">
+              <table class="styled-table">
+                <div class="text-detail-pagu">
+                  <p>Pagu Anggaran</p>
+                  <a href="#" id="add-data" onclick="showCreateAnggaran(`anggaran`)">
+                    <span> Add Data</span>
+                    <span class="material-symbols-outlined">
+                      add
+                    </span>
+                  </a>
+                </div>
+                <thead>
+                  <tr>
+                    <th width="2%">NO</th>
+                    <th width="45%">SUB KEGIATAN</th>
+                    <th width="38%">JUMLAH</th>
+                    <th width="10%">PDN (%)</th>
+                    <th width="5%">ACTION</th>
+                  </tr>
+                </thead>
+                <tbody id="anggaran">
+                  <tr></tr>
+                </tbody>
+              </table>
+              <table class="styled-table">
+                <div class="text-detail-pagu">
+                  <p>
+                    Tender/ Tender Cepat / Seleksi
+                  </p>
+                  <a href="#" id="add-data" onclick="showFastTender('Tender Cepat/ Seleksi')">
+                    <span> Add Data</span>
+                    <span class="material-symbols-outlined">
+                      add
+                    </span>
+                  </a>
+                </div>
+                <thead>
+                  <tr>
+                  <tr>
+                    <th width="2%">NO</th>
+                    <th width="11%">SUB KEGIATAN</th>
+                    <th width="11%">NAMA PAKET</th>
+                    <th width="11%%">PAGU</th>
+                    <th width="12%">WAKTU PEMILIHAN</th>
+                    <th width="12%">WAKTU PELAKSANAAN</th>
+                    <th width="12%">WAKTU PEMANFAATAN</th>
+                    <th width="8%">KET</th>
+                    <th width="8%">PDN(%)</th>
+                    <th width="5%">ACTION</th>
+                  </tr>
+                  </tr>
+                </thead>
+                <tbody id="tender">
+                  <tr></tr>
+                </tbody>
+              </table>
+              <table class="styled-table">
+                <div class="text-detail-pagu">
+                  <p>Pengadaan Langsung</p>
+                  <a href="#" id="add-data" onclick="showCreateAnggaran(`langsung`)">
+                    <span> Add Data</span>
+                    <span class="material-symbols-outlined">
+                      add
+                    </span>
+                  </a>
+                </div>
+                <thead>
+                  <tr>
+                    <th width="2%">NO</th>
+                    <th width="28%">SUB KEGIATAN</th>
+                    <th width="30%">NAMA PAKET</th>
+                    <th width="22%%">PAGU</th>
+                    <th width="10%">PELAKSANAAN</th>
+                    <th width="8%">PDN (%)</th>
+                    <th width="5%">ACTION</th>
+                  </tr>
+                </thead>
+                <tbody id="langsung">
+                  <tr></tr>
+                </tbody>
+              </table>
+              <table class="styled-table">
+                <div class="text-detail-pagu">
+                  <p>Penunjukan Langsung</p>
+                  <a href="#" id="add-data" onclick="showCreateAnggaran(`plangsung`)">
+                    <span> Add Data</span>
+                    <span class="material-symbols-outlined">
+                      add
+                    </span>
+                  </a>
+                </div>
+                <thead>
+                  <tr>
+                    <th width="2%">NO</th>
+                    <th width="28%">SUB KEGIATAN</th>
+                    <th width="30%">NAMA PAKET</th>
+                    <th width="22%%">PAGU</th>
+                    <th width="10%">PELAKSANAAN</th>
+                    <th width="8%">PDN (%)</th>
+                    <th width="5%">ACTION</th>
+                  </tr>
+                </thead>
+                <tbody id="pllangsung">
+                  <tr></tr>
+                </tbody>
+              </table>
+              <table class="styled-table">
+                <div class="text-detail-pagu">
+                  <p>E-Purchasing</p>
+                  <a href="#" id="add-data" onclick="showCreateAnggaran(`purchasing`)">
+                    <span> Add Data</span>
+                    <span class="material-symbols-outlined">
+                      add
+                    </span>
+                  </a>
+                </div>
+                <thead>
+                  <tr>
+                    <th width="2%">NO</th>
+                    <th width="28%">SUB KEGIATAN</th>
+                    <th width="30%">NAMA PAKET</th>
+                    <th width="22%%">PAGU</th>
+                    <th width="10%">PELAKSANAAN</th>
+                    <th width="8%">PDN (%)</th>
+                    <th width="5%">ACTION</th>
+                  </tr>
+                </thead>
+                <tbody id="purchasing">
+                  <tr></tr>
+                </tbody>
+              </table>
+              <table class="styled-table">
+                <div class="text-detail-pagu">
+                  <p>Pengadaan DI Kecualikan</p>
+                  <a href="#" id="add-data" onclick="showCreateAnggaran(`kecuali`)">
+                    <span> Add Data</span>
+                    <span class="material-symbols-outlined">
+                      add
+                    </span>
+                  </a>
+                </div>
+                <thead>
+                  <tr>
+                    <th width="2%">NO</th>
+                    <th width="28%">SUB KEGIATAN</th>
+                    <th width="30%">NAMA PAKET</th>
+                    <th width="22%%">PAGU</th>
+                    <th width="10%">PELAKSANAAN</th>
+                    <th width="8%">PDN (%)</th>
+                    <th width="5%">ACTION</th>
+                  </tr>
+                </thead>
+                <tbody id="kecuali">
+                  <tr></tr>
+                </tbody>
+              </table>
+              <table class="styled-table">
+                <div class="text-detail-pagu">
+                  <p>Swakelola</p>
+                  <a href="#" id="add-data" onclick="showCreateAnggaran(`swakelola`)">
+                    <span> Add Data</span>
+                    <span class="material-symbols-outlined">
+                      add
+                    </span>
+                  </a>
+                </div>
+                <thead>
+                  <tr>
+                    <th width="2%">NO</th>
+                    <th width="28%">SUB KEGIATAN</th>
+                    <th width="25%%">PAGU</th>
+                    <th width="30%%">KETERANGAN</th>
+                    <th width="10%">PDN (%)</th>
+                    <th width="5%">ACTION</th>
+                  </tr>
+                </thead>
+                <tbody id="swakelola">
+                  <tr></tr>
+                </tbody>
+              </table>
+            </div>
 
 
+          </div>
         </div>
-
       </div>
-    </div>
 
   </section>
   <!-- JavaScript Bundle with Popper -->
