@@ -484,7 +484,7 @@ const detailTender = (id) => {
           trHTML += '<td>' + object['jadwal'] + '</td>';
           trHTML += '<td>' + object['ket'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
-          trHTML += '<td><a href="#"><span class="material-symbols-outlined edit-color" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
+          trHTML += '<td><a href="#"><span class="material-symbols-outlined edit-color" onclick="showTenderDetailEditBox(\'' + id_obj + '\',`tender`,\'' + api_url_tender + '\')">edit </span></a>';
           trHTML += '<a href="#"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`tender`,\'' + api_url_tender + '\')">delete_forever</span></a></td>';
 
           trHTML += "</tr>";
@@ -827,6 +827,44 @@ const showLangsungEditBox = (id, header_title, api_param) => {
   };
   
 }
+
+const showTenderDetailEditBox = (id, header_title, api_param) => {
+  //console.log(api_param_anggaran)
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", api_param + '/' + id);
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const objects = JSON.parse(this.responseText);
+      const posts = objects.data.data
+     // console.log(posts)
+      Swal.fire({
+        title: header_title,
+        html:
+          '<input id="id" type="hidden" value=' + posts['id'] + '>' +
+          '<select id="dropdown-list"  onfocus="loadDataKegiatan()" class="swal2-input"><option value="DEFAULT">Sub Kegiatan SKPD</option></select>' +
+          '<input id="name" class="swal2-input" placeholder="Nama Paket" value="' + posts['paket']+'">' +
+          '<input id="pagu" class="swal2-input" placeholder="Pagu" value="' + posts['pagu']+'">'+
+          '<select class="swal2-input time-input" id="input-select"> <option value="">Jenis Tender</option><option value="Tender">Tender</option><option value="Seleksi">Seleksi</option><option value="Tender cepat">Tender Cepat</option></select>' +
+          '<input id="pdn" type="text" onfocus="(this.type=`number`)" class="swal2-input" placeholder="PDN %" value="' + posts['pdn']+'">'+
+          '<input type="text" onfocus="(this.type=`date`)" placeholder="Waktu Pemilihan" class="swal2-input" id="pemilihan" name="trip-start"  min="2022-11-10" max="2025-12-31"  value="' + posts['pemilihan']+'">'+
+          '<input type="text" onfocus="(this.type=`date`)" placeholder="Waktu Pelaksanaan" class="swal2-input" id="pelaksanaan" name="trip-start"  min="2022-11-10" max="2025-12-31"  value="' + posts['pelaksanaan']+'">'+
+          '<input type="text" onfocus="(this.type=`date`)" placeholder="Waktu Pemanfaatan" class="swal2-input" id="pemanfaatan" name="trip-start"  min="2022-11-10" max="2025-12-31"  value="' + posts['jadwal']+'">',
+        focusConfirm: false,
+        preConfirm: () => {
+         
+        }
+      })
+
+
+    }
+  };
+  
+}
+
+
+
+
 
 
 
