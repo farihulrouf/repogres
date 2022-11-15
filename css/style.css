@@ -916,6 +916,38 @@ select#input-select {
   /*background: #009879; */
 }
 
+.filetype {
+  padding: 10px;
+  width: 350px;
+  border: 1px solid #ddd;
+}
+
+.filetype button {
+  margin-top: 10px;
+  background: rebeccapurple;
+  color: white;
+  border: none;
+  padding: 5px;
+  width: 90px;
+}
+
+.filetype input {
+  background: white;
+  color: black;
+  
+}
+
+#file {
+
+}
+
+::-webkit-file-upload-button {
+  background: teal;
+  color: white;
+  padding: 10px;
+  border: none;
+}
+
 
 
 

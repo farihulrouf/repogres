@@ -1330,31 +1330,6 @@ function detailTotalTenderDetailReportSeleksiRupiah(id) {
   };
 
 }
-/*
-function skpdName(id) {
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", api_url + '/' + id);
-  xhttp.send();
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      const objects = JSON.parse(this.responseText);
-
-      const posts = objects.data.data
-      //console.log(posts.name)
-      namaSKPD = posts.name
-      //console.log(namaSKPD)
-      // i++;
-      var trHTML = '';
-      trHTML += '<tr>';
-      trHTML += '<td>' + posts['name'] + '</td>';
-      trHTML += "</tr";
-
-      document.getElementById("skpdname").innerHTML = trHTML;
-    }
-  };
-  //console.log("ceka",namaSKPD)
-}
-*/
 
 function refreshTotal() {
   console.log("refresh di eksekusi")
@@ -1370,4 +1345,24 @@ function refreshTotal() {
 
 }
 
+const uploudData = () => {
+  document.getElementById('form').addEventListener('submit', function(e){
+  e.preventDefault();
+  const userFile = document.getElementById('file').files[0]
+  //const userComment = document.getElementById('comment').value;
+  //const idpagu = document.getElementById('idpagu').value;
+  const formData = new FormData();
+  formData.append('file', userFile);
+  //ormData.append('comment', userComment)
+  formData.append('idpagu', id_global)
+  fetch(api+'api/uploud', {
+      method: "POST",
+      body: formData,
+  })
+  .then(res => res.json())
+  .then(data => console.log(data))
+  .catch(err => console.log(err))
+
+  })
+}
 
