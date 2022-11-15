@@ -1021,11 +1021,19 @@ function detailTotalTenderDetailCepatSeleksi(id) {
         for (let object of objects.data.data) {
           let id_obj = object['id']
           //console.log(objects.data.data)
+          
           i = i + 1;
           trHTML += '<tr>';
           trHTML += '<td>' + i + '</td>';
           trHTML += '<td>' + object['ket'] + '</td>';
-          trHTML += '<td>' + object['totalpagu'] + '</td>';
+          trHTML += '<td>' +'Rp' +' '+ new Intl.NumberFormat('en-ID', {
+            style: 'currency',
+            currency: 'IDR'
+          }).format(object['totalpagu'])
+          .replace(/[IDR]/gi, '')
+          .replace(/(\.+\d{2})/, '')
+          .trimLeft() + '</td>';
+         // trHTML += '<td>' + object['totalpagu'] + '</td>';
           trHTML += '<td>' + object['total'] + '</td>';
 
           trHTML += "</tr>";
@@ -1053,6 +1061,7 @@ function detailTotalTenderDetail(id) {
         for (let object of objects.data.data) {
           let id_obj = object['id']
           //console.log(object.tipe)
+          totalpguall= object['tipe'] =='swakelola' ? '-' : object['total']
           if (object.tipe == 'kecuali') {
             namePengadaan = 'Pengadaan di kecualikan'
           }
@@ -1067,8 +1076,15 @@ function detailTotalTenderDetail(id) {
           trHTML += '<tr>';
           trHTML += '<td>' + i + '</td>';
           trHTML += '<td>' + namePengadaan + '</td>';
-          trHTML += '<td>' + object['totalpagu'] + '</td>';
-          trHTML += '<td>' + object['total'] + '</td>';
+          trHTML += '<td>' +'Rp' +' '+ new Intl.NumberFormat('en-ID', {
+            style: 'currency',
+            currency: 'IDR'
+          }).format(object['totalpagu'])
+          .replace(/[IDR]/gi, '')
+          .replace(/(\.+\d{2})/, '')
+          .trimLeft() + '</td>';
+          //trHTML += '<td>' + object['totalpagu'] + '</td>';
+          trHTML += '<td>' + totalpguall + '</td>';
 
           trHTML += "</tr>";
         }
@@ -1202,7 +1218,13 @@ function detailTotalTenderDetailReportJumlahPagu(id) {
 
           // trHTML += '<tr>';
           //trHTML += '<td>' + namePengadaan + '</td>';
-          trHTML += '<td>' + object['totalpagu'] + '</td>';
+          trHTML += '<td>' +'Rp' +' '+ new Intl.NumberFormat('en-ID', {
+            style: 'currency',
+            currency: 'IDR'
+          }).format(object['totalpagu'])
+          .replace(/[IDR]/gi, '')
+          .replace(/(\.+\d{2})/, '')
+          .trimLeft() + '</td>';
           //trHTML += "</tr>";
 
 
@@ -1313,9 +1335,15 @@ function detailTotalTenderDetailReportSeleksiRupiah(id) {
 
 
           i = i + 1;
-
+          trHTML += '<td>' +'Rp' +' '+ new Intl.NumberFormat('en-ID', {
+            style: 'currency',
+            currency: 'IDR'
+          }).format(object['totalpagu'])
+          .replace(/[IDR]/gi, '')
+          .replace(/(\.+\d{2})/, '')
+          .trimLeft() + '</td>';
           // trHTML += '<tr>';
-          trHTML += '<td>' + object['totalpagu'] + '</td>';
+          //trHTML += '<td>' + object['totalpagu'] + '</td>';
           //trHTML += '<td>' + object['total'] + '</td>';
           //trHTML += "</tr>";
 

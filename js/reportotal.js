@@ -63,17 +63,18 @@ const detailLaporanOpd = (id, index, idclass) => {
         for (let object of objects.data.data) {
           let id_obj = object['id']
           i++
+          
           //console.log(objects.data.data[i].tipe)
           trHTML += '<div class="report-style-tr">';
           titlepengadaan = object['tipe'] == 'swakelola' ? 'Swakelola' : object['tipe'] == 'plangsung' ? "Penunjukan Langsung" : object['tipe'] == 'kecuali' ? "Pengadaaan Di kecualikan" : object['tipe'] == 'langsung' ? "Pengadaan Langsung" : "E-Purchsing"
-          totalpguall = object['tipe'] == 'swakelola' ? '-' : object['totalpagu']
+          totalpguall = object['tipe'] == 'swakelola' ? '-' : object['total']
           trHTML += '<p class="border-color-p">' + titlepengadaan + '</p>';
-          trHTML += '<p class="border-color-p-center">' + object['total'] + '</p>';
+          trHTML += '<p class="border-color-p-center">' + totalpguall + '</p>';
           //trHTML += '<p class="border-color-p">' + totalpguall + '</p>';  
           trHTML += '<p class="border-color-p">' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
             style: 'currency',
             currency: 'IDR'
-          }).format(totalpguall)
+          }).format(object['totalpagu'])
             .replace(/[IDR]/gi, '')
             .replace(/(\.+\d{2})/, '')
             .trimLeft() + '</p>';

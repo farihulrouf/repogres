@@ -17,7 +17,7 @@ function detailTotalTenderDetailCepatSeleksiAll() {
                     i = i + 1;
 
                    titlepengadaan = object['tipe'] =='swakelola' ? 'Swakelola' : object['tipe'] == 'plangsung' ? "Penunjukan Langsung" : object['tipe'] == 'kecuali' ? "Pengadaaan Di kecualikan" : object['tipe']=='langsung' ? "Pengadaan Langsung" : "E-Purchsing"   
-                   totalpguall= object['tipe'] =='swakelola' ? '-' : object['totalpagu']
+                   totalpguall= object['tipe'] =='swakelola' ? '-' : object['total']
                     trHTML += '<tr>';
                     trHTML += '<td>' + i + '</td>';
                     trHTML += '<td>' + titlepengadaan + '</td>';
@@ -25,11 +25,11 @@ function detailTotalTenderDetailCepatSeleksiAll() {
                     trHTML += '<td>' +'Rp' +' '+ new Intl.NumberFormat('en-ID', {
                         style: 'currency',
                         currency: 'IDR'
-                      }).format(totalpguall)
+                      }).format(object['totalpagu'])
                       .replace(/[IDR]/gi, '')
                       .replace(/(\.+\d{2})/, '')
                       .trimLeft() + '</td>';
-                    trHTML += '<td>' + object['total'] + '</td>';
+                    trHTML += '<td>' + totalpguall + '</td>';
                     trHTML += "</tr>";
                 }
                 document.getElementById("allreportseleksi").innerHTML = trHTML;
