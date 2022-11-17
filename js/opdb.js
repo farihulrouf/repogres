@@ -1650,14 +1650,22 @@ const loadingswal = () => {
 }
 
 const detaiDownload = () => {
-  //console.log("lihat id",id)
   console.log("this",linkdownload)
         var trHTML =''
+          let ahref = linkdownload == '_' ? '<a href="javascript:alertNodownload()">' : '<a href="'+api+"docs/"+linkdownload+'"  target="_blank">' 
           trHTML += '<div class="data-download">';
           trHTML += '<span class="material-symbols-outlined"> file_download </span>'
-          trHTML += '<a href="'+api+'docs/'+linkdownload+'"  target="_blank">' + 'Download File' +" "+ 1 + '</a>';
+          trHTML += ahref + 'Download File' +" "+ 'Now' + '</a>';
           trHTML += "</div>";
         
           document.getElementById("listdownload").innerHTML = trHTML;
    
+}
+const alertNodownload = () => {
+  Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: 'Something went wrong!',
+    footer: '<a href="">You havent uploaded the file?</a>'
+  })
 }
