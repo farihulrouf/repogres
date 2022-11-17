@@ -256,11 +256,21 @@
                   Desk Rencana Umum Pengadaan Barang /jasa </br> Tahun Anggaran 2023 Kabupaten Gresik
                 </div>
               </div>
-              <hr style="margin-top: 100px; width: 100%;">
-              </hr>
-              <div id="detailinformasi">
-
-              </div>
+              
+              <table class="styled-table" style="margin-top: 100px;">
+                <thead>
+                  <tr>
+                    <th width="2%">NO</th>
+                    <th width="33%">NAMA SKPD</th>
+                    <th width="32%">PAGU OPD</th>
+                    <th width="33%">PAGU RUP</th>
+                  </tr>
+                </thead>
+                <tbody id="detailinformasi">
+                  <tr></tr>
+                </tbody>
+              </table>
+    
             </div>
             <div id="idlaporan">
 
@@ -292,9 +302,9 @@
                   <thead>
                     <tr>
                       <th width="2%">NO</th>
-                      <th width="28%">JENIS PENGADAAN</th>
-                      <th width="30%">JUMLAH PAGU</th>
-                      <th width="22%%">JUMLAH PAKET</th>
+                      <th width="33%">JENIS PENGADAAN</th>
+                      <th width="32%">JUMLAH PAGU</th>
+                      <th width="33%%">JUMLAH PAKET</th>
                     </tr>
                   </thead>
                   <tbody id="totalpengadaan">
@@ -323,7 +333,16 @@
 
               </div>
               <table class="styled-table">
-                <tr id="reporttenderseleksi">
+                <tr>
+                  <td class="bg-td">
+                    Seleksi
+                  </td>
+                  <td class="bg-td">
+                    Tender
+                  </td>
+                  <td class="bg-td">
+                    Tender Cepat
+                  </td>
 
                 </tr>
                 <tr id="reporttenderseleksijumlah">
@@ -572,12 +591,18 @@
                 <tr></tr>
               </tbody>
             </table>
-            <div style="margin-right:200px;margin-top:70px;">
+            <div id="uploudform">
               <form class="filetype" id="form">
                 <input type="file" accept="application/pdf" id="file"></input><br>
-             
+                
                 <button type="submit" onclick="uploudData()">Upload file</button>
               </form>
+              <div>
+                List data Download
+                <div id="listdownload">
+
+                </div>
+              </div>
           </div>
           </div>
 

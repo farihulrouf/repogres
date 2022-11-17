@@ -38,7 +38,7 @@ function detailTotalTenderDetailCepatSeleksiAll() {
     };
 
 }
-
+/*
 function detailTotalTenderDetailCepatSeleksi() {
     //console.log("lihat id",id)
     const xhttp = new XMLHttpRequest();
@@ -68,6 +68,7 @@ function detailTotalTenderDetailCepatSeleksi() {
     };
 
 }
+*/
 
 function detailTotalTenderDetailCepatSeleksi() {
     //console.log("lihat id",id)
@@ -105,5 +106,5 @@ function detailTotalTenderDetailCepatSeleksi() {
     };
 
 }
-detailTotalTenderDetailCepatSeleksi()
+//detailTotalTenderDetailCepatSeleksi()
 detailTotalTenderDetailCepatSeleksiAll()

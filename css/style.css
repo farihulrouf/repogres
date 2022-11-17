@@ -8,6 +8,7 @@
   font-family: 'Poppins', sans-serif;
 }
 
+
 .sidebar {
   position: fixed;
   height: 100%;
@@ -694,16 +695,14 @@ label {
 
 .info-text-detail-pagu {
   margin-top: 10px;
-  width: 400px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   font-size: 16px;
 }
 
 .name-text-detail-pagu {
   text-align: left;
-  width: 150px;
+  margin-left: 20px;
 }
 
 #add-data {
@@ -717,8 +716,7 @@ label {
 
   top: 80px;
 }
-.contain-popup {
-}
+
 .text-date-input {
   display: flex;
   align-items: center;
@@ -734,9 +732,11 @@ label {
   background-color: #0A2558;
   color: white;
 }
+/*
 select#input-select {
   width: 200px;
 }
+*/
 .printpreview {
   display: flex;
   justify-content: space-between;
@@ -761,9 +761,11 @@ select#input-select {
   justify-content: space-between;
   
 }
+/*
 .tahun-anggaran select {
   padding: 2px;
 }
+*/
 
 
 /*-------------------------- spinner */
@@ -937,8 +939,24 @@ select#input-select {
   
 }
 
+#uploudform {
+  display: flex;
+  justify-content: space-between;
+}
+
 #file {
 
+}
+.data-download {
+  margin-top: 8px;
+  padding: 5px;
+  background: teal;
+  color: white;
+  display: flex;
+  align-items: center;
+}
+.data-download a {
+  color: white;
 }
 
 ::-webkit-file-upload-button {
@@ -946,11 +964,5 @@ select#input-select {
   color: white;
   padding: 10px;
   border: none;
-}
+} 
 
-
-
-
-
-
-  

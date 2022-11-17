@@ -15,7 +15,11 @@ var subKegiatanGlobal = ''
 let subKegiatanGlobalAll = {}
 let subKegiatan = [];
 let namaSKPD = ''
-function loadTable() {
+let Namepaguskpd = ''
+let Namepaguorp = ''
+let pdnTotalObject={}
+let pdnTotalObjectAll={}
+const loadTable = () => {
 
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api_url);
@@ -118,10 +122,10 @@ function showCreateAnggaran(anggaran) {
       title: 'Swakelola',
       html:
         '<input id="id" type="hidden">' +
-        '<select id="dropdown-list" onfocus="loadDataKegiatan()" class="swal2-input"><option value="DEFAULT">Sub Kegiatan SKPD</option></select>' +
-        '<input id="pagu" class="swal2-input" onfocus="(this.type=`number`)" placeholder="Pagu">' +
-        '<input id="keterangan" class="swal2-input"  placeholder="Keterangan">' +
-        '<input id="pdn" onfocus="(this.type=`number`)" class="swal2-input" placeholder="PDN %">',
+        '<select id="dropdown-list" style="width:55%" onfocus="loadDataKegiatan()" class="swal2-input"><option value="DEFAULT">Sub Kegiatan SKPD</option></select>' +
+        '<input id="pagu" style="width:55%" class="swal2-input" onfocus="(this.type=`number`)" placeholder="Pagu">' +
+        '<input id="keterangan" style="width:55%" class="swal2-input"  placeholder="Keterangan">' +
+        '<input id="pdn" style="width:55%" onfocus="(this.type=`number`)" class="swal2-input" placeholder="PDN %">',
 
       focusConfirm: false,
       preConfirm: () => {
@@ -191,17 +195,19 @@ function CreateDetailPagu(api_param, header_title) {
   console.log("isidari", selectSubkegiatan)
 
   const xhttp = new XMLHttpRequest();
-  xhttp.open("POST", api_param);
+  xhttp.open("POST", api+'api/langsung');
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(JSON.stringify({
     "name": selectSubkegiatan,
     "paket": paket,
+    "tipe": "default",
     "pagu": parseInt(pagu),
     "jadwal": waktupemanfaatan,
     "pemilihan": waktupemilihan,
     "pelaksanaan": waktupelaksanaan,
     "pdn": parseInt(pdn),
-    "ket": selecinput,
+    "tender": selecinput,
+    "ket":  "ket",
     "idpagu": id_global
   }));
 
@@ -233,6 +239,9 @@ function CreateSwakelola(api_param, header_title) {
     "tipe": header_title,
     "jadwal": "12-12-2022",
     "ket": keterangan,
+    "tender": "default",
+    "pelaksanaan": "12-12-2022",
+    "pemilihan": "12-12-2022",
     "pdn": parseInt(pdn),
     "idpagu": id_global
   }));
@@ -270,6 +279,9 @@ function CreateDetailLain(api_param, header_title) {
     "jadwal": waktupemanfaatan,
     "pdn": parseInt(pdn),
     "ket": "ket",
+    "tender": "default",
+    "pelaksanaan": "12-12-2022",
+    "pemilihan": "12-12-2022",
     "idpagu": id_global
   }));
 
@@ -349,9 +361,14 @@ function detailPage(id) {
   detailTotalTenderDetailReport(id)
   detailTotalTenderDetailReportJumlah(id)
   detailTotalTenderDetailReportJumlahPagu(id)
-  detailTotalTenderDetailReportSeleksi(id)
+  //detailTotalTenderDetailReportSeleksi(id)
   detailTotalTenderDetailReportSeleksiJumlah(id)
   detailTotalTenderDetailReportSeleksiRupiah(id)
+  //totalPdn(id)
+  //totalPdnTender(id)
+  detaiDownload(id)
+  //infoTotalDn()
+
   //skpdName(id)
 
 }
@@ -372,8 +389,6 @@ function detailAnggaran(id) {
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api_url_anggaran + '/pagu/' + id);
   xhttp.send();
-  console.log("anggaran di eksekusi", id)
-
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       var trHTML = '';
@@ -386,6 +401,8 @@ function detailAnggaran(id) {
         for (let object of objects.data.data) {
           let id_obj = object['id']
           i++
+          //console.log("hasil total pdn", pdnTotalObject)
+          //console.log("this data",object)
           trHTML += '<tr>';
           trHTML += '<td>' + i + '</td>';
           trHTML += '<td>' + object['name'] + '</td>';
@@ -422,28 +439,28 @@ function detailPaguItem(id) {
       const objects = JSON.parse(this.responseText);
 
       const posts = objects.data.data
-      //console.log(posts)
+     
       namaSKPD = posts.name
-      //console.log(namaSKPD)
-      // i++;
+      Namepaguskpd = posts.paguopdp
+      Namepaguorp = posts.paguorp
+
       id_global = posts.id
       var trHTML = '';
-      trHTML += '<div class="detail-info-pagu">';
-      trHTML += '<div class="info-text-detail-pagu">' + '<p>' + `Nama SKPD :` + '</p>' + '<p class="name-text-detail-pagu">' + posts['name'] + '</p>' + '</div>';
-      trHTML += '<div class="info-text-detail-pagu">' + '<p>' + `Jumlah Pagu OPD :` + '</p>' + '<p class="name-text-detail-pagu">' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
+      trHTML += '<td>' + 1 + '</td>';
+      trHTML += '<td>' + posts['name'] + '</p>' + '</td>';
+      trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
         style: 'currency',
         currency: 'IDR'
       }).format(posts['paguopdp']).replace(/[IDR]/gi, '')
         .replace(/(\.+\d{2})/, '')
-        .trimLeft() + '</p>' + '</div>';
-      trHTML += '<div class="info-text-detail-pagu">' + '<p>' + `Jumlah Pagu ORP :` + '</p>' + '<p class="name-text-detail-pagu">' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
+        .trimLeft() + '</p>' + '</td>';
+      trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
         style: 'currency',
         currency: 'IDR'
       }).format(posts['paguorp']).replace(/[IDR]/gi, '')
         .replace(/(\.+\d{2})/, '')
-        .trimLeft() + '</p>' + '</div>';
-      trHTML += "</div";
-
+        .trimLeft() + '</td>';
+    
       document.getElementById("detailinformasi").innerHTML = trHTML;
     }
   };
@@ -451,9 +468,11 @@ function detailPaguItem(id) {
 
 const detailTender = (id) => {
   const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", api_url_tender + '/pagu/' + id);
+
+  xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/default')
+  //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
   xhttp.send();
-  console.log("anggaran di eksekusi", id)
+  //console.log("anggaran di eksekusi", id)
 
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
@@ -467,7 +486,6 @@ const detailTender = (id) => {
         for (let object of objects.data.data) {
           let id_obj = object['id']
           i++
-
           trHTML += '<tr>';
           trHTML += '<td>' + i + '</td>';
           trHTML += '<td>' + object['name'] + '</td>';
@@ -482,11 +500,10 @@ const detailTender = (id) => {
           trHTML += '<td>' + object['pemilihan'] + '</td>';
           trHTML += '<td>' + object['pelaksanaan'] + '</td>';
           trHTML += '<td>' + object['jadwal'] + '</td>';
-          trHTML += '<td>' + object['ket'] + '</td>';
+          trHTML += '<td>' + object['tender'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
           trHTML += '<td><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showTenderDetailEditBox(\'' + id_obj + '\',`tender`,\'' + api_url_tender + '\')">edit </span></a>';
-          trHTML += '<a href="javascript:void(0)"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`tender`,\'' + api_url_tender + '\')">delete_forever</span></a></td>';
-
+          trHTML += '<a href="javascript:void(0)"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`plangsung`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
           trHTML += "</tr>";
         }
       }
@@ -505,7 +522,7 @@ const detailLangsung = (id) => {
   xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/langsung')
   //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
   xhttp.send();
-  console.log("anggaran di eksekusi", id)
+  //console.log("anggaran di eksekusi", id)
 
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
@@ -553,7 +570,7 @@ const detailPenunjukanLangsug = (id) => {
   xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/plangsung')
   //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
   xhttp.send();
-  console.log("anggaran di eksekusi", id)
+  //console.log("anggaran di eksekusi", id)
 
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
@@ -602,7 +619,7 @@ const detailPurchasing = (id) => {
   xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/purchasing')
   //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
   xhttp.send();
-  console.log("anggaran di eksekusi", id)
+  //console.log("anggaran di eksekusi", id)
 
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
@@ -702,7 +719,7 @@ const detailSwakelola = (id) => {
   xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/swakelola')
   //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
   xhttp.send();
-  console.log("anggaran di eksekusi", id)
+  //console.log("anggaran di eksekusi", id)
 
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
@@ -1009,7 +1026,7 @@ const showFastTender = (anggaran) => {
 function detailTotalTenderDetailCepatSeleksi(id) {
   //console.log("lihat id",id)
   const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", api_url_total_paket + '/' + id)
+  xhttp.open("GET", api+ 'api/langsung/totalseleksitender/' + id)
   //xhttp.open("GET", api_url_total_tender_detail+'/'+id)
   xhttp.send();
   xhttp.onreadystatechange = function () {
@@ -1025,7 +1042,7 @@ function detailTotalTenderDetailCepatSeleksi(id) {
           i = i + 1;
           trHTML += '<tr>';
           trHTML += '<td>' + i + '</td>';
-          trHTML += '<td>' + object['ket'] + '</td>';
+          trHTML += '<td>' + object['tender'] + '</td>';
           trHTML += '<td>' +'Rp' +' '+ new Intl.NumberFormat('en-ID', {
             style: 'currency',
             currency: 'IDR'
@@ -1239,6 +1256,7 @@ function detailTotalTenderDetailReportJumlahPagu(id) {
 
 }
 
+/*
 function detailTotalTenderDetailReportSeleksi(id) {
   //console.log("lihat id",id)
   const xhttp = new XMLHttpRequest();
@@ -1276,10 +1294,11 @@ function detailTotalTenderDetailReportSeleksi(id) {
   };
 
 }
+*/
 function detailTotalTenderDetailReportSeleksiJumlah(id) {
   //console.log("lihat id",id)
   const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", api_url_total_paket + '/' + id)
+  xhttp.open("GET", api + 'api/langsung/totalseleksitender/' + id)
   //xhttp.open("GET", api_url_total_tender_detail+'/'+id)
   xhttp.send();
   xhttp.onreadystatechange = function () {
@@ -1292,18 +1311,9 @@ function detailTotalTenderDetailReportSeleksiJumlah(id) {
         let i = 0
         for (let object of objects.data.data) {
           let id_obj = object['id']
-          //console.log(object.tipe)
-
-
           i = i + 1;
-
-          // trHTML += '<tr>';
           trHTML += '<td>' + object['total'] + '</td>';
-          //trHTML += '<td>' + object['total'] + '</td>';
-          //trHTML += "</tr>";
-
-
-          // 
+        
 
         }
 
@@ -1318,7 +1328,7 @@ function detailTotalTenderDetailReportSeleksiJumlah(id) {
 function detailTotalTenderDetailReportSeleksiRupiah(id) {
   //console.log("lihat id",id)
   const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", api_url_total_paket + '/' + id)
+  xhttp.open("GET", api + 'api/langsung/totalseleksitender/' + id)
   //xhttp.open("GET", api_url_total_tender_detail+'/'+id)
   xhttp.send();
   xhttp.onreadystatechange = function () {
@@ -1342,13 +1352,6 @@ function detailTotalTenderDetailReportSeleksiRupiah(id) {
           .replace(/[IDR]/gi, '')
           .replace(/(\.+\d{2})/, '')
           .trimLeft() + '</td>';
-          // trHTML += '<tr>';
-          //trHTML += '<td>' + object['totalpagu'] + '</td>';
-          //trHTML += '<td>' + object['total'] + '</td>';
-          //trHTML += "</tr>";
-
-
-          // 
 
         }
 
@@ -1358,6 +1361,73 @@ function detailTotalTenderDetailReportSeleksiRupiah(id) {
   };
 
 }
+/*
+const totalPdn = (id) => {
+  //console.log("lihat id",id)
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", api + 'api/totalpdn'+ '/' + id)
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+     
+      const objects = JSON.parse(this.responseText);
+
+      let keys = Object.keys(objects);
+      keys.forEach(key => {
+        pdnTotalObject[key] = (objects[key] == null ? "" : objects[key]);
+      });
+      
+      if (objects.data.data != null) {
+        let i = 0
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          
+          //console.log(objects.data.data)
+        }
+
+       // document.getElementById("jumlahrupiahcepat").innerHTML = trHTML;
+      }
+    }
+  };
+ // console.log("hasil total pdn", pdnTotalObject)
+}
+const infoTotalDn = () => {
+  console.log(pdnTotalObject)
+  console.log("this one",pdnTotalObjectAll)
+}
+*/
+/*
+const totalPdnTender = (id) => {
+  //console.log("lihat id",id)
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", api + 'api/totalpdntender'+ '/' + id)
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+     
+      const objects = JSON.parse(this.responseText);
+      //pdnTotalObject = objects
+
+      let keys = Object.keys(objects.data);
+      keys.forEach(key => {
+        pdnTotalObjectAll[key] = (objects[key] == null ? "" : objects[key]);
+      });
+      
+      if (objects.data.data != null) {
+        let i = 0
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          
+         // console.log(objects.data.data)
+        }
+
+       // document.getElementById("jumlahrupiahcepat").innerHTML = trHTML;
+      }
+    }
+  };
+
+}
+*/
 
 function refreshTotal() {
   console.log("refresh di eksekusi")
@@ -1366,31 +1436,83 @@ function refreshTotal() {
   detailTotalTenderDetailReport(id_global)
   detailTotalTenderDetailReportJumlah(id_global)
   detailTotalTenderDetailReportJumlahPagu(id_global)
-  detailTotalTenderDetailReportSeleksi(id_global)
+  //detailTotalTenderDetailReportSeleksi(id_global)
   detailTotalTenderDetailReportSeleksiJumlah(id_global)
   detailTotalTenderDetailReportSeleksiRupiah(id_global)
+  //totalPdn(id_global)
+  //totalPdnTender(id_global)
+  infoTotalDn()
   //skpdName(id)
 
+}
+
+const uploadDataFile = () => {
+
+  const id = document.getElementById("id").value;
+  const name = document.getElementById("name").value;
+  const paguopd = document.getElementById("paguopd").value;
+  const paguorp = document.getElementById("paguorp").value;
+
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("PUT", api_url + "/" + id);
+  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhttp.send(JSON.stringify({
+    "name": namaSKPD, "paguopdp": Namepaguskpd, "paguorp": Namepaguorp
+  }));
+  xhttp.onreadystatechange = function () {
+   // loadTable();
+
+  };
 }
 
 const uploudData = () => {
   document.getElementById('form').addEventListener('submit', function(e){
   e.preventDefault();
   const userFile = document.getElementById('file').files[0]
-  //const userComment = document.getElementById('comment').value;
-  //const idpagu = document.getElementById('idpagu').value;
   const formData = new FormData();
   formData.append('file', userFile);
-  //ormData.append('comment', userComment)
+  formData.append('paguorp', Namepaguorp)
+  formData.append('paguopdp', Namepaguskpd)
+  formData.append('name', namaSKPD)
   formData.append('idpagu', id_global)
-  fetch(api+'api/uploud', {
-      method: "POST",
+  fetch(api+'api/pagus/edit/'+id_global, {
+      method: "PUT",
       body: formData,
   })
   .then(res => res.json())
-  .then(data => console.log(data))
+  .then(data => 
+   // console.log(data)
+    detaiDownload(id_global)
+  )
   .catch(err => console.log(err))
 
   })
 }
 
+function detaiDownload(id) {
+  //console.log("lihat id",id)
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", api + 'api/upload/' + id)
+  //xhttp.open("GET", api_url_total_tender_detail+'/'+id)
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var trHTML = '';
+      const objects = JSON.parse(this.responseText);
+      if (objects.data.data != null) {
+        let i = 0
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          //console.log(objects.data.data)
+          i = i + 1;
+          trHTML += '<div class="data-download">';
+          trHTML += '<span class="material-symbols-outlined"> file_download </span>'
+          trHTML += '<a href="'+api+'docs/'+object['file']+'"  target="_blank">' + 'Download File' +" "+ i + '</a>';
+          trHTML += "</div>";
+        }
+        document.getElementById("listdownload").innerHTML = trHTML;
+      }
+    }
+  };
+
+}
