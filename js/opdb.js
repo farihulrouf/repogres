@@ -558,10 +558,9 @@ const detailTender = (id) => {
   const xhttp = new XMLHttpRequest();
 
   xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/default')
-  //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
-  xhttp.send();
-  //console.log("anggaran di eksekusi", id)
 
+  xhttp.send();
+  
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       var trHTML = '';
@@ -1557,10 +1556,36 @@ const uploudData = () => {
   .then(res => res.json())
   .then(data => 
    // console.log(data)
+   
     detaiDownload()
-  )
+  ).then(loadingswal())
   .catch(err => console.log(err))
 
+  })
+}
+
+const loadingswal = () => {
+  Swal.fire({
+    title: 'Auto close alert!',
+    html: 'Wait upload.',
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: () => {
+      Swal.showLoading()
+      const b = Swal.getHtmlContainer().querySelector('b')
+      timerInterval = setInterval(() => {
+        b.textContent = Swal.getTimerLeft()
+      }, 100)
+    },
+    willClose: () => {
+      clearInterval(timerInterval)
+    }
+  }).then((result) => {
+    /* Read more about handling dismissals below */
+    Swal.fire('Upload!', '', 'success')
+    if (result.dismiss === Swal.DismissReason.timer) {
+      console.log('I was closed by the timer')
+    }
   })
 }
 
