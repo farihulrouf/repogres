@@ -969,3 +969,7 @@ select#input-select {
 .swal2-input[type=number] {
   max-width: 15em !important;
 }
+.btn-danger {
+  background: red;
+  color: white;
+}

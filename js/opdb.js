@@ -17,6 +17,7 @@ let subKegiatan = [];
 let namaSKPD = ''
 let Namepaguskpd = ''
 let Namepaguorp = ''
+let linkdownload = ''
 let pdnTotalObject={}
 let pdnTotalObjectAll={}
 const loadTable = () => {
@@ -212,11 +213,19 @@ function CreateDetailPagu(api_param, header_title) {
   }));
 
   xhttp.onreadystatechange = function () {
-    detailTender(id_global)
+    if (this.readyState == 4 && this.status == 201){
+       Swal.fire('Saved!', '', 'success')
+       detailTender(id_global)
+    }
+    else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        footer: '<a href="">Why do I have this issue?</a>'
+      })
+    }
   };
-
-
-
 
 }
 
@@ -249,11 +258,22 @@ function CreateSwakelola(api_param, header_title) {
 
 
   xhttp.onreadystatechange = function () {
-    detailLangsung(id_global)
-    detailPenunjukanLangsug(id_global)
-    detailPurchasing(id_global)
-    detailPengecualian(id_global)
-    detailSwakelola(id_global)
+    if (this.readyState == 4 && this.status == 201){
+      Swal.fire('Saved!', '', 'success')
+      detailLangsung(id_global)
+      detailPenunjukanLangsug(id_global)
+      detailPurchasing(id_global)
+      detailPengecualian(id_global)
+      detailSwakelola(id_global)
+   }
+   else {
+     Swal.fire({
+       icon: 'error',
+       title: 'Oops...',
+       text: 'Something went wrong!',
+       footer: '<a href="">Why do I have this issue?</a>'
+     })
+   }
   };
 
 }
@@ -286,11 +306,22 @@ function CreateDetailLain(api_param, header_title) {
   }));
 
   xhttp.onreadystatechange = function () {
-    detailLangsung(id_global)
-    detailPenunjukanLangsug(id_global)
-    detailPurchasing(id_global)
-    detailPengecualian(id_global)
-    refreshTotal()
+    if (this.readyState == 4 && this.status == 201){
+      Swal.fire('Saved!', '', 'success')   
+      detailLangsung(id_global)
+      detailPenunjukanLangsug(id_global)
+      detailPurchasing(id_global)
+      detailPengecualian(id_global)
+      refreshTotal()
+   }
+   else {
+     Swal.fire({
+       icon: 'error',
+       title: 'Oops...',
+       text: 'Something went wrong!',
+       footer: '<a href="">Why do I have this issue?</a>'
+     })
+   }
   };
 
 }
@@ -313,10 +344,42 @@ function paguDelete(id) {
 
 }
 function detailDelete(id, tender, api) {
-  //console.log("data coba delete id", tender)
+
   let typedelete = ''
-  console.log("informasi api", api)
-  console.log(api)
+ 
+  
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'No, cancel!',
+    reverseButtons: true
+
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire(
+        deleteTender(id, tender, api),
+        'Deleted!',
+        'Your file has been deleted.',
+        'success'
+      )
+    } else if (
+      /* Read more about handling dismissals below */
+      result.dismiss === Swal.DismissReason.cancel
+    ) {
+      Swal.fire(
+        'Cancelled',
+        'Your imaginary file is safe :)',
+        'error'
+      )
+    }
+  })
+
+  /*
   const xhttp = new XMLHttpRequest();
   xhttp.open("DELETE", api + "/" + id);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -334,8 +397,30 @@ function detailDelete(id, tender, api) {
 
 
   };
+  */
 }
 
+
+const deleteTender = (id, tender, api) => {
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("DELETE", api + "/" + id);
+  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhttp.send(JSON.stringify({
+    "id": id
+  }));
+  xhttp.onreadystatechange = function () {
+    detailTender(id_global)
+    detailLangsung(id_global)
+    detailPenunjukanLangsug(id_global)
+    detailPurchasing(id_global)
+    detailPengecualian(id_global)
+    detailSwakelola(id_global)
+    refreshTotal()
+
+
+  };
+
+}
 const refreshPage = () => [
   detailAnggaran(id_global)
 ]
@@ -366,7 +451,7 @@ function detailPage(id) {
   detailTotalTenderDetailReportSeleksiRupiah(id)
   //totalPdn(id)
   //totalPdnTender(id)
-  detaiDownload(id)
+  //detaiDownload()
   //infoTotalDn()
 
   //skpdName(id)
@@ -443,7 +528,8 @@ function detailPaguItem(id) {
       namaSKPD = posts.name
       Namepaguskpd = posts.paguopdp
       Namepaguorp = posts.paguorp
-
+      linkdownload = posts.filtipe
+      //console.log(linkdownload)
       id_global = posts.id
       var trHTML = '';
       trHTML += '<td>' + 1 + '</td>';
@@ -462,8 +548,10 @@ function detailPaguItem(id) {
         .trimLeft() + '</td>';
     
       document.getElementById("detailinformasi").innerHTML = trHTML;
+      detaiDownload()
     }
   };
+ 
 }
 
 const detailTender = (id) => {
@@ -996,6 +1084,10 @@ const showFastTender = (anggaran) => {
   //console.log("isi id",id)
   Swal.fire({
     title: anggaran,
+    showDenyButton: true,
+    showCancelButton: true,
+    confirmButtonText: 'Save',
+    denyButtonText: `Don't save`,
     html:
       '<input id="id" type="hidden">' +
       '<select id="dropdown-list" style="width:15em" onfocus="loadDataKegiatan()" class="swal2-input"><option value="DEFAULT">Sub Kegiatan SKPD</option></select>' +
@@ -1007,10 +1099,10 @@ const showFastTender = (anggaran) => {
       '<input type="text" onfocus="(this.type=`date`)" style="width:15em" class="swal2-input time-input" placeholder="Waktu Pemanfaatan" id="pemanfaatan" name="trip-start"  min="2018-11-10" max="2025-12-31">' +
       '<input id="pdn" type="text" class="swal2-input" style="width:15em" onfocus="(this.type=`number`)"  placeholder="PDN %">',
     focusConfirm: false,
-
     preConfirm: () => {
 
       CreateDetailPagu(api_url_tender, anggaran)
+     // Swal.fire('Saved!', '', 'success')
       refreshTotal()
       //paguCreate();
     }
@@ -1441,29 +1533,12 @@ function refreshTotal() {
   detailTotalTenderDetailReportSeleksiRupiah(id_global)
   //totalPdn(id_global)
   //totalPdnTender(id_global)
-  infoTotalDn()
+  //infoTotalDn()
   //skpdName(id)
 
 }
 
-const uploadDataFile = () => {
 
-  const id = document.getElementById("id").value;
-  const name = document.getElementById("name").value;
-  const paguopd = document.getElementById("paguopd").value;
-  const paguorp = document.getElementById("paguorp").value;
-
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("PUT", api_url + "/" + id);
-  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhttp.send(JSON.stringify({
-    "name": namaSKPD, "paguopdp": Namepaguskpd, "paguorp": Namepaguorp
-  }));
-  xhttp.onreadystatechange = function () {
-   // loadTable();
-
-  };
-}
 
 const uploudData = () => {
   document.getElementById('form').addEventListener('submit', function(e){
@@ -1482,37 +1557,22 @@ const uploudData = () => {
   .then(res => res.json())
   .then(data => 
    // console.log(data)
-    detaiDownload(id_global)
+    detaiDownload()
   )
   .catch(err => console.log(err))
 
   })
 }
 
-function detaiDownload(id) {
+const detaiDownload = () => {
   //console.log("lihat id",id)
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", api + 'api/upload/' + id)
-  //xhttp.open("GET", api_url_total_tender_detail+'/'+id)
-  xhttp.send();
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      var trHTML = '';
-      const objects = JSON.parse(this.responseText);
-      if (objects.data.data != null) {
-        let i = 0
-        for (let object of objects.data.data) {
-          let id_obj = object['id']
-          //console.log(objects.data.data)
-          i = i + 1;
+  console.log("this",linkdownload)
+        var trHTML =''
           trHTML += '<div class="data-download">';
           trHTML += '<span class="material-symbols-outlined"> file_download </span>'
-          trHTML += '<a href="'+api+'docs/'+object['file']+'"  target="_blank">' + 'Download File' +" "+ i + '</a>';
+          trHTML += '<a href="'+api+'docs/'+linkdownload+'"  target="_blank">' + 'Download File' +" "+ 1 + '</a>';
           trHTML += "</div>";
-        }
-        document.getElementById("listdownload").innerHTML = trHTML;
-      }
-    }
-  };
-
+        
+          document.getElementById("listdownload").innerHTML = trHTML;
+   
 }
