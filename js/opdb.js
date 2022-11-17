@@ -73,10 +73,21 @@ function paguCreate() {
   xhttp.open("POST", api_url);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(JSON.stringify({
-    "name": name, "paguopdp": paguopd, "paguorp": paguorp
+    "name": name, "paguopdp": paguopd, "paguorp": paguorp, "filetipe": "_"
   }));
   xhttp.onreadystatechange = function () {
-    loadTable();
+    if (this.readyState == 4 && this.status == 201){
+       Swal.fire('Saved Pagu!', '', 'success')
+       loadTable();
+    }
+    else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        footer: '<a href="">Why do I have this issue?</a>'
+      })
+    }
 
   };
 }
@@ -84,11 +95,15 @@ function paguCreate() {
 function showUserCreateBox() {
   Swal.fire({
     title: 'Create Pagu',
+    icon: 'success',
+    showDenyButton: true,
+    confirmButtonText: 'Save',
+    denyButtonText: `Don't save`,
     html:
       '<input id="id" type="hidden">' +
       '<input id="name" class="swal2-input" placeholder="Nama SKPD">' +
-      '<input id="paguopd" class="swal2-input" placeholder="Pagu SKPD">' +
-      '<input id="paguorp" class="swal2-input" placeholder="Pagu RUP">',
+      '<input id="paguopd" type="number" class="swal2-input" placeholder="Pagu SKPD">' +
+      '<input id="paguorp" type="number" class="swal2-input" placeholder="Pagu RUP">',
     focusConfirm: false,
     preConfirm: () => {
       paguCreate();
@@ -326,11 +341,7 @@ function CreateDetailLain(api_param, header_title) {
 
 }
 
-
-function paguDelete(id) {
-
-  console.log("data coba delete id", id)
-
+const deletePagu = (id) => {
   const xhttp = new XMLHttpRequest();
   xhttp.open("DELETE", api + "api/pagus/" + id);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -339,8 +350,41 @@ function paguDelete(id) {
   }));
   xhttp.onreadystatechange = function () {
     loadTable();
-
   };
+}
+
+function paguDelete(id) {
+
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'No, cancel!',
+    reverseButtons: true
+
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire(
+        deletePagu(id),
+        'Deleted!',
+        'Your file has been deleted.',
+        'success'
+      )
+    } else if (
+      /* Read more about handling dismissals below */
+      result.dismiss === Swal.DismissReason.cancel
+    ) {
+      Swal.fire(
+        'Cancelled',
+        'Your imaginary file is safe :)',
+        'error'
+      )
+    }
+  })
 
 }
 function detailDelete(id, tender, api) {
@@ -528,7 +572,7 @@ function detailPaguItem(id) {
       namaSKPD = posts.name
       Namepaguskpd = posts.paguopdp
       Namepaguorp = posts.paguorp
-      linkdownload = posts.filtipe
+      linkdownload = posts.filetipe
       //console.log(linkdownload)
       id_global = posts.id
       var trHTML = '';
@@ -857,11 +901,15 @@ const showUserEditBox = (id) => {
       const posts = objects.data.data
       Swal.fire({
         title: 'Edit Pagu',
+        showDenyButton: true,
+        confirmButtonText: 'Save',
+        denyButtonText: `Don't save`,
         html:
           '<input id="id" type="hidden" value=' + posts['id'] + '>' +
-          '<input id="name" class="swal2-input" placeholder="Nama Odp" value="' + posts['name'] + '">' +
-          '<input id="paguopd" class="swal2-input" placeholder="Pagu Odp" value="' + posts['paguopdp'] + '">' +
-          '<input id="paguorp" class="swal2-input" placeholder="Pagu Orp" value="' + posts['paguorp'] + '">',
+          '<input id="filetipe" type="hidden" value=' + posts['filetipe'] + '>' +
+          '<input id="name"  class="swal2-input" placeholder="Nama Odp" value="' + posts['name'] + '">' +
+          '<input id="paguopd" type="number" class="swal2-input" placeholder="Pagu Odp" value="' + posts['paguopdp'] + '">' +
+          '<input id="paguorp" type="number" class="swal2-input" placeholder="Pagu Orp" value="' + posts['paguorp'] + '">',
         focusConfirm: false,
         preConfirm: () => {
           paguEdit()
@@ -998,21 +1046,33 @@ const editAnggaran = () => {
 
 
 
-function paguEdit() {
+const paguEdit = () => {
 
   const id = document.getElementById("id").value;
   const name = document.getElementById("name").value;
   const paguopd = document.getElementById("paguopd").value;
   const paguorp = document.getElementById("paguorp").value;
+  const filetipe = document.getElementById("filetipe").value;
 
   const xhttp = new XMLHttpRequest();
   xhttp.open("PUT", api_url + "/" + id);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(JSON.stringify({
-    "name": name, "paguopdp": paguopd, "paguorp": paguorp
+    "name": name, "paguopdp": paguopd, "paguorp": paguorp, "filetipe": filetipe
   }));
   xhttp.onreadystatechange = function () {
-    loadTable();
+    if (this.readyState == 4 && this.status == 200){
+      Swal.fire('Saved!', '', 'success')  
+      loadTable();
+   }
+   else {
+     Swal.fire({
+       icon: 'error',
+       title: 'Oops...',
+       text: 'Something went wrong!',
+       footer: '<a href="">Why do I have this issue?</a>'
+     })
+   }
 
   };
 }
