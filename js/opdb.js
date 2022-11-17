@@ -116,6 +116,10 @@ function showCreateAnggaran(anggaran) {
   if (header_title == "anggaran") {
     Swal.fire({
       title: namaSKPD,
+      icon: 'success',
+      showDenyButton: true,
+      confirmButtonText: 'Save',
+      denyButtonText: `Don't save`,
       html:
         '<input id="id" type="hidden">' +
         '<input id="name" class="swal2-input" placeholder="Sub Kegiatan">' +
@@ -136,6 +140,10 @@ function showCreateAnggaran(anggaran) {
     });
     Swal.fire({
       title: 'Swakelola',
+      icon: 'success',
+      showDenyButton: true,
+      confirmButtonText: 'Save',
+      denyButtonText: `Don't save`,
       html:
         '<input id="id" type="hidden">' +
         '<select id="dropdown-list" style="width:15em" onfocus="loadDataKegiatan()" class="swal2-input"><option value="DEFAULT">Sub Kegiatan SKPD</option></select>' +
@@ -154,7 +162,10 @@ function showCreateAnggaran(anggaran) {
 
     Swal.fire({
       title: anggaran == 'plangsung' ? "Penunjukan Langsung" : anggaran == 'kecuali' ? "Pengadaaan Di kecualikan" : anggaran == 'langsung' ? "Pengadaan Langsung" : "E-Purchsing",
-
+      icon: 'success',
+      showDenyButton: true,
+      confirmButtonText: 'Save',
+      denyButtonText: `Don't save`,
       html:
         '<input id="id" type="hidden">' +
         '<select id="dropdown-list" style="width:15em" onfocus="loadDataKegiatan()" class="swal2-input"><option value="DEFAULT">Sub Kegiatan SKPD</option></select>' +
@@ -1018,7 +1029,11 @@ const showLangsungEditBox = (id, header_title, api_param) => {
       const posts = objects.data.data
       // console.log(posts)
       Swal.fire({
-        title: header_title,
+        title: "Edit",
+        icon: 'success',
+        showDenyButton: true,
+        confirmButtonText: 'Save',
+        denyButtonText: `Don't save`,
         html:
           '<input id="id" type="hidden" value=' + posts['id'] + '>' +
           '<input id="tipe" type="hidden" value=' + posts['tipe'] + '>' +
