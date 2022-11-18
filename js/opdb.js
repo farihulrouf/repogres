@@ -888,7 +888,7 @@ const detailSwakelola = (id) => {
             .trimLeft() + '</td>';
           trHTML += '<td>' + object['ket'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
-          trHTML += '<td><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
+          trHTML += '<td><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showSwakelolaEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')">edit </span></a>';
           trHTML += '<a href="javascript:void(0)"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`swakelola`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
 
           trHTML += "</tr>";
@@ -1094,8 +1094,103 @@ const showTenderDetailEditBox = (id, header_title, api_param) => {
 
 }
 
+const showSwakelolaEditBox = (id, header_title, api_param) => {
+  //console.log(api_param_anggaran)
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", api_param + '/' + id);
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const objects = JSON.parse(this.responseText);
+      const posts = objects.data.data
+      // console.log(posts)
+      Swal.fire({
+        title: "Edit Swakelola",
+        icon: 'success',
+        showDenyButton: true,
+        confirmButtonText: 'Save',
+        denyButtonText: `Don't save`,
+        html:
+          '<input id="id" type="hidden" value=' + posts['id'] + '>' +
+          //'<input id="tipe" type="hidden" value=' + posts['tipe'] + '>' +
+          '<input id="idpagu" type="hidden" value=' + posts['idpagu'] + '>' +
+          //'<input id="tender" type="text" value=' + posts['tender'] + '>' +
+          //'<input id="pelaksanaan" type="hidden" value=' + posts['pelaksanaan'] + '>' +
+          //'<input id="pemilihan" type="hidden" value=' + posts['pemilihan'] + '>' +
+          //'<input id="paket" type="hidden" value=' + posts['paket'] + '>' +
+          //'<input id="ket" type="hidden" value=' + posts['ket'] + '>' +
+          '<select id="dropdown-list" style="width:15em"  onfocus="loadDataKegiatan()" class="swal2-input"><option value="DEFAULT">Sub Kegiatan SKPD</option></select>' +
+
+          '<input id="pagu" style="width:15em" class="swal2-input" placeholder="Jumlah" value="' + posts['pagu'] + '">' +
+          '<input id="ket" style="width:15em" class="swal2-input" placeholder="Keterangan" value="' + posts['ket'] + '">' +
+         // '<input type="text" style="width:15em" onfocus="(this.type=`date`)" placeholder="Waktu Pelaksanaan" class="swal2-input" id="pelaksanaan" name="trip-start"  min="2022-11-10" max="2025-12-31"  value="' + posts['pelaksanaan'] + '">'+
+          '<input id="pdn" style="width:15em" type="text" onfocus="(this.type=`number`)" class="swal2-input" placeholder="PDN %" value="' + posts['pdn'] + '">',
+        focusConfirm: false,
+        preConfirm: () => {
+          swakelolaLangsungEdit()
+        }
+      })
 
 
+    }
+  };
+
+}
+
+const swakelolaLangsungEdit = () => {
+
+  const id = document.getElementById("id").value;
+  //const name = document.getElementById("name").value;
+
+  var selectSubkegiatan = document.getElementById("dropdown-list").value
+  const pagu = document.getElementById("pagu").value;
+  //const pelaksanaan = document.getElementById("pelaksanaan").value;
+  //const pemilihan = document.getElementById("pemilihan").value;
+  //const pemanfaatan = document.getElementById("pemanfaatan").value;
+  //const tipe = document.getElementById("tipe").value;
+  const pdn = document.getElementById("pdn").value
+ // const tender = document.getElementById("tender").value
+
+  //const tenderlo = document.getElementById("tender").value
+  //const paket = document.getElementById("paket").value
+  const idpagu = document.getElementById("idpagu").value
+  const keterangan = document.getElementById("ket").value
+ 
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("PUT", api + "api/langsung/" + id);
+  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhttp.send(JSON.stringify({
+    "name": selectSubkegiatan, 
+    "pagu": parseInt(pagu), 
+    "jadwal": "12-12-2022", 
+    "tipe": 'swakelola', 
+    "pdn": parseInt(pdn), 
+    "idpagu": idpagu, 
+    "tender": "default", 
+    "pelaksanaan": "12-12-2022", 
+    "pemilihan": "12-12-2022", 
+    "paket": "default", 
+    "ket": keterangan,
+  }));
+  
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200){
+      Swal.fire('Saved!', '', 'success')  
+      detailSwakelola(id_global)
+      refreshTotal()
+   }
+   else {
+     Swal.fire({
+       icon: 'error',
+       title: 'Oops...',
+       text: 'Something went wrong!',
+       footer: '<a href="">Why do I have this issue?</a>'
+     })
+   }
+
+  };
+  
+}
 
 
 
