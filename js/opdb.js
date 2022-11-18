@@ -11,6 +11,7 @@ const api_url_total_paket = api + "api/tender/totalpaket"
 
 const api_sub_kegiatan = api + "api/anggaran/pagu"
 var id_global = '';
+var dataPdnPenmpungTemp = [];
 var subKegiatanGlobal = ''
 let subKegiatanGlobalAll = {}
 let subKegiatan = [];
@@ -18,8 +19,24 @@ let namaSKPD = ''
 let Namepaguskpd = ''
 let Namepaguorp = ''
 let linkdownload = ''
+var dateTest = ''
 let pdnTotalObject={}
 let pdnTotalObjectAll={}
+const pdncomparation = [
+  {
+      name: 'Pengelolaan Pengadaan Barang/Jasa',
+      pdn: 30
+  },
+  {
+      name: 'Pengelolaan LPSE',
+      pdn: 30
+  },
+  {
+      name: 'Pembinaan Dan Advokasi',
+      pdn: 20
+  }
+]
+
 const loadTable = () => {
 
   const xhttp = new XMLHttpRequest();
@@ -490,6 +507,7 @@ function detailPage(id) {
   //detailGolbalAnggaran(id)
   detailPaguItem(id)
   detailAnggaran(id)
+  dataPenampung()
   detailTender(id)
   detailLangsung(id)
   detailPenunjukanLangsug(id)
@@ -512,7 +530,12 @@ function detailPage(id) {
   //skpdName(id)
 
 }
-
+const dataPenampung = () => {
+  //console.log(pdncomparation)
+  console.log("di data penampung", dateTest)
+  console.log("silver",dataPdnPenmpungTemp)
+  //console.log("nama skpd", namaSKPD)
+}
 function createElement() {
 
   var text = ["text1", "tex2", "text3", "text4"];
@@ -525,7 +548,8 @@ function createElement() {
 }
 
 
-function detailAnggaran(id) {
+const detailAnggaran = (id) => {
+  const embkono = ["silver", "larougm"]
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api_url_anggaran + '/pagu/' + id);
   xhttp.send();
@@ -533,16 +557,29 @@ function detailAnggaran(id) {
     if (this.readyState == 4 && this.status == 200) {
       var trHTML = '';
       const objects = JSON.parse(this.responseText);
+      dataPdnPenmpungTemp = embkono
+      //dateTest = objects.data.data['name']
+     // dataPdnPenmpungTempTemp = objects.data.data
       if (objects.data.data === null) {
         console.log('data kosong')
       }
       else {
         let i = 0;
+        let j = 0
         for (let object of objects.data.data) {
           let id_obj = object['id']
-          i++
+          i++;
+          //dataPdnPenmpungTempTemp = objects.data.data
           //console.log("hasil total pdn", pdnTotalObject)
           //console.log("this data",object)
+          //pdncomparation
+          // let ahref = linkdownload == '_' ? '<a href="javascript:alertNodownload()">' : '<a href="'+api+"docs/"+linkdownload+'"  target="_blank">' 
+          //console.log(pdncomparation[j].name)
+          let pdnavg = object['name'] == pdncomparation[j].name ? pdncomparation[j].pdn : 'Nan'
+          
+         // console.log("objet asli",objects.data.data)
+          //console.log("di tata",pdncomparation)
+          console.log("data penampung", dataPdnPenmpungTemp)
           trHTML += '<tr>';
           trHTML += '<td>' + i + '</td>';
           trHTML += '<td>' + object['name'] + '</td>';
@@ -553,11 +590,12 @@ function detailAnggaran(id) {
             .replace(/[IDR]/gi, '')
             .replace(/(\.+\d{2})/, '')
             .trimLeft() + '</td>';
-          trHTML += '<td>' + 'Nan' + '</td>';
+          trHTML += '<td>' + pdnavg + '</td>';
           trHTML += '<td><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showAnggaranEditBox(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')">edit </span></a>';
           trHTML += '<a href="javascript:void(0)"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')">delete_forever</span></a></td>';
 
           trHTML += "</tr>";
+          j++;
         }
       }
 
@@ -581,6 +619,7 @@ function detailPaguItem(id) {
       const posts = objects.data.data
      
       namaSKPD = posts.name
+      dateTest = posts.name
       Namepaguskpd = posts.paguopdp
       Namepaguorp = posts.paguorp
       linkdownload = posts.filetipe
@@ -1044,9 +1083,9 @@ const showLangsungEditBox = (id, header_title, api_param) => {
           //'<input id="tender" type="text" value=' + posts['tender'] + '>' +
           //'<input id="pemanfaatan" type="hidden" value=' + posts['pemanfaatan'] + '>' +
           '<input id="pemilihan" type="hidden" value=' + posts['pemilihan'] + '>' +
-          //'<input id="paket" type="hidden" value=' + posts['paket'] + '>' +
+          //'<input id="paket" type="hidden" value=' + posts['paket'] + '>' + loadSelectTender
           '<input id="ket" type="hidden" value=' + posts['ket'] + '>' +
-          '<select id="dropdown-list" style="width:15em"  onfocus="loadDataKegiatan()" class="swal2-input"><option value="DEFAULT">Sub Kegiatan SKPD</option></select>' +
+          '<select id="dropdown-list" style="width:15em"  onfocus="loadDataKegiatanEdit(\''+posts['name']+'\')" class="swal2-input"><option value="DEFAULT">Sub Kegiatan SKPD</option></select>' +
           '<input id="paket" style="width:15em" class="swal2-input" placeholder="Sub Kegiatan" value="' + posts['paket'] + '">' +
           '<input id="pagu" style="width:15em" class="swal2-input" placeholder="Jumlah" value="' + posts['pagu'] + '">' +
           '<input type="text" style="width:15em" onfocus="(this.type=`date`)" placeholder="Waktu Pelaksanaan" class="swal2-input" id="pelaksanaan" name="trip-start"  min="2022-11-10" max="2025-12-31"  value="' + posts['pelaksanaan'] + '">'+
@@ -1132,15 +1171,17 @@ const showTenderDetailEditBox = (id, header_title, api_param) => {
       const objects = JSON.parse(this.responseText);
       const posts = objects.data.data
       // console.log(posts)
+      nampaket = posts['name']
       Swal.fire({
         title: header_title,
         html:
           '<input id="id" type="hidden" value=' + posts['id'] + '>' +
           '<input id="idpagu" type="hidden" value=' + posts['idpagu'] + '>' +
-          '<select id="dropdown-list" style="width:15em"  onfocus="loadDataKegiatan()" class="swal2-input"><option value="DEFAULT">Sub Kegiatan SKPD</option></select>' +
+          //<option selected="selected">3</option>                                                             onclick="showUserEditBox(\'' + id_obj + '\')
+          '<select id="dropdown-list" style="width:15em"  onfocus="loadDataKegiatanEdit(\''+posts['name']+'\')" class="swal2-input"></select>' +
           '<input id="name" style="width:15em" class="swal2-input" placeholder="Nama Paket" value="' + posts['paket'] + '">' +
-          '<input id="pagu" style="width:15em" class="swal2-input" placeholder="Pagu" value="' + posts['pagu'] + '">' +
-          '<select class="swal2-input time-input" style="width:15em" id="input-select"> <option value="">Jenis Tender</option><option value="Tender">Tender</option><option value="Seleksi">Seleksi</option><option value="Tender cepat">Tender Cepat</option></select>' +
+          '<input id="pagu" style="width:15em" class="swal2-input" placeholder="Pagu" value="' + posts['pagu'] + '">' +  
+          '<select id="input-select" style="width:15em"  onfocus="loadSelectTender(\''+posts['tender']+'\')" class="swal2-input"><option value='+posts['tender']+'\>'+posts['tender']+'\</option></select>' +                  
           '<input id="pdn" type="text" onfocus="(this.type=`number`)" style="width:15em" class="swal2-input" placeholder="PDN %" value="' + posts['pdn'] + '">' +
           '<input type="text" onfocus="(this.type=`date`)" style="width:15em" placeholder="Waktu Pemilihan" class="swal2-input" id="pemilihan" name="trip-start"  min="2022-11-10" max="2025-12-31"  value="' + posts['pemilihan'] + '">' +
           '<input type="text" onfocus="(this.type=`date`)" style="width:15em" placeholder="Waktu Pelaksanaan" class="swal2-input" id="pelaksanaan" name="trip-start"  min="2022-11-10" max="2025-12-31"  value="' + posts['pelaksanaan'] + '">' +
@@ -1157,6 +1198,8 @@ const showTenderDetailEditBox = (id, header_title, api_param) => {
   };
 
 }
+
+
 
 const showSwakelolaEditBox = (id, header_title, api_param) => {
   //console.log(api_param_anggaran)
@@ -1177,7 +1220,7 @@ const showSwakelolaEditBox = (id, header_title, api_param) => {
         html:
           '<input id="id" type="hidden" value=' + posts['id'] + '>' +
           '<input id="idpagu" type="hidden" value=' + posts['idpagu'] + '>' +
-          '<select id="dropdown-list" style="width:15em"  onfocus="loadDataKegiatan()" class="swal2-input"><option value="DEFAULT">Sub Kegiatan SKPD</option></select>' +
+          '<select id="dropdown-list" style="width:15em"  onfocus="loadDataKegiatanEdit(\''+posts['name']+'\')" class="swal2-input"><option value="DEFAULT">Sub Kegiatan SKPD</option></select>' +
 
           '<input id="pagu" style="width:15em" class="swal2-input" placeholder="Jumlah" value="' + posts['pagu'] + '">' +
           '<input id="ket" style="width:15em" class="swal2-input" placeholder="Keterangan" value="' + posts['ket'] + '">' +
@@ -1318,8 +1361,6 @@ function showPagu() {
 
 
 
-
-
 const loadDataKegiatan = () => {
   console.log(id_global)
   let dropdown = document.getElementById('dropdown-list');
@@ -1330,7 +1371,7 @@ const loadDataKegiatan = () => {
 
   dropdown.add(defaultOption);
   dropdown.selectedIndex = 0;
-
+  //console.log(data)
   //const url = 'http://localhost:3000/api/pagus';
 
   const request = new XMLHttpRequest();
@@ -1348,6 +1389,82 @@ const loadDataKegiatan = () => {
         option.text = objects.data.data[i].name;
         option.value = objects.data.data[i].name;
         dropdown.add(option);
+        
+       
+      }
+    } else {
+      console.log("data tidak ada")
+    }
+  }
+
+  request.onerror = function () {
+    console.error('An error occurred fetching the JSON from ' + url);
+  };
+
+  request.send();
+
+}
+
+const loadSelectTender = (data) => {
+
+  let dropdown = document.getElementById('input-select');
+  dropdown.length = 0;
+
+  //let defaultOption = document.createElement('option');
+  //defaultOption.text = 'Jenis Tender';
+  //dropdown.add(defaultOption);
+
+  let dataselect = ["Tender", "Seleksi", "Tender Cepat"]
+  //dropdown.add(defaultOption);
+  for(i=0;i<dataselect.length;i++){
+        option = document.createElement('option');
+        option.text = dataselect[i]
+        option.value = dataselect[i]
+        dropdown.add(option);
+        if(data == dataselect[i]) {
+          console.log(data,"dan index ke ", i+1)
+          dropdown.selectedIndex = i+1;
+
+        }
+  }
+
+}
+
+const loadDataKegiatanEdit = (data) => {
+  console.log(id_global)
+  let dropdown = document.getElementById('dropdown-list');
+  dropdown.length = 0;
+
+  let defaultOption = document.createElement('option');
+  defaultOption.text = 'Kegiatan SKPD';
+
+  dropdown.add(defaultOption);
+ // dropdown.selectedIndex = 0;
+  //console.log(data)
+  //const url = 'http://localhost:3000/api/pagus';
+
+  const request = new XMLHttpRequest();
+  request.open('GET', api_sub_kegiatan + '/' + id_global, true);
+
+  request.onload = function () {
+    if (request.status === 200) {
+      const objects = JSON.parse(request.responseText);
+      let option;
+      //console.log("isi",objects)
+      console.log(objects.data.data.length)
+      for (let i = 0; i < objects.data.data.length; i++) {
+        //console.log(data)
+        option = document.createElement('option');
+        option.text = objects.data.data[i].name;
+        option.value = objects.data.data[i].name;
+        dropdown.add(option);
+        if(data == objects.data.data[i].name) {
+          console.log(data,"dan index ke ", i+1)
+          dropdown.selectedIndex = i+1;
+
+        }
+        
+       
       }
     } else {
       console.log("data tidak ada")
@@ -1806,7 +1923,7 @@ const loadingswal = () => {
 }
 
 const detaiDownload = () => {
-  console.log("this",linkdownload)
+  //console.log("this",linkdownload)
         var trHTML =''
           let ahref = linkdownload == '_' ? '<a href="javascript:alertNodownload()">' : '<a href="'+api+"docs/"+linkdownload+'"  target="_blank">' 
           trHTML += '<div class="data-download">';
