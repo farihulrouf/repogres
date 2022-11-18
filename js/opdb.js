@@ -644,7 +644,7 @@ const detailTender = (id) => {
           trHTML += '<td>' + object['jadwal'] + '</td>';
           trHTML += '<td>' + object['tender'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
-          trHTML += '<td><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showTenderDetailEditBox(\'' + id_obj + '\',`tender`,\'' + api_url_tender + '\')">edit </span></a>';
+          trHTML += '<td><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showTenderDetailEditBox(\'' + id_obj + '\',`tender`,\'' + api_url_langsung + '\')">edit </span></a>';
           trHTML += '<a href="javascript:void(0)"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`plangsung`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
           trHTML += "</tr>";
         }
@@ -974,7 +974,7 @@ const tenderLangsungEdit = () => {
   const pdn = document.getElementById("pdn").value
  // const tender = document.getElementById("tender").value
 
-  const tenderlo = document.getElementById("tender").value
+  //const tenderlo = document.getElementById("tender").value
   const paket = document.getElementById("paket").value
   const idpagu = document.getElementById("idpagu").value
   const keterangan = document.getElementById("ket").value
@@ -1018,6 +1018,9 @@ const tenderLangsungEdit = () => {
   
 }
 
+
+
+
 const showLangsungEditBox = (id, header_title, api_param) => {
   //console.log(api_param_anggaran)
   const xhttp = new XMLHttpRequest();
@@ -1060,6 +1063,65 @@ const showLangsungEditBox = (id, header_title, api_param) => {
 
 }
 
+
+const tenderCepatEdit = () => {
+
+  const id = document.getElementById("id").value; //1
+  //const name = document.getElementById("name").value;
+
+  var selectSubkegiatan = document.getElementById("dropdown-list").value
+  const pagu = document.getElementById("pagu").value;
+  const pelaksanaan = document.getElementById("pelaksanaan").value;
+  const pemilihan = document.getElementById("pemilihan").value;
+  //const pemanfaatan = document.getElementById("pemanfaatan").value;
+  const tipe = document.getElementById("input-select").value;
+  const pdn = document.getElementById("pdn").value
+ // const tender = document.getElementById("tender").value
+
+  const tenderlo = document.getElementById("input-select").value
+  const paket = document.getElementById("name").value
+  const idpagu = document.getElementById("idpagu").value
+  //const keterangan = document.getElementById("ket").value
+  console.log(tenderlo)
+ 
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("PUT", api + "api/langsung/" + id);
+  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhttp.send(JSON.stringify({
+    "name": selectSubkegiatan, 
+    "pagu": parseInt(pagu), 
+    "jadwal": pelaksanaan, 
+    "tipe": "default", 
+    "pdn": parseInt(pdn), 
+    "idpagu": idpagu, 
+    "tender": tenderlo, 
+    "pelaksanaan": pelaksanaan, 
+    "pemilihan": pemilihan, 
+    "paket": paket, 
+    "ket": "ket",
+  }));
+  
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200){
+      Swal.fire('Saved!', '', 'success')  
+      detailTender(id_global)
+      refreshTotal()
+ 
+   }
+   else {
+     Swal.fire({
+       icon: 'error',
+       title: 'Oops...',
+       text: 'Something went wrong!',
+       footer: '<a href="">Why do I have this issue?</a>'
+     })
+   }
+
+  };
+  
+  
+}
+
 const showTenderDetailEditBox = (id, header_title, api_param) => {
   //console.log(api_param_anggaran)
   const xhttp = new XMLHttpRequest();
@@ -1074,6 +1136,7 @@ const showTenderDetailEditBox = (id, header_title, api_param) => {
         title: header_title,
         html:
           '<input id="id" type="hidden" value=' + posts['id'] + '>' +
+          '<input id="idpagu" type="hidden" value=' + posts['idpagu'] + '>' +
           '<select id="dropdown-list" style="width:15em"  onfocus="loadDataKegiatan()" class="swal2-input"><option value="DEFAULT">Sub Kegiatan SKPD</option></select>' +
           '<input id="name" style="width:15em" class="swal2-input" placeholder="Nama Paket" value="' + posts['paket'] + '">' +
           '<input id="pagu" style="width:15em" class="swal2-input" placeholder="Pagu" value="' + posts['pagu'] + '">' +
@@ -1084,7 +1147,8 @@ const showTenderDetailEditBox = (id, header_title, api_param) => {
           '<input type="text" onfocus="(this.type=`date`)" style="width:15em" placeholder="Waktu Pemanfaatan" class="swal2-input" id="pemanfaatan" name="trip-start"  min="2022-11-10" max="2025-12-31"  value="' + posts['jadwal'] + '">',
         focusConfirm: false,
         preConfirm: () => {
-
+          tenderCepatEdit()
+          refreshTotal()
         }
       })
 
@@ -1112,13 +1176,7 @@ const showSwakelolaEditBox = (id, header_title, api_param) => {
         denyButtonText: `Don't save`,
         html:
           '<input id="id" type="hidden" value=' + posts['id'] + '>' +
-          //'<input id="tipe" type="hidden" value=' + posts['tipe'] + '>' +
           '<input id="idpagu" type="hidden" value=' + posts['idpagu'] + '>' +
-          //'<input id="tender" type="text" value=' + posts['tender'] + '>' +
-          //'<input id="pelaksanaan" type="hidden" value=' + posts['pelaksanaan'] + '>' +
-          //'<input id="pemilihan" type="hidden" value=' + posts['pemilihan'] + '>' +
-          //'<input id="paket" type="hidden" value=' + posts['paket'] + '>' +
-          //'<input id="ket" type="hidden" value=' + posts['ket'] + '>' +
           '<select id="dropdown-list" style="width:15em"  onfocus="loadDataKegiatan()" class="swal2-input"><option value="DEFAULT">Sub Kegiatan SKPD</option></select>' +
 
           '<input id="pagu" style="width:15em" class="swal2-input" placeholder="Jumlah" value="' + posts['pagu'] + '">' +
@@ -1140,19 +1198,9 @@ const showSwakelolaEditBox = (id, header_title, api_param) => {
 const swakelolaLangsungEdit = () => {
 
   const id = document.getElementById("id").value;
-  //const name = document.getElementById("name").value;
-
   var selectSubkegiatan = document.getElementById("dropdown-list").value
   const pagu = document.getElementById("pagu").value;
-  //const pelaksanaan = document.getElementById("pelaksanaan").value;
-  //const pemilihan = document.getElementById("pemilihan").value;
-  //const pemanfaatan = document.getElementById("pemanfaatan").value;
-  //const tipe = document.getElementById("tipe").value;
   const pdn = document.getElementById("pdn").value
- // const tender = document.getElementById("tender").value
-
-  //const tenderlo = document.getElementById("tender").value
-  //const paket = document.getElementById("paket").value
   const idpagu = document.getElementById("idpagu").value
   const keterangan = document.getElementById("ket").value
  
