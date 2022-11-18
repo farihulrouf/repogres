@@ -226,7 +226,7 @@ function CreateAnggaran(api_param, header_title) {
 
 }
 
-function CreateDetailPagu(api_param, header_title) {
+const CreateDetailPagu = (api_param, header_title) => {
 
   var selecinput = document.getElementById("input-select").value;
   var selectSubkegiatan = document.getElementById("dropdown-list").value
@@ -982,7 +982,11 @@ const showAnggaranEditBox = (id, header_title, api_param_anggaran) => {
       const posts = objects.data.data
       // console.log(posts)
       Swal.fire({
-        title: header_title,
+        title: 'Pagu '+ header_title,
+        icon: 'success',
+        showDenyButton: true,
+        confirmButtonText: 'Save',
+        denyButtonText: `Don't save`,
         html:
           '<input id="id" type="hidden" value=' + posts['id'] + '>' +
           '<input id="name" class="swal2-input" placeholder="Sub Kegiatan" value="' + posts['name'] + '">' +
@@ -1173,7 +1177,11 @@ const showTenderDetailEditBox = (id, header_title, api_param) => {
       // console.log(posts)
       nampaket = posts['name']
       Swal.fire({
-        title: header_title,
+        icon: 'success',
+        title: "Edit",
+        showDenyButton: true,
+        confirmButtonText: 'Save',
+        denyButtonText: `Don't save`,
         html:
           '<input id="id" type="hidden" value=' + posts['id'] + '>' +
           '<input id="idpagu" type="hidden" value=' + posts['idpagu'] + '>' +
@@ -1482,7 +1490,8 @@ const loadDataKegiatanEdit = (data) => {
 const showFastTender = (anggaran) => {
   //console.log("isi id",id)
   Swal.fire({
-    title: anggaran,
+    title: 'Add Data '+anggaran,
+    icon: "success",
     showDenyButton: true,
     showCancelButton: true,
     confirmButtonText: 'Save',
