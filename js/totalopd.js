@@ -1,5 +1,6 @@
 const apitotal = "http://localhost:3000/api/jumlahtotal"
 const apialltotal = 'http://localhost:3000/api/jumlahtender'
+const api_ = "http://localhost:3000/"
 function detailTotalTenderDetailCepatSeleksiAll() {
     //console.log("lihat id",id)
     const xhttp = new XMLHttpRequest();
@@ -70,11 +71,11 @@ function detailTotalTenderDetailCepatSeleksi() {
 }
 */
 
-function detailTotalTenderDetailCepatSeleksi() {
+const  detailTotalTenderDetailCepatSeleksiBykategori = () => {
     //console.log("lihat id",id)
     const xhttp = new XMLHttpRequest();
-    xhttp.open("GET", apialltotal)
-    //xhttp.open("GET", api_url_total_tender_detail+'/'+id)
+    //xhttp.open("GET", apialltotal)
+    xhttp.open("GET", api_+'api/jumlahtotalseleksi')
     xhttp.send();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -87,7 +88,7 @@ function detailTotalTenderDetailCepatSeleksi() {
                     i = i + 1;
                     trHTML += '<tr>';
                     trHTML += '<td>' + i + '</td>';
-                    trHTML += '<td>' + object['ket'] + '</td>';
+                    trHTML += '<td>' + object['tender'] + '</td>';
                     //trHTML += '<td>' + object['totalpagu'] + '</td>';
                     trHTML += '<td>' +'Rp' +' '+ new Intl.NumberFormat('en-ID', {
                         style: 'currency',
@@ -106,5 +107,5 @@ function detailTotalTenderDetailCepatSeleksi() {
     };
 
 }
-//detailTotalTenderDetailCepatSeleksi()
+detailTotalTenderDetailCepatSeleksiBykategori()
 detailTotalTenderDetailCepatSeleksiAll()
