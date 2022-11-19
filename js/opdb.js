@@ -11,7 +11,7 @@ const api_url_total_paket = api + "api/tender/totalpaket"
 
 const api_sub_kegiatan = api + "api/anggaran/pagu"
 var id_global = '';
-var dataPdnPenmpungTemp = [];
+var dataPdnPenmpungTemp = {};
 var subKegiatanGlobal = ''
 let subKegiatanGlobalAll = {}
 let subKegiatan = [];
@@ -20,20 +20,20 @@ let Namepaguskpd = ''
 let Namepaguorp = ''
 let linkdownload = ''
 var dateTest = ''
-let pdnTotalObject={}
-let pdnTotalObjectAll={}
+let pdnTotalObject = {}
+let pdnTotalObjectAll = {}
 const pdncomparation = [
   {
-      name: 'Pengelolaan Pengadaan Barang/Jasa',
-      pdn: 30
+    name: 'Pengelolaan Pengadaan Barang/Jasa',
+    pdn: 30
   },
   {
-      name: 'Pengelolaan LPSE',
-      pdn: 30
+    name: 'Pengelolaan LPSE',
+    pdn: 30
   },
   {
-      name: 'Pembinaan Dan Advokasi',
-      pdn: 20
+    name: 'Pembinaan Dan Advokasi',
+    pdn: 20
   }
 ]
 
@@ -93,9 +93,9 @@ function paguCreate() {
     "name": name, "paguopdp": paguopd, "paguorp": paguorp, "filetipe": "_"
   }));
   xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 201){
-       Swal.fire('Saved Pagu!', '', 'success')
-       loadTable();
+    if (this.readyState == 4 && this.status == 201) {
+      Swal.fire('Saved Pagu!', '', 'success')
+      loadTable();
     }
     else {
       Swal.fire({
@@ -239,7 +239,7 @@ const CreateDetailPagu = (api_param, header_title) => {
   console.log("isidari", selectSubkegiatan)
 
   const xhttp = new XMLHttpRequest();
-  xhttp.open("POST", api+'api/langsung');
+  xhttp.open("POST", api + 'api/langsung');
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(JSON.stringify({
     "name": selectSubkegiatan,
@@ -251,14 +251,14 @@ const CreateDetailPagu = (api_param, header_title) => {
     "pelaksanaan": waktupelaksanaan,
     "pdn": parseInt(pdn),
     "tender": selecinput,
-    "ket":  "ket",
+    "ket": "ket",
     "idpagu": id_global
   }));
 
   xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 201){
-       Swal.fire('Saved!', '', 'success')
-       detailTender(id_global)
+    if (this.readyState == 4 && this.status == 201) {
+      Swal.fire('Saved!', '', 'success')
+      detailTender(id_global)
     }
     else {
       Swal.fire({
@@ -301,22 +301,22 @@ function CreateSwakelola(api_param, header_title) {
 
 
   xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 201){
+    if (this.readyState == 4 && this.status == 201) {
       Swal.fire('Saved!', '', 'success')
       detailLangsung(id_global)
       detailPenunjukanLangsug(id_global)
       detailPurchasing(id_global)
       detailPengecualian(id_global)
       detailSwakelola(id_global)
-   }
-   else {
-     Swal.fire({
-       icon: 'error',
-       title: 'Oops...',
-       text: 'Something went wrong!',
-       footer: '<a href="">Why do I have this issue?</a>'
-     })
-   }
+    }
+    else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        footer: '<a href="">Why do I have this issue?</a>'
+      })
+    }
   };
 
 }
@@ -349,22 +349,22 @@ function CreateDetailLain(api_param, header_title) {
   }));
 
   xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 201){
-      Swal.fire('Saved!', '', 'success')   
+    if (this.readyState == 4 && this.status == 201) {
+      Swal.fire('Saved!', '', 'success')
       detailLangsung(id_global)
       detailPenunjukanLangsug(id_global)
       detailPurchasing(id_global)
       detailPengecualian(id_global)
       refreshTotal()
-   }
-   else {
-     Swal.fire({
-       icon: 'error',
-       title: 'Oops...',
-       text: 'Something went wrong!',
-       footer: '<a href="">Why do I have this issue?</a>'
-     })
-   }
+    }
+    else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        footer: '<a href="">Why do I have this issue?</a>'
+      })
+    }
   };
 
 }
@@ -418,8 +418,8 @@ function paguDelete(id) {
 function detailDelete(id, tender, api) {
 
   let typedelete = ''
- 
-  
+
+
   Swal.fire({
     title: 'Are you sure?',
     text: "You won't be able to revert this!",
@@ -507,7 +507,6 @@ function detailPage(id) {
   //detailGolbalAnggaran(id)
   detailPaguItem(id)
   detailAnggaran(id)
-  dataPenampung()
   detailTender(id)
   detailLangsung(id)
   detailPenunjukanLangsug(id)
@@ -530,12 +529,7 @@ function detailPage(id) {
   //skpdName(id)
 
 }
-const dataPenampung = () => {
-  //console.log(pdncomparation)
-  console.log("di data penampung", dateTest)
-  console.log("silver",dataPdnPenmpungTemp)
-  //console.log("nama skpd", namaSKPD)
-}
+
 function createElement() {
 
   var text = ["text1", "tex2", "text3", "text4"];
@@ -548,62 +542,95 @@ function createElement() {
 }
 
 
-const detailAnggaran = (id) => {
-  const embkono = ["silver", "larougm"]
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", api_url_anggaran + '/pagu/' + id);
-  xhttp.send();
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      var trHTML = '';
-      const objects = JSON.parse(this.responseText);
-      dataPdnPenmpungTemp = embkono
-      //dateTest = objects.data.data['name']
-     // dataPdnPenmpungTempTemp = objects.data.data
-      if (objects.data.data === null) {
-        console.log('data kosong')
-      }
-      else {
-        let i = 0;
-        let j = 0
-        for (let object of objects.data.data) {
-          let id_obj = object['id']
-          i++;
-          //dataPdnPenmpungTempTemp = objects.data.data
-          //console.log("hasil total pdn", pdnTotalObject)
-          //console.log("this data",object)
-          //pdncomparation
-          // let ahref = linkdownload == '_' ? '<a href="javascript:alertNodownload()">' : '<a href="'+api+"docs/"+linkdownload+'"  target="_blank">' 
-          //console.log(pdncomparation[j].name)
-          let pdnavg = object['name'] == pdncomparation[j].name ? pdncomparation[j].pdn : 'Nan'
-          
-         // console.log("objet asli",objects.data.data)
-          //console.log("di tata",pdncomparation)
-          console.log("data penampung", dataPdnPenmpungTemp)
-          trHTML += '<tr>';
-          trHTML += '<td>' + i + '</td>';
-          trHTML += '<td>' + object['name'] + '</td>';
-          trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
-            style: 'currency',
-            currency: 'IDR'
-          }).format(object['pagu'])
-            .replace(/[IDR]/gi, '')
-            .replace(/(\.+\d{2})/, '')
-            .trimLeft() + '</td>';
-          trHTML += '<td>' + pdnavg + '</td>';
-          trHTML += '<td><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showAnggaranEditBox(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')">edit </span></a>';
-          trHTML += '<a href="javascript:void(0) onclick="detailDelete(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')">delete_forever</span></a></td>';
-          //<img src="/images/icon/add.svg" width="24" height="24" alt="icon-svg">
-          trHTML += "</tr>";
-          j++;
+
+function getvals(id){
+  return fetch(api+'api/totalpdn/'+id,
+  {
+    method: "GET",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
+  .then((response) => response.json())
+  .then((responseData) => {
+    //console.log(responseData);
+    dataobject = responseData
+    return responseData;
+  })
+  .catch(error => console.warn(error));
+}
+
+const calculatePdn = (objectdata,id) => {
+  if(objectdata.data.data==null){
+    console.log("data null")
+  }
+  else {
+    console.log(objectdata)
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("GET", api_url_anggaran + '/pagu/' + id);
+    xhttp.send();
+    //dataPdnPenmpungTemp = embkono
+    let objects = ''
+    let pdnavg = ''
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        var trHTML = '';
+        objects = JSON.parse(this.responseText);
+  
+  
+        if (objects.data.data === null) {
+          console.log('data kosong')
         }
+        else {
+          let i = 0;
+          let j = 0
+          for (let object of objects.data.data) {
+            let id_obj = object['id']
+            i++;
+           // console.log(objectdata.data.data[j].totalpagu)
+            //pdnavg = object['name'] == objectdata.data.data[j].name ? objectdata.data.data[j].pdn : 'Nan'
+            //if(army.indexOf("Marcos") !== -1) 
+            if(objectdata.data.data[j] == undefined){
+              //console.log('data undifined')
+              pdnavg = 'Nan'
+            }
+            else {
+              pdnavg = object['name'] == objectdata.data.data[j].name ? objectdata.data.data[j].pdn : 'Nan'
+            }
+            trHTML += '<tr>';
+            trHTML += '<td>' + i + '</td>';
+            trHTML += '<td>' + object['name'] + '</td>';
+            trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
+              style: 'currency',
+              currency: 'IDR'
+            }).format(object['pagu'])
+              .replace(/[IDR]/gi, '')
+              .replace(/(\.+\d{2})/, '')
+              .trimLeft() + '</td>';
+            trHTML += '<td>' + pdnavg + '</td>';
+            trHTML += '<td><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showAnggaranEditBox(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')">edit </span></a>';
+            trHTML += '<a href="javascript:void(0) onclick="detailDelete(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')">delete_forever</span></a></td>';
+            //<img src="/images/icon/add.svg" width="24" height="24" alt="icon-svg">
+            trHTML += "</tr>";
+            j++;
+          }
+        }
+        //console.log("data onject", objects)
+  
+        document.getElementById("anggaran").innerHTML = trHTML;
+  
       }
-
-      document.getElementById("anggaran").innerHTML = trHTML;
-
-    }
-  };
-
+    };
+  }
+}
+const detailAnggaran = (id) => {
+  //const embkono = ["silver", "larougm"]
+  //console.log(getvals)
+  //var dataob = ''
+  getvals(id).then(response => 
+    calculatePdn(response, id)
+  );
 }
 
 
@@ -617,7 +644,7 @@ function detailPaguItem(id) {
       const objects = JSON.parse(this.responseText);
 
       const posts = objects.data.data
-     
+
       namaSKPD = posts.name
       dateTest = posts.name
       Namepaguskpd = posts.paguopdp
@@ -640,12 +667,12 @@ function detailPaguItem(id) {
       }).format(posts['paguorp']).replace(/[IDR]/gi, '')
         .replace(/(\.+\d{2})/, '')
         .trimLeft() + '</td>';
-    
+
       document.getElementById("detailinformasi").innerHTML = trHTML;
       detaiDownload()
     }
   };
- 
+
 }
 
 const detailTender = (id) => {
@@ -654,13 +681,13 @@ const detailTender = (id) => {
   xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/default')
 
   xhttp.send();
-  
+
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       var trHTML = '';
       const objects = JSON.parse(this.responseText);
       if (objects.data.data === null) {
-        console.log('data kosong')
+        //console.log('data kosong')
       }
       else {
         let i = 0;
@@ -982,7 +1009,7 @@ const showAnggaranEditBox = (id, header_title, api_param_anggaran) => {
       const posts = objects.data.data
       // console.log(posts)
       Swal.fire({
-        title: 'Pagu '+ header_title,
+        title: 'Pagu ' + header_title,
         icon: 'success',
         showDenyButton: true,
         confirmButtonText: 'Save',
@@ -994,6 +1021,7 @@ const showAnggaranEditBox = (id, header_title, api_param_anggaran) => {
         focusConfirm: false,
         preConfirm: () => {
           editAnggaran()
+          detailAnggaran(id_global)
         }
       })
 
@@ -1015,50 +1043,52 @@ const tenderLangsungEdit = () => {
   //const pemanfaatan = document.getElementById("pemanfaatan").value;
   const tipe = document.getElementById("tipe").value;
   const pdn = document.getElementById("pdn").value
- // const tender = document.getElementById("tender").value
+  // const tender = document.getElementById("tender").value
 
   //const tenderlo = document.getElementById("tender").value
   const paket = document.getElementById("paket").value
   const idpagu = document.getElementById("idpagu").value
   const keterangan = document.getElementById("ket").value
- 
+
   const xhttp = new XMLHttpRequest();
   xhttp.open("PUT", api + "api/langsung/" + id);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(JSON.stringify({
-    "name": selectSubkegiatan, 
-    "pagu": parseInt(pagu), 
-    "jadwal": pelaksanaan, 
-    "tipe": tipe, 
-    "pdn": parseInt(pdn), 
-    "idpagu": idpagu, 
-    "tender": "default", 
-    "pelaksanaan": pelaksanaan, 
-    "pemilihan": pelaksanaan, 
-    "paket": paket, 
+    "name": selectSubkegiatan,
+    "pagu": parseInt(pagu),
+    "jadwal": pelaksanaan,
+    "tipe": tipe,
+    "pdn": parseInt(pdn),
+    "idpagu": idpagu,
+    "tender": "default",
+    "pelaksanaan": pelaksanaan,
+    "pemilihan": pelaksanaan,
+    "paket": paket,
     "ket": keterangan,
   }));
-  
+
   xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200){
-      Swal.fire('Saved!', '', 'success')  
+    if (this.readyState == 4 && this.status == 200) {
+      Swal.fire('Saved!', '', 'success')
       detailLangsung(id_global)
       detailPenunjukanLangsug(id_global)
+      detailAnggaran(id_global)
       detailPurchasing(id_global)
       detailPengecualian(id_global)
+      
       refreshTotal()
-   }
-   else {
-     Swal.fire({
-       icon: 'error',
-       title: 'Oops...',
-       text: 'Something went wrong!',
-       footer: '<a href="">Why do I have this issue?</a>'
-     })
-   }
+    }
+    else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        footer: '<a href="">Why do I have this issue?</a>'
+      })
+    }
 
   };
-  
+
 }
 
 
@@ -1089,14 +1119,15 @@ const showLangsungEditBox = (id, header_title, api_param) => {
           '<input id="pemilihan" type="hidden" value=' + posts['pemilihan'] + '>' +
           //'<input id="paket" type="hidden" value=' + posts['paket'] + '>' + loadSelectTender
           '<input id="ket" type="hidden" value=' + posts['ket'] + '>' +
-          '<select id="dropdown-list" style="width:15em"  onfocus="loadDataKegiatanEdit(\''+posts['name']+'\')" class="swal2-input"><option value="DEFAULT">Sub Kegiatan SKPD</option></select>' +
+          '<select id="dropdown-list" style="width:15em"  onfocus="loadDataKegiatanEdit(\'' + posts['name'] + '\')" class="swal2-input"><option value="DEFAULT">Sub Kegiatan SKPD</option></select>' +
           '<input id="paket" style="width:15em" class="swal2-input" placeholder="Sub Kegiatan" value="' + posts['paket'] + '">' +
           '<input id="pagu" style="width:15em" class="swal2-input" placeholder="Jumlah" value="' + posts['pagu'] + '">' +
-          '<input type="text" style="width:15em" onfocus="(this.type=`date`)" placeholder="Waktu Pelaksanaan" class="swal2-input" id="pelaksanaan" name="trip-start"  min="2022-11-10" max="2025-12-31"  value="' + posts['pelaksanaan'] + '">'+
+          '<input type="text" style="width:15em" onfocus="(this.type=`date`)" placeholder="Waktu Pelaksanaan" class="swal2-input" id="pelaksanaan" name="trip-start"  min="2022-11-10" max="2025-12-31"  value="' + posts['pelaksanaan'] + '">' +
           '<input id="pdn" style="width:15em" type="text" onfocus="(this.type=`number`)" class="swal2-input" placeholder="PDN %" value="' + posts['pdn'] + '">',
         focusConfirm: false,
         preConfirm: () => {
           tenderLangsungEdit()
+          //detailAnggaran(id_global)
         }
       })
 
@@ -1119,50 +1150,51 @@ const tenderCepatEdit = () => {
   //const pemanfaatan = document.getElementById("pemanfaatan").value;
   const tipe = document.getElementById("input-select").value;
   const pdn = document.getElementById("pdn").value
- // const tender = document.getElementById("tender").value
+  // const tender = document.getElementById("tender").value
 
   const tenderlo = document.getElementById("input-select").value
   const paket = document.getElementById("name").value
   const idpagu = document.getElementById("idpagu").value
   //const keterangan = document.getElementById("ket").value
   console.log(tenderlo)
- 
+
   const xhttp = new XMLHttpRequest();
   xhttp.open("PUT", api + "api/langsung/" + id);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(JSON.stringify({
-    "name": selectSubkegiatan, 
-    "pagu": parseInt(pagu), 
-    "jadwal": pelaksanaan, 
-    "tipe": "default", 
-    "pdn": parseInt(pdn), 
-    "idpagu": idpagu, 
-    "tender": tenderlo, 
-    "pelaksanaan": pelaksanaan, 
-    "pemilihan": pemilihan, 
-    "paket": paket, 
+    "name": selectSubkegiatan,
+    "pagu": parseInt(pagu),
+    "jadwal": pelaksanaan,
+    "tipe": "default",
+    "pdn": parseInt(pdn),
+    "idpagu": idpagu,
+    "tender": tenderlo,
+    "pelaksanaan": pelaksanaan,
+    "pemilihan": pemilihan,
+    "paket": paket,
     "ket": "ket",
   }));
-  
+
   xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200){
-      Swal.fire('Saved!', '', 'success')  
+    if (this.readyState == 4 && this.status == 200) {
+      Swal.fire('Saved!', '', 'success')
+      detailAnggaran(id_global)
       detailTender(id_global)
       refreshTotal()
- 
-   }
-   else {
-     Swal.fire({
-       icon: 'error',
-       title: 'Oops...',
-       text: 'Something went wrong!',
-       footer: '<a href="">Why do I have this issue?</a>'
-     })
-   }
+
+    }
+    else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        footer: '<a href="">Why do I have this issue?</a>'
+      })
+    }
 
   };
-  
-  
+
+
 }
 
 const showTenderDetailEditBox = (id, header_title, api_param) => {
@@ -1186,10 +1218,10 @@ const showTenderDetailEditBox = (id, header_title, api_param) => {
           '<input id="id" type="hidden" value=' + posts['id'] + '>' +
           '<input id="idpagu" type="hidden" value=' + posts['idpagu'] + '>' +
           //<option selected="selected">3</option>                                                             onclick="showUserEditBox(\'' + id_obj + '\')
-          '<select id="dropdown-list" style="width:15em"  onfocus="loadDataKegiatanEdit(\''+posts['name']+'\')" class="swal2-input"></select>' +
+          '<select id="dropdown-list" style="width:15em"  onfocus="loadDataKegiatanEdit(\'' + posts['name'] + '\')" class="swal2-input"></select>' +
           '<input id="name" style="width:15em" class="swal2-input" placeholder="Nama Paket" value="' + posts['paket'] + '">' +
-          '<input id="pagu" style="width:15em" class="swal2-input" placeholder="Pagu" value="' + posts['pagu'] + '">' +  
-          '<select id="input-select" style="width:15em"  onfocus="loadSelectTender(\''+posts['tender']+'\')" class="swal2-input"><option value='+posts['tender']+'\>'+posts['tender']+'\</option></select>' +                  
+          '<input id="pagu" style="width:15em" class="swal2-input" placeholder="Pagu" value="' + posts['pagu'] + '">' +
+          '<select id="input-select" style="width:15em"  onfocus="loadSelectTender(\'' + posts['tender'] + '\')" class="swal2-input"><option value=' + posts['tender'] + '\>' + posts['tender'] + '\</option></select>' +
           '<input id="pdn" type="text" onfocus="(this.type=`number`)" style="width:15em" class="swal2-input" placeholder="PDN %" value="' + posts['pdn'] + '">' +
           '<input type="text" onfocus="(this.type=`date`)" style="width:15em" placeholder="Waktu Pemilihan" class="swal2-input" id="pemilihan" name="trip-start"  min="2022-11-10" max="2025-12-31"  value="' + posts['pemilihan'] + '">' +
           '<input type="text" onfocus="(this.type=`date`)" style="width:15em" placeholder="Waktu Pelaksanaan" class="swal2-input" id="pelaksanaan" name="trip-start"  min="2022-11-10" max="2025-12-31"  value="' + posts['pelaksanaan'] + '">' +
@@ -1197,7 +1229,8 @@ const showTenderDetailEditBox = (id, header_title, api_param) => {
         focusConfirm: false,
         preConfirm: () => {
           tenderCepatEdit()
-          refreshTotal()
+          //detailAnggaran(id_global)
+          //refreshTotal()
         }
       })
 
@@ -1228,15 +1261,16 @@ const showSwakelolaEditBox = (id, header_title, api_param) => {
         html:
           '<input id="id" type="hidden" value=' + posts['id'] + '>' +
           '<input id="idpagu" type="hidden" value=' + posts['idpagu'] + '>' +
-          '<select id="dropdown-list" style="width:15em"  onfocus="loadDataKegiatanEdit(\''+posts['name']+'\')" class="swal2-input"><option value="DEFAULT">Sub Kegiatan SKPD</option></select>' +
+          '<select id="dropdown-list" style="width:15em"  onfocus="loadDataKegiatanEdit(\'' + posts['name'] + '\')" class="swal2-input"><option value="DEFAULT">Sub Kegiatan SKPD</option></select>' +
 
           '<input id="pagu" style="width:15em" class="swal2-input" placeholder="Jumlah" value="' + posts['pagu'] + '">' +
           '<input id="ket" style="width:15em" class="swal2-input" placeholder="Keterangan" value="' + posts['ket'] + '">' +
-         // '<input type="text" style="width:15em" onfocus="(this.type=`date`)" placeholder="Waktu Pelaksanaan" class="swal2-input" id="pelaksanaan" name="trip-start"  min="2022-11-10" max="2025-12-31"  value="' + posts['pelaksanaan'] + '">'+
+          // '<input type="text" style="width:15em" onfocus="(this.type=`date`)" placeholder="Waktu Pelaksanaan" class="swal2-input" id="pelaksanaan" name="trip-start"  min="2022-11-10" max="2025-12-31"  value="' + posts['pelaksanaan'] + '">'+
           '<input id="pdn" style="width:15em" type="text" onfocus="(this.type=`number`)" class="swal2-input" placeholder="PDN %" value="' + posts['pdn'] + '">',
         focusConfirm: false,
         preConfirm: () => {
           swakelolaLangsungEdit()
+          detailAnggaran(id_global)
         }
       })
 
@@ -1254,41 +1288,41 @@ const swakelolaLangsungEdit = () => {
   const pdn = document.getElementById("pdn").value
   const idpagu = document.getElementById("idpagu").value
   const keterangan = document.getElementById("ket").value
- 
+
   const xhttp = new XMLHttpRequest();
   xhttp.open("PUT", api + "api/langsung/" + id);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhttp.send(JSON.stringify({
-    "name": selectSubkegiatan, 
-    "pagu": parseInt(pagu), 
-    "jadwal": "12-12-2022", 
-    "tipe": 'swakelola', 
-    "pdn": parseInt(pdn), 
-    "idpagu": idpagu, 
-    "tender": "default", 
-    "pelaksanaan": "12-12-2022", 
-    "pemilihan": "12-12-2022", 
-    "paket": "default", 
+    "name": selectSubkegiatan,
+    "pagu": parseInt(pagu),
+    "jadwal": "12-12-2022",
+    "tipe": 'swakelola',
+    "pdn": parseInt(pdn),
+    "idpagu": idpagu,
+    "tender": "default",
+    "pelaksanaan": "12-12-2022",
+    "pemilihan": "12-12-2022",
+    "paket": "default",
     "ket": keterangan,
   }));
-  
+
   xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200){
-      Swal.fire('Saved!', '', 'success')  
+    if (this.readyState == 4 && this.status == 200) {
+      Swal.fire('Saved!', '', 'success')
       detailSwakelola(id_global)
       refreshTotal()
-   }
-   else {
-     Swal.fire({
-       icon: 'error',
-       title: 'Oops...',
-       text: 'Something went wrong!',
-       footer: '<a href="">Why do I have this issue?</a>'
-     })
-   }
+    }
+    else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        footer: '<a href="">Why do I have this issue?</a>'
+      })
+    }
 
   };
-  
+
 }
 
 
@@ -1335,18 +1369,18 @@ const paguEdit = () => {
     "name": name, "paguopdp": paguopd, "paguorp": paguorp, "filetipe": filetipe
   }));
   xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200){
-      Swal.fire('Saved!', '', 'success')  
+    if (this.readyState == 4 && this.status == 200) {
+      Swal.fire('Saved!', '', 'success')
       loadTable();
-   }
-   else {
-     Swal.fire({
-       icon: 'error',
-       title: 'Oops...',
-       text: 'Something went wrong!',
-       footer: '<a href="">Why do I have this issue?</a>'
-     })
-   }
+    }
+    else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        footer: '<a href="">Why do I have this issue?</a>'
+      })
+    }
 
   };
 }
@@ -1390,15 +1424,15 @@ const loadDataKegiatan = () => {
       const objects = JSON.parse(request.responseText);
       let option;
       //console.log("isi",objects)
-      console.log(objects.data.data.length)
+      //console.log(objects.data.data.length)
       for (let i = 0; i < objects.data.data.length; i++) {
         //console.log(data)
         option = document.createElement('option');
         option.text = objects.data.data[i].name;
         option.value = objects.data.data[i].name;
         dropdown.add(option);
-        
-       
+
+
       }
     } else {
       console.log("data tidak ada")
@@ -1424,16 +1458,16 @@ const loadSelectTender = (data) => {
 
   let dataselect = ["Tender", "Seleksi", "Tender Cepat"]
   //dropdown.add(defaultOption);
-  for(i=0;i<dataselect.length;i++){
-        option = document.createElement('option');
-        option.text = dataselect[i]
-        option.value = dataselect[i]
-        dropdown.add(option);
-        if(data == dataselect[i]) {
-          console.log(data,"dan index ke ", i+1)
-          dropdown.selectedIndex = i+1;
+  for (i = 0; i < dataselect.length; i++) {
+    option = document.createElement('option');
+    option.text = dataselect[i]
+    option.value = dataselect[i]
+    dropdown.add(option);
+    if (data == dataselect[i]) {
+      console.log(data, "dan index ke ", i + 1)
+      dropdown.selectedIndex = i + 1;
 
-        }
+    }
   }
 
 }
@@ -1447,7 +1481,7 @@ const loadDataKegiatanEdit = (data) => {
   defaultOption.text = 'Kegiatan SKPD';
 
   dropdown.add(defaultOption);
- // dropdown.selectedIndex = 0;
+  // dropdown.selectedIndex = 0;
   //console.log(data)
   //const url = 'http://localhost:3000/api/pagus';
 
@@ -1466,13 +1500,13 @@ const loadDataKegiatanEdit = (data) => {
         option.text = objects.data.data[i].name;
         option.value = objects.data.data[i].name;
         dropdown.add(option);
-        if(data == objects.data.data[i].name) {
-          console.log(data,"dan index ke ", i+1)
-          dropdown.selectedIndex = i+1;
+        if (data == objects.data.data[i].name) {
+          console.log(data, "dan index ke ", i + 1)
+          dropdown.selectedIndex = i + 1;
 
         }
-        
-       
+
+
       }
     } else {
       console.log("data tidak ada")
@@ -1490,7 +1524,7 @@ const loadDataKegiatanEdit = (data) => {
 const showFastTender = (anggaran) => {
   //console.log("isi id",id)
   Swal.fire({
-    title: 'Add Data '+anggaran,
+    title: 'Add Data ' + anggaran,
     icon: "success",
     showDenyButton: true,
     showCancelButton: true,
@@ -1510,7 +1544,7 @@ const showFastTender = (anggaran) => {
     preConfirm: () => {
 
       CreateDetailPagu(api_url_tender, anggaran)
-     // Swal.fire('Saved!', '', 'success')
+      // Swal.fire('Saved!', '', 'success')
       refreshTotal()
       //paguCreate();
     }
@@ -1526,7 +1560,7 @@ const showFastTender = (anggaran) => {
 function detailTotalTenderDetailCepatSeleksi(id) {
   //console.log("lihat id",id)
   const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", api+ 'api/langsung/totalseleksitender/' + id)
+  xhttp.open("GET", api + 'api/langsung/totalseleksitender/' + id)
   //xhttp.open("GET", api_url_total_tender_detail+'/'+id)
   xhttp.send();
   xhttp.onreadystatechange = function () {
@@ -1538,19 +1572,19 @@ function detailTotalTenderDetailCepatSeleksi(id) {
         for (let object of objects.data.data) {
           let id_obj = object['id']
           //console.log(objects.data.data)
-          
+
           i = i + 1;
           trHTML += '<tr>';
           trHTML += '<td>' + i + '</td>';
           trHTML += '<td>' + object['tender'] + '</td>';
-          trHTML += '<td>' +'Rp' +' '+ new Intl.NumberFormat('en-ID', {
+          trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
             style: 'currency',
             currency: 'IDR'
           }).format(object['totalpagu'])
-          .replace(/[IDR]/gi, '')
-          .replace(/(\.+\d{2})/, '')
-          .trimLeft() + '</td>';
-         // trHTML += '<td>' + object['totalpagu'] + '</td>';
+            .replace(/[IDR]/gi, '')
+            .replace(/(\.+\d{2})/, '')
+            .trimLeft() + '</td>';
+          // trHTML += '<td>' + object['totalpagu'] + '</td>';
           trHTML += '<td>' + object['total'] + '</td>';
 
           trHTML += "</tr>";
@@ -1578,7 +1612,7 @@ function detailTotalTenderDetail(id) {
         for (let object of objects.data.data) {
           let id_obj = object['id']
           //console.log(object.tipe)
-          totalpguall= object['tipe'] =='swakelola' ? '-' : object['total']
+          totalpguall = object['tipe'] == 'swakelola' ? '-' : object['total']
           if (object.tipe == 'kecuali') {
             namePengadaan = 'Pengadaan di kecualikan'
           }
@@ -1593,13 +1627,13 @@ function detailTotalTenderDetail(id) {
           trHTML += '<tr>';
           trHTML += '<td>' + i + '</td>';
           trHTML += '<td>' + namePengadaan + '</td>';
-          trHTML += '<td>' +'Rp' +' '+ new Intl.NumberFormat('en-ID', {
+          trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
             style: 'currency',
             currency: 'IDR'
           }).format(object['totalpagu'])
-          .replace(/[IDR]/gi, '')
-          .replace(/(\.+\d{2})/, '')
-          .trimLeft() + '</td>';
+            .replace(/[IDR]/gi, '')
+            .replace(/(\.+\d{2})/, '')
+            .trimLeft() + '</td>';
           //trHTML += '<td>' + object['totalpagu'] + '</td>';
           trHTML += '<td>' + totalpguall + '</td>';
 
@@ -1735,13 +1769,13 @@ function detailTotalTenderDetailReportJumlahPagu(id) {
 
           // trHTML += '<tr>';
           //trHTML += '<td>' + namePengadaan + '</td>';
-          trHTML += '<td>' +'Rp' +' '+ new Intl.NumberFormat('en-ID', {
+          trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
             style: 'currency',
             currency: 'IDR'
           }).format(object['totalpagu'])
-          .replace(/[IDR]/gi, '')
-          .replace(/(\.+\d{2})/, '')
-          .trimLeft() + '</td>';
+            .replace(/[IDR]/gi, '')
+            .replace(/(\.+\d{2})/, '')
+            .trimLeft() + '</td>';
           //trHTML += "</tr>";
 
 
@@ -1813,7 +1847,7 @@ function detailTotalTenderDetailReportSeleksiJumlah(id) {
           let id_obj = object['id']
           i = i + 1;
           trHTML += '<td>' + object['total'] + '</td>';
-        
+
 
         }
 
@@ -1845,13 +1879,13 @@ function detailTotalTenderDetailReportSeleksiRupiah(id) {
 
 
           i = i + 1;
-          trHTML += '<td>' +'Rp' +' '+ new Intl.NumberFormat('en-ID', {
+          trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
             style: 'currency',
             currency: 'IDR'
           }).format(object['totalpagu'])
-          .replace(/[IDR]/gi, '')
-          .replace(/(\.+\d{2})/, '')
-          .trimLeft() + '</td>';
+            .replace(/[IDR]/gi, '')
+            .replace(/(\.+\d{2})/, '')
+            .trimLeft() + '</td>';
 
         }
 
@@ -1863,8 +1897,9 @@ function detailTotalTenderDetailReportSeleksiRupiah(id) {
 }
 
 function refreshTotal() {
-  console.log("refresh di eksekusi")
+  //console.log("refresh di eksekusi")
   detailTotalTenderDetail(id_global)
+  //getvals(id_global)
   detailTotalTenderDetailCepatSeleksi(id_global)
   detailTotalTenderDetailReport(id_global)
   detailTotalTenderDetailReportJumlah(id_global)
@@ -1882,26 +1917,26 @@ function refreshTotal() {
 
 
 const uploudData = () => {
-  document.getElementById('form').addEventListener('submit', function(e){
-  e.preventDefault();
-  const userFile = document.getElementById('file').files[0]
-  const formData = new FormData();
-  formData.append('file', userFile);
-  formData.append('paguorp', Namepaguorp)
-  formData.append('paguopdp', Namepaguskpd)
-  formData.append('name', namaSKPD)
-  formData.append('idpagu', id_global)
-  fetch(api+'api/pagus/edit/'+id_global, {
+  document.getElementById('form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const userFile = document.getElementById('file').files[0]
+    const formData = new FormData();
+    formData.append('file', userFile);
+    formData.append('paguorp', Namepaguorp)
+    formData.append('paguopdp', Namepaguskpd)
+    formData.append('name', namaSKPD)
+    formData.append('idpagu', id_global)
+    fetch(api + 'api/pagus/edit/' + id_global, {
       method: "PUT",
       body: formData,
-  })
-  .then(res => res.json())
-  .then(data => 
-   // console.log(data)
-   
-    detaiDownload()
-  ).then(loadingswal())
-  .catch(err => console.log(err))
+    })
+      .then(res => res.json())
+      .then(data =>
+        // console.log(data)
+
+        detaiDownload()
+      ).then(loadingswal())
+      .catch(err => console.log(err))
 
   })
 }
@@ -1933,15 +1968,15 @@ const loadingswal = () => {
 
 const detaiDownload = () => {
   //console.log("this",linkdownload)
-        var trHTML =''
-          let ahref = linkdownload == '_' ? '<a href="javascript:alertNodownload()">' : '<a href="'+api+"docs/"+linkdownload+'"  target="_blank">' 
-          trHTML += '<div class="data-download">';
-          trHTML += '<span class="material-symbols-outlined"> file_download </span>'
-          trHTML += ahref + 'Download File' +" "+ 'Now' + '</a>';
-          trHTML += "</div>";
-        
-          document.getElementById("listdownload").innerHTML = trHTML;
-   
+  var trHTML = ''
+  let ahref = linkdownload == '_' ? '<a href="javascript:alertNodownload()">' : '<a href="' + api + "docs/" + linkdownload + '"  target="_blank">'
+  trHTML += '<div class="data-download">';
+  trHTML += '<span class="material-symbols-outlined"> file_download </span>'
+  trHTML += ahref + 'Download File' + " " + 'Now' + '</a>';
+  trHTML += "</div>";
+
+  document.getElementById("listdownload").innerHTML = trHTML;
+
 }
 const alertNodownload = () => {
   Swal.fire({
