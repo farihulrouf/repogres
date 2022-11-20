@@ -65,9 +65,10 @@ const loadTable = () => {
         }).format(object['paguorp']).replace(/[IDR]/gi, '')
           .replace(/(\.+\d{2})/, '')
           .trimLeft() + '</td>';
-        trHTML += '<td><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showUserEditBox(\'' + id_obj + '\')">edit </span></a>';
-        trHTML += '<a href="javascript:void(0)"><span class="material-symbols-outlined preview-color" onclick="detailPage(\'' + id_obj + '\')">visibility </span></a>';
-        trHTML += '<a href="javascript:void(0)"><span class="material-symbols-outlined icon-delete" onclick="paguDelete(\'' + id_obj + '\')">delete_forever</span></a></td>';
+          // <i class="bx bx- bx-sm bx-burst-hover"  onclick="showUserEditBox(\'' + id_obj + '\')></i>
+        trHTML += '<td class="actionbutton"><a href="javascript:void(0)" onclick="showUserEditBox(\'' + id_obj + '\')"> <i class="bx bx-pencil bx-sm bx-tada-hover"></i></a>';
+        trHTML += '<a href="javascript:void(0)" onclick="detailPage(\'' + id_obj + '\')"><i class="bx bx-paperclip bx-sm bx-tada-hover"></i></a>';
+        trHTML += '<a href="javascript:void(0)" onclick="paguDelete(\'' + id_obj + '\')"><i style="color:red;" class="bx bx-x bx-sm bx-tada-hover"></i></a></td>';
 
         trHTML += "</tr>";
       }
@@ -596,7 +597,10 @@ const calculatePdn = (objectdata,id) => {
               pdnavg = 'Nan'
             }
             else {
-              pdnavg = object['name'] == objectdata.data.data[j].name ? objectdata.data.data[j].pdn : 'Nan'
+              //pdnavg = object['name'] == objectdata.data.data[j].name ? objectdata.data.data[j].pdn : 'Nan'
+              //console.log(pdnavg)
+              console.log(pdnavg)
+              pdnavg = objectdata.data.data[j].pdn
             }
             trHTML += '<tr>';
             trHTML += '<td>' + i + '</td>';
@@ -609,7 +613,7 @@ const calculatePdn = (objectdata,id) => {
               .replace(/(\.+\d{2})/, '')
               .trimLeft() + '</td>';
             trHTML += '<td>' + pdnavg + '</td>';
-            trHTML += '<td><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showAnggaranEditBox(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')">edit </span></a>';
+            trHTML += '<td class="actionbutton"><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showAnggaranEditBox(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')">edit </span></a>';
             trHTML += '<a href="javascript:void(0) onclick="detailDelete(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')">delete_forever</span></a></td>';
             //<img src="/images/icon/add.svg" width="24" height="24" alt="icon-svg">
             trHTML += "</tr>";
@@ -705,12 +709,14 @@ const detailTender = (id) => {
             .replace(/[IDR]/gi, '')
             .replace(/(\.+\d{2})/, '')
             .trimLeft() + '</td>';
-          trHTML += '<td>' + object['pemilihan'] + '</td>';
-          trHTML += '<td>' + object['pelaksanaan'] + '</td>';
-          trHTML += '<td>' + object['jadwal'] + '</td>';
+            //console.log(mydate.toDateString().replace(/^\S+\s/,''));
+          trHTML += '<td>' + new Date(object['pemilihan']).toDateString().replace(/^\S+\s/,'') + '</td>';
+          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/,'') + '</td>';
+          trHTML += '<td>' + new Date(object['jadwal']).toDateString().replace(/^\S+\s/,'') + '</td>';
           trHTML += '<td>' + object['tender'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
-          trHTML += '<td><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showTenderDetailEditBox(\'' + id_obj + '\',`tender`,\'' + api_url_langsung + '\')">edit </span></a>';
+          //<i class="bx bx-pencil bx-sm bx-tada-hover"></i>
+          trHTML += '<td class="actionbutton"><a href="javascript:void(0)" onclick="showTenderDetailEditBox(\'' + id_obj + '\',`tender`,\'' + api_url_langsung + '\')"><i class="bx bx-pencil bx-sm bx-tada-hover"></i></a>';
           trHTML += '<a href="javascript:void(0)"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`plangsung`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
           trHTML += "</tr>";
         }
@@ -756,9 +762,9 @@ const detailLangsung = (id) => {
             .replace(/[IDR]/gi, '')
             .replace(/(\.+\d{2})/, '')
             .trimLeft() + '</td>';
-          trHTML += '<td>' + object['pelaksanaan'] + '</td>';
+          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/,'') + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
-          trHTML += '<td><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showLangsungEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')">edit </span></a>';
+          trHTML += '<td class="actionbutton"><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showLangsungEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')">edit </span></a>';
           trHTML += '<a href="javascript:void(0)"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
 
           trHTML += "</tr>";
@@ -804,9 +810,9 @@ const detailPenunjukanLangsug = (id) => {
             .replace(/[IDR]/gi, '')
             .replace(/(\.+\d{2})/, '')
             .trimLeft() + '</td>';
-          trHTML += '<td>' + object['pelaksanaan'] + '</td>';
+          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/,'') + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
-          trHTML += '<td><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showLangsungEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')">edit </span></a>';
+          trHTML += '<td class="actionbutton"><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showLangsungEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')">edit </span></a>';
           trHTML += '<a href="javascript:void(0)"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`plangsung`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
 
           trHTML += "</tr>";
@@ -853,9 +859,9 @@ const detailPurchasing = (id) => {
             .replace(/[IDR]/gi, '')
             .replace(/(\.+\d{2})/, '')
             .trimLeft() + '</td>';
-          trHTML += '<td>' + object['pelaksanaan'] + '</td>';
+          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/,'') + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
-          trHTML += '<td><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showLangsungEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')">edit </span></a>';
+          trHTML += '<td class="actionbutton"><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showLangsungEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')">edit </span></a>';
           trHTML += '<a href="javascript:void(0)"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`purchasing`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
 
           trHTML += "</tr>";
@@ -902,9 +908,9 @@ const detailPengecualian = (id) => {
             .replace(/[IDR]/gi, '')
             .replace(/(\.+\d{2})/, '')
             .trimLeft() + '</td>';
-          trHTML += '<td>' + object['pelaksanaan'] + '</td>';
+          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/,'') + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
-          trHTML += '<td><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showLangsungEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')">edit </span></a>';
+          trHTML += '<td class="actionbutton"><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showLangsungEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')">edit </span></a>';
           trHTML += '<a href="javascript:void(0)"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`kecuali`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
 
           trHTML += "</tr>";
@@ -954,7 +960,7 @@ const detailSwakelola = (id) => {
             .trimLeft() + '</td>';
           trHTML += '<td>' + object['ket'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
-          trHTML += '<td><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showSwakelolaEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')">edit </span></a>';
+          trHTML += '<td class="actionbutton"><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showSwakelolaEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')">edit </span></a>';
           trHTML += '<a href="javascript:void(0)"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`swakelola`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
 
           trHTML += "</tr>";

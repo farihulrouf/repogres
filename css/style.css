@@ -1,5 +1,4 @@
 /* Googlefont Poppins CDN Link */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 
 * {
   margin: 0;
@@ -590,10 +589,9 @@ nav .profile-details i {
   border: 1px solid #ddd;
   
 }
-
-.styled-table a {
-  text-decoration: none;
-  color: black;
+#reporttoexcel{
+  
+  color: teal;
 }
 
 .styled-table tbody tr {
@@ -647,8 +645,7 @@ nav .profile-details i {
   margin-top: 40px;
   margin-bottom: 40px;
   margin: 5px;
-
-  min-width: 90px;
+  min-width: 75px;
   justify-content: space-between;
 
 }
@@ -801,14 +798,8 @@ select#input-select {
 #printreportid {
   display: none;
 }
-#clickreport{
-  color: #0A2558;
-  display: flex;
-  align-items: center;
-}
-#clickreport:hover {
-  color: rebeccapurple;
-}
+
+
 .signature {
   margin-top: 100px;
   display: flex;
@@ -820,7 +811,7 @@ select#input-select {
 #allreporttotal {
   display: flex;
   align-items: center;
-  min-width: 110px;
+  min-width: 75px;
   justify-content: space-between;
 }
 .icon-delete {
@@ -843,12 +834,7 @@ select#input-select {
   color: #0A2558;
   font-weight: 500;
 }
-#allreporttotal:hover {
-  background: #0A2558;
-  padding-left: 3px;
-  padding-right: 3px;
-  color: white;
-}
+
 #add-data:hover {
   background: #0A2558;
   padding-left: 3px;
@@ -975,4 +961,12 @@ select#input-select {
 .btn-danger {
   background: red;
   color: white;
+}
+.reportuser {
+  display: flex;
+  align-items: center;
+}
+.header-text-tender {
+  font-size: 18px;
+  font-weight: 400;
 }
