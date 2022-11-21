@@ -1927,11 +1927,20 @@ function refreshTotal() {
 const uploudData = () => {
   document.getElementById('form').addEventListener('submit', function (e) {
     e.preventDefault();
+    /*  const fileSize = input.files[0].size / 1024 / 1024; // in MiB
+  if (fileSize > 2) {
+    alert('File size exceeds 2 MiB');
+    // $(file).val(''); //for clearing with Jquery
+  } else {
+    // Proceed further
+  }*/
     const userFile = document.getElementById('file').files[0]
-    console.log(userFile)
+    const fileSize = userFile.size / 1024 / 1024
+    //console.log(userFile)
     const formData = new FormData();
     //console.log("data Use", userFile)
-    if(userFile == null){
+    console.log(fileSize)
+    if(userFile == null || fileSize > 2){
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -1939,6 +1948,7 @@ const uploudData = () => {
         footer: '<a href="">Please Uploud File First</a>'
       })
     }
+    
     else {
       formData.append('file', userFile);
       formData.append('paguorp', Namepaguorp)
