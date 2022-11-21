@@ -16,9 +16,9 @@ var subKegiatanGlobal = ''
 let subKegiatanGlobalAll = {}
 let subKegiatan = [];
 let namaSKPD = ''
-let Namepaguskpd = ''
-let Namepaguorp = ''
-let linkdownload = ''
+var Namepaguskpd = ''
+var Namepaguorp = ''
+var linkdownload = ''
 var dateTest = ''
 let pdnTotalObject = {}
 let pdnTotalObjectAll = {}
@@ -507,6 +507,7 @@ function detailPage(id) {
   id_global = id;
   //detailGolbalAnggaran(id)
   detailPaguItem(id)
+  detaiDownload(id)
   detailAnggaran(id)
   detailTender(id)
   detailLangsung(id)
@@ -522,6 +523,7 @@ function detailPage(id) {
   //detailTotalTenderDetailReportSeleksi(id)
   detailTotalTenderDetailReportSeleksiJumlah(id)
   detailTotalTenderDetailReportSeleksiRupiah(id)
+ // detaiDownload()
   //totalPdn(id)
   //totalPdnTender(id)
   //detaiDownload()
@@ -673,7 +675,7 @@ function detailPaguItem(id) {
         .trimLeft() + '</td>';
 
       document.getElementById("detailinformasi").innerHTML = trHTML;
-      detaiDownload()
+      //detaiDownload()
     }
   };
 
@@ -1926,64 +1928,130 @@ const uploudData = () => {
   document.getElementById('form').addEventListener('submit', function (e) {
     e.preventDefault();
     const userFile = document.getElementById('file').files[0]
+    console.log(userFile)
     const formData = new FormData();
-    formData.append('file', userFile);
-    formData.append('paguorp', Namepaguorp)
-    formData.append('paguopdp', Namepaguskpd)
-    formData.append('name', namaSKPD)
-    formData.append('idpagu', id_global)
-    fetch(api + 'api/pagus/edit/' + id_global, {
-      method: "PUT",
-      body: formData,
-    })
-      .then(res => res.json())
-      .then(data =>
-        // console.log(data)
-
-        detaiDownload()
-      ).then(loadingswal())
+    //console.log("data Use", userFile)
+    if(userFile == null){
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        footer: '<a href="">Please Uploud File First</a>'
+      })
+    }
+    else {
+      formData.append('file', userFile);
+      formData.append('paguorp', Namepaguorp)
+      formData.append('paguopdp', Namepaguskpd)
+      formData.append('name', namaSKPD)
+      formData.append('idpagu', id_global)
+      fetch(api + 'api/pagus/edit/' + id_global, {
+        method: "PUT",
+        body: formData,
+      }).then(res => res.json())
+      .then(data => detaiDownload(id_global)).then()
       .catch(err => console.log(err))
-
+      loadingswal()
+      
+    }  
+     //loadingswal()
+   
   })
+
+ 
+}
+
+
+const removeDownload = () => {
+
+  const xhttp = new XMLHttpRequest();
+
+  xhttp.open("PUT", api_url + "/" + id_global);
+  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhttp.send(JSON.stringify({ 
+    "name": namaSKPD, "paguopdp": Namepaguskpd, "paguorp": Namepaguorp, "filetipe": "kosong"
+  }));
+
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      Swal.fire('Saved!', '', 'success')
+      detailAnggaran(id_global)
+      detailTender(id_global)
+      refreshTotal()
+
+    }
+    else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        footer: '<a href="">Why do I have this issue?</a>'
+      })
+    }
+
+  };
+  
 }
 
 const loadingswal = () => {
   Swal.fire({
-    title: 'Auto close alert!',
-    html: 'Wait upload.',
-    timer: 2000,
-    timerProgressBar: true,
-    didOpen: () => {
-      Swal.showLoading()
-      const b = Swal.getHtmlContainer().querySelector('b')
-      timerInterval = setInterval(() => {
-        b.textContent = Swal.getTimerLeft()
-      }, 100)
-    },
-    willClose: () => {
-      clearInterval(timerInterval)
-    }
-  }).then((result) => {
-    /* Read more about handling dismissals below */
-    Swal.fire('Upload!', '', 'success')
-    if (result.dismiss === Swal.DismissReason.timer) {
-      console.log('I was closed by the timer')
-    }
+    position: 'top-end',
+    icon: 'success',
+    title: 'uploud file success',
+    showConfirmButton: false,
+    timer: 1500
   })
+  showFileDownlod()
 }
 
-const detaiDownload = () => {
-  //console.log("this",linkdownload)
-  var trHTML = ''
-  let ahref = linkdownload == '_' ? '<a href="javascript:alertNodownload()">' : '<a href="' + api + "docs/" + linkdownload + '"  target="_blank">'
-  trHTML += '<div class="data-download">';
-  trHTML += '<span class="material-symbols-outlined"> file_download </span>'
-  trHTML += ahref + 'Download File' + " " + 'Now' + '</a>';
-  trHTML += "</div>";
+const showFileDownlod = () => {
+  var downloaddata = document.getElementsByClassName('download-data');
 
-  document.getElementById("listdownload").innerHTML = trHTML;
+  for (var i = 0; i < downloaddata.length; i ++) {
+    downloaddata[i].style.display = 'flex';
+  }
 
 }
+
+
+
+function detaiDownload(id) {
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", api_url + '/' + id);
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const objects = JSON.parse(this.responseText);
+
+      const posts = objects.data.data
+
+      //console.log(linkdownload)
+      id_global = posts.id
+      let link_data = posts['filetipe'] == "_" ? '<div>File Not Found</div>' : '<a href="' + api + "docs/" + posts['filetipe'] + '"  target="_blank" class="link-download">' + '<i class="bx bx-download bx-sm bx-tada-hover" style="color:teal;"> </i>' + posts['filetipe'] + '</p>' + '</a>'
+      var trHTML = '';
+      trHTML += '<div class="download-data">';
+      trHTML += link_data;
+      trHTML += '<a href="javascript:void(0)" onclick="hidengFileDownlod()"><i class="bx bx-x bx-md bx-tada-hover" style="color:red;"></i></a>'
+      trHTML += '</div>'
+      
+
+      document.getElementById("listdownload").innerHTML = trHTML;
+      //detaiDownload()
+    }
+  };
+
+}
+
+const hidengFileDownlod = () => {
+  var downloaddata = document.getElementsByClassName('download-data');
+
+  for (var i = 0; i < downloaddata.length; i ++) {
+    downloaddata[i].style.display = 'none';
+  }
+
+}
+
+
 const alertNodownload = () => {
   Swal.fire({
     icon: 'error',

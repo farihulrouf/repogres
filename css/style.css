@@ -933,16 +933,16 @@ select#input-select {
 #file {
 
 }
-.data-download {
-  margin-top: 8px;
-  padding: 5px;
-  background: teal;
-  color: white;
+.download-data {
   display: flex;
   align-items: center;
 }
-.data-download a {
-  color: white;
+.link-download {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin-right: 5px;
+  border: 1px solid #ddd;
 }
 
 ::-webkit-file-upload-button {
@@ -968,5 +968,5 @@ select#input-select {
 }
 .header-text-tender {
   font-size: 18px;
-  font-weight: 400;
+  font-weight: 400 !important;
 }
