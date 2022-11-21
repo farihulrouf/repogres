@@ -1,25 +1,30 @@
 const clickDetailReport = () => {
   var reporttoexcel = document.getElementById("reporttoexcel")
   var hideeninpuxbox = document.getElementById("inputbox")
+  var printviewinputbox = document.getElementById("printviewinputbox")
   var idlaporan = document.getElementById("idlaporan")
   var clickreport = document.getElementById("clickreport")
+  var inputboxprint = document.getElementById("inputboxprint")
   var printreportid = document.getElementById("printreportid")
   hideeninpuxbox.style.display = "none"
   reporttoexcel.style.display = "none"
   clickreport.style.display = "none"
   printreportid.style.display = "flex"
+  inputboxprint.style.display = "none"
+  printviewinputbox.style.display="none"
   idlaporan.style.display = "block"
 }
 
 const inputDetailData = () => {
 
   var hideeninpuxbox = document.getElementById("inputbox")
-
+  var inputboxprint = document.getElementById("inputboxprint")
   var reporttoexcel = document.getElementById("reporttoexcel")
   var idlaporan = document.getElementById("idlaporan")
   var clickreport = document.getElementById("clickreport")
   var printreportid = document.getElementById("printreportid")
   hideeninpuxbox.style.display = "block"
+  inputboxprint.style.display = "none"
   reporttoexcel.style.display="flex"
   clickreport.style.display = "flex"
   printreportid.style.display = "none"
@@ -75,17 +80,31 @@ const ExportToExcel = (type, fn, dl) => {
 
 }
 
-const hiddenAction = () => {
-  /*var actionbutton = document.getElementsByClassName('actionbutton');
 
-  for (var i = 0; i < actionbutton.length; i ++) {
-    //div.classList.remove('info')
-    //labelEmail.remove();
-    actionbutton[i].style.display = 'none';
-  }
-  */
-  ExportToExcel('xlsx')
+
+
+function convert(){
+  let tbl1 = document.getElementsByTagName("table")[1]
+  let tbl2 = document.getElementById("tenderanggaran")
+  //let tbl3 = document.getElementById("tablecepatx")
+     
+  let worksheet_tmp1 = XLSX.utils.table_to_sheet(tbl1);
+  let worksheet_tmp2 = XLSX.utils.table_to_sheet(tbl2);
+  //let worksheet_tmp3 = XLSX.utils.table_to_sheet(tbl3);
+  console.log("isi dari",worksheet_tmp2)
+  let a = XLSX.utils.sheet_to_json(worksheet_tmp1, { header: 1 })
+  let b = XLSX.utils.sheet_to_json(worksheet_tmp2, { header: 1 })
+  //let c = XLSX.utils.sheet_to_json(worksheet_tmp3, { header: 1 })
+     
+  //a = a.concat(['']).concat(b).concat(c)
+  //ws['!ref'] = "A2:C3" 
+  let worksheet = XLSX.utils.json_to_sheet(b, { skipHeader: true })
+  
+  const new_workbook = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(new_workbook, worksheet, "worksheet")
+  XLSX.writeFile(new_workbook, 'restfile.xlsx')
 }
+
 
 
 

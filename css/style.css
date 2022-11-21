@@ -737,6 +737,8 @@ select#input-select {
 .printpreview {
   display: flex;
   justify-content: space-between;
+ 
+  
 }
 .logo {
   width: 100px;
@@ -836,12 +838,6 @@ select#input-select {
 }
 
 #add-data:hover {
-  background: #0A2558;
-  padding-left: 3px;
-  padding-right: 3px;
-  color: white;
-}
-#clickreport:hover{
   background: #0A2558;
   padding-left: 3px;
   padding-right: 3px;
@@ -969,4 +965,21 @@ select#input-select {
 .header-text-tender {
   font-size: 18px;
   font-weight: 400 !important;
+}
+#printviewinputbox {
+  display: none;
+}
+#inputboxprint {
+  display: none;
+}
+#excelfprint {
+  border: 1px solid #ddd;
+  padding: 2px 8px 2px 8px;
+  border-radius: 10px;
+
+}
+#pdfprint {
+  border: 1px solid #ddd;
+  padding: 2px 8px 2px 8px;
+  border-radius: 10px;
 }

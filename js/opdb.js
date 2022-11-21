@@ -1360,8 +1360,6 @@ const editAnggaran = () => {
 }
 
 
-
-
 const paguEdit = () => {
 
   const id = document.getElementById("id").value;
@@ -1408,8 +1406,6 @@ function showPagu() {
   //detailPage(id_global)
 
 }
-
-
 
 const loadDataKegiatan = () => {
   console.log(id_global)
@@ -1798,45 +1794,7 @@ function detailTotalTenderDetailReportJumlahPagu(id) {
 
 }
 
-/*
-function detailTotalTenderDetailReportSeleksi(id) {
-  //console.log("lihat id",id)
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", api_url_total_paket + '/' + id)
-  //xhttp.open("GET", api_url_total_tender_detail+'/'+id)
-  xhttp.send();
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      var trHTML = '';
-      //var namePengadaan = ''
-      const objects = JSON.parse(this.responseText);
 
-      if (objects.data.data != null) {
-        let i = 0
-        for (let object of objects.data.data) {
-          let id_obj = object['id']
-          //console.log(object.tipe)
-
-
-          i = i + 1;
-
-          // trHTML += '<tr>';
-          trHTML += '<td class="bg-td">' + object['ket'] + '</td>';
-          //trHTML += '<td>' + object['total'] + '</td>';
-          //trHTML += "</tr>";
-
-
-          // 
-
-        }
-
-        document.getElementById("reporttenderseleksi").innerHTML = trHTML;
-      }
-    }
-  };
-
-}
-*/
 function detailTotalTenderDetailReportSeleksiJumlah(id) {
   //console.log("lihat id",id)
   const xhttp = new XMLHttpRequest();
@@ -1922,8 +1880,6 @@ function refreshTotal() {
 
 }
 
-
-
 const uploudData = () => {
   document.getElementById('form').addEventListener('submit', function (e) {
     e.preventDefault();
@@ -1970,7 +1926,6 @@ const uploudData = () => {
 
  
 }
-
 
 const removeDownload = () => {
 
@@ -2070,3 +2025,377 @@ const alertNodownload = () => {
     footer: '<a href="">You havent uploaded the file?</a>'
   })
 }
+
+
+
+//reportdata
+
+const hiddenAction = () => {
+  
+  var printviewinputbox = document.getElementById("printviewinputbox")
+  var inputbox = document.getElementById("inputbox")
+  var reporttoexcel = document.getElementById("reporttoexcel")
+  var inputboxprint = document.getElementById("inputboxprint")
+  inputbox.style.display = "none"
+  printviewinputbox.style.display = "block"
+  inputboxprint.style.display = "flex"
+  reporttoexcel.style.display = "none"
+  detailReportAnggaran(id_global)
+  reportPenunjukaLangsungby(id_global)
+  //ExportToExcel('xlsx')
+}
+
+const detailReportAnggaran = (id) => {
+  //const embkono = ["silver", "larougm"]
+  //console.log(getvals)
+  //var dataob = ''
+  getvals(id).then(response => 
+    calculatePdntwo(response, id)
+  );
+  detailTenderLaporan(id_global)
+  reportPengadaanLangsung(id_global)
+  reportPurchasingLangsung(id_global)
+  laporandetailPengecualian(id_global)
+  laporanSwakeola(id_global)
+}
+
+const calculatePdntwo = (objectdata,id) => {
+  if(objectdata.data.data==null){
+    console.log("data null")
+  }
+  else {
+    console.log(objectdata)
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("GET", api_url_anggaran + '/pagu/' + id);
+    xhttp.send();
+    //dataPdnPenmpungTemp = embkono
+    let objects = ''
+    let pdnavg = ''
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        var trHTML = '';
+        objects = JSON.parse(this.responseText);
+  
+  
+        if (objects.data.data === null) {
+          console.log('data kosong')
+        }
+        else {
+          let i = 0;
+          let j = 0
+          for (let object of objects.data.data) {
+            let id_obj = object['id']
+            i++;
+           // console.log(objectdata.data.data[j].totalpagu)
+            //pdnavg = object['name'] == objectdata.data.data[j].name ? objectdata.data.data[j].pdn : 'Nan'
+            //if(army.indexOf("Marcos") !== -1) 
+            if(objectdata.data.data[j] == undefined){
+              //console.log('data undifined')
+              pdnavg = 'Nan'
+            }
+            else {
+              //pdnavg = object['name'] == objectdata.data.data[j].name ? objectdata.data.data[j].pdn : 'Nan'
+              //console.log(pdnavg)
+              console.log(pdnavg)
+              pdnavg = objectdata.data.data[j].pdn
+            }
+            trHTML += '<tr>';
+            trHTML += '<td>' + i + '</td>';
+            trHTML += '<td>' + object['name'] + '</td>';
+            trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
+              style: 'currency',
+              currency: 'IDR'
+            }).format(object['pagu'])
+              .replace(/[IDR]/gi, '')
+              .replace(/(\.+\d{2})/, '')
+              .trimLeft() + '</td>';
+            trHTML += '<td>' + pdnavg + '</td>';
+            trHTML += "</tr>";
+            j++;
+          }
+        }
+        //console.log("data onject", objects)
+  
+        document.getElementById("anggaranlaporan").innerHTML = trHTML;
+  
+      }
+    };
+  }
+}
+
+const detailTenderLaporan = (id) => {
+  const xhttp = new XMLHttpRequest();
+
+  xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/default')
+
+  xhttp.send();
+
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var trHTML = '';
+      const objects = JSON.parse(this.responseText);
+      if (objects.data.data === null) {
+        //console.log('data kosong')
+      }
+      else {
+        let i = 0;
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          i++
+          trHTML += '<tr>';
+          trHTML += '<td>' + i + '</td>';
+          trHTML += '<td>' + object['name'] + '</td>';
+          trHTML += '<td>' + object['paket'] + '</td>';
+          trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
+            style: 'currency',
+            currency: 'IDR'
+          }).format(object['pagu'])
+            .replace(/[IDR]/gi, '')
+            .replace(/(\.+\d{2})/, '')
+            .trimLeft() + '</td>';
+            //console.log(mydate.toDateString().replace(/^\S+\s/,''));
+          trHTML += '<td>' + new Date(object['pemilihan']).toDateString().replace(/^\S+\s/,'') + '</td>';
+          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/,'') + '</td>';
+          trHTML += '<td>' + new Date(object['jadwal']).toDateString().replace(/^\S+\s/,'') + '</td>';
+          trHTML += '<td>' + object['tender'] + '</td>';
+          trHTML += '<td>' + object['pdn'] + '</td>';
+          trHTML += "</tr>";
+        }
+      }
+
+      document.getElementById("tenderlaporan").innerHTML = trHTML;
+
+    }
+  };
+
+}
+
+const reportPengadaanLangsung = (id) => {
+  const xhttp = new XMLHttpRequest();
+
+  xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/langsung')
+  //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
+  xhttp.send();
+  //console.log("anggaran di eksekusi", id)
+
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var trHTML = '';
+      const objects = JSON.parse(this.responseText);
+      if (objects.data.data === null) {
+        console.log('data kosong')
+      }
+      else {
+        let i = 0;
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          i++
+
+          trHTML += '<tr>';
+          trHTML += '<td>' + i + '</td>';
+          trHTML += '<td>' + object['name'] + '</td>';
+          trHTML += '<td>' + object['paket'] + '</td>';
+          trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
+            style: 'currency',
+            currency: 'IDR'
+          }).format(object['pagu'])
+            .replace(/[IDR]/gi, '')
+            .replace(/(\.+\d{2})/, '')
+            .trimLeft() + '</td>';
+          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/,'') + '</td>';
+          trHTML += '<td>' + object['pdn'] + '</td>';
+     
+          trHTML += "</tr>";
+        }
+      }
+
+      document.getElementById("pengadaanlangsungreport").innerHTML = trHTML;
+
+    }
+  };
+
+}
+
+const reportPenunjukaLangsungby = (id) => {
+  const xhttp = new XMLHttpRequest();
+
+  xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/plangsung')
+  //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
+  xhttp.send();
+  //console.log("anggaran di eksekusi", id)
+
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var trHTML = '';
+      const objects = JSON.parse(this.responseText);
+      if (objects.data.data === null) {
+        console.log('data kosong')
+      }
+      else {
+        let i = 0;
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          i++
+
+          trHTML += '<tr>';
+          trHTML += '<td>' + i + '</td>';
+          trHTML += '<td>' + object['name'] + '</td>';
+          trHTML += '<td>' + object['paket'] + '</td>';
+          trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
+            style: 'currency',
+            currency: 'IDR'
+          }).format(object['pagu'])
+            .replace(/[IDR]/gi, '')
+            .replace(/(\.+\d{2})/, '')
+            .trimLeft() + '</td>';
+          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/,'') + '</td>';
+          trHTML += '<td>' + object['pdn'] + '</td>';
+      
+          trHTML += "</tr>";
+        }
+      }
+
+      document.getElementById("reportpenunjukanlangsung").innerHTML = trHTML;
+
+    }
+  };
+
+}
+
+const reportPurchasingLangsung = (id) => {
+  const xhttp = new XMLHttpRequest();
+
+  xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/purchasing')
+  //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
+  xhttp.send();
+  //console.log("anggaran di eksekusi", id)
+
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var trHTML = '';
+      const objects = JSON.parse(this.responseText);
+      if (objects.data.data === null) {
+        console.log('data kosong')
+      }
+      else {
+        let i = 0;
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          i++
+
+          trHTML += '<tr>';
+          trHTML += '<td>' + i + '</td>';
+          trHTML += '<td>' + object['name'] + '</td>';
+          trHTML += '<td>' + object['paket'] + '</td>';
+          trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
+            style: 'currency',
+            currency: 'IDR'
+          }).format(object['pagu'])
+            .replace(/[IDR]/gi, '')
+            .replace(/(\.+\d{2})/, '')
+            .trimLeft() + '</td>';
+          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/,'') + '</td>';
+          trHTML += '<td>' + object['pdn'] + '</td>';
+       
+          trHTML += "</tr>";
+        }
+      }
+
+      document.getElementById("reportpurchasing").innerHTML = trHTML;
+
+    }
+  };
+
+}
+const laporandetailPengecualian = (id) => {
+  const xhttp = new XMLHttpRequest();
+
+  xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/kecuali')
+  //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
+  xhttp.send();
+  //console.log("anggaran di eksekusi", id)
+
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var trHTML = '';
+      const objects = JSON.parse(this.responseText);
+      if (objects.data.data === null) {
+        console.log('data kosong')
+      }
+      else {
+        let i = 0;
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          i++
+
+          trHTML += '<tr>';
+          trHTML += '<td>' + i + '</td>';
+          trHTML += '<td>' + object['name'] + '</td>';
+          trHTML += '<td>' + object['paket'] + '</td>';
+          trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
+            style: 'currency',
+            currency: 'IDR'
+          }).format(object['pagu'])
+            .replace(/[IDR]/gi, '')
+            .replace(/(\.+\d{2})/, '')
+            .trimLeft() + '</td>';
+          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/,'') + '</td>';
+          trHTML += '<td>' + object['pdn'] + '</td>';
+       
+          trHTML += "</tr>";
+        }
+      }
+
+      document.getElementById("laporandikecualikan").innerHTML = trHTML;
+
+    }
+  };
+
+}
+
+const laporanSwakeola = (id) => {
+  const xhttp = new XMLHttpRequest();
+
+  xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/swakelola')
+  //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
+  xhttp.send();
+  //console.log("anggaran di eksekusi", id)
+
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var trHTML = '';
+      const objects = JSON.parse(this.responseText);
+      if (objects.data.data === null) {
+        console.log('data kosong')
+      }
+      else {
+        let i = 0;
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          i++
+
+          trHTML += '<tr>';
+          trHTML += '<td>' + i + '</td>';
+          trHTML += '<td>' + object['name'] + '</td>';
+          trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
+            style: 'currency',
+            currency: 'IDR'
+          }).format(object['pagu'])
+            .replace(/[IDR]/gi, '')
+            .replace(/(\.+\d{2})/, '')
+            .trimLeft() + '</td>';
+          trHTML += '<td>' + object['ket'] + '</td>';
+          trHTML += '<td>' + object['pdn'] + '</td>';
+      
+          trHTML += "</tr>";
+        }
+      }
+
+      document.getElementById("laporanswakelola").innerHTML = trHTML;
+
+    }
+  };
+
+}
+
+
