@@ -2339,7 +2339,7 @@ const laporandetailPengecualian = (id) => {
             .replace(/[IDR]/gi, '')
             .replace(/(\.+\d{2})/, '')
             .trimLeft() + '</td>';
-          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/,'') + '</td>';
+          trHTML += '<td>' + object['pelaksanaan'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
        
           trHTML += "</tr>";

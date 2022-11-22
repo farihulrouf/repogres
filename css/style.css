@@ -735,9 +735,10 @@ select#input-select {
 }
 */
 .printpreview {
-  display: flex;
-  justify-content: space-between;
- 
+   display: flex;
+    justify-content: space-between;
+    background: #fff;
+    padding-bottom: 10px;
   
 }
 .logo {
@@ -976,7 +977,16 @@ select#input-select {
   border: 1px solid #ddd;
   padding: 2px 8px 2px 8px;
   border-radius: 10px;
+  background: teal;
+  color: white;
 
+}
+#printexcelin{
+  border: 1px solid #ddd;
+  padding: 2px 8px 2px 8px;
+  border-radius: 10px;
+  background: teal;
+  color: white;
 }
 #pdfprint {
   border: 1px solid #ddd;

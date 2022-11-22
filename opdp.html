@@ -141,7 +141,7 @@
             <a href="javascript:void(0)" id="allreporttotal" onclick="backToreport()">
 
               <i class='bx bx-arrow-to-left bx-sm bx-fade-left'></i>
-              Kembali
+              Back To Skpd
             </a>
             <div>
 
@@ -222,7 +222,7 @@
           <div class="printpreview">
             <a class="back-button" href="javascript:void(0)" onclick="showPagu()">
 
-              <i class='bx bx-arrow-to-left bx-sm bx-fade-left bx-fade-left-hover'></i> Kembali
+              <i class='bx bx-arrow-to-left bx-sm bx-fade-left bx-fade-left-hover'></i> Back To Skpd
 
             </a>
             <div class="reportuser">
@@ -234,19 +234,19 @@
               </a>
 
               <div id="inputboxprint">
-                <a class="back-button" href="javascript:void(0)" id="inputpreviews" onclick="clickDetailReport()">
+                <a class="back-button" href="javascript:void(0)" id="inputpreviews" onclick="inputDetailData()">
                  
                   <i class='bx bx-arrow-to-left bx-sm bx-fade-left'></i>
                   Back To Input
   
                 </a>
   
-                <a class="back-button" href="javascript:void(0)" id="excelfprint" onclick="clickDetailReport()">
-                   Excel
+                <a class="back-button" href="javascript:void(0)" id="excelfprint" onclick="ExportReportToExel()">
+                   Export Excel
                   <i class='bx bx-down-arrow-circle bx-sm'></i>
                    
                 </a>
-                <a class="back-button" href="javascript:void(0)" id="pdfprint" onclick="clickDetailReport()">
+                <a class="back-button" href="javascript:void(0)" id="pdfprint" onclick="printForm()">
                   
                   <i class='bx bx-file bx-sm'></i>
                   Pdf Print
@@ -268,15 +268,16 @@
               <a class="back-button" style="color:#0A2558;" href="javascript:void(0)" onclick="inputDetailData()">
 
 
-                <i class='bx bx-arrow-to-left bx-sm bx-fade-left'></i> Input Data ||
+                <i class='bx bx-arrow-to-left bx-sm bx-fade-left'></i> Back To Input ||
 
               </a>
-              <a class="back-button" style="color: blueviolet;" onclick="printForm()" href="javascript:void(0)">
+              <a class="back-button" id="printexcelin" href="javascript:void(0)">
+                Export Excel   
+                <i class='bx bx-down-arrow-circle bx-sm'></i>
+              </a>
+              <a class="back-button"  onclick="printForm()" href="javascript:void(0)">    
+                <i class='bx bx-printer bx-sm'></i>
                 Print
-                <span class="material-symbols-outlined">
-                  print
-                </span>
-
               </a>
             </div>
           </div>
@@ -298,7 +299,7 @@
 
               </table>
 
-              <table class="styled-table" style="margin-top: 100px;">
+              <table class="styled-table" style="margin-top: 100px;" id="tableinformaridetail">
                 <thead>
                   <tr>
                     <th width="2%">NO</th>
@@ -317,7 +318,7 @@
 
               <div id="detailinformasi">
                 <div class="text-detail-pagu">
-                  <p>Laporan Total Pengadaan Tender / Tender Cepat/ Seleksi</p>
+                  <p>Total Tender / Tender Cepat/ Seleksi</p>
 
                 </div>
                 <table class="styled-table">
@@ -335,7 +336,7 @@
                   </tbody>
                 </table>
                 <div class="text-detail-pagu">
-                  <p>Laporan Total Pengadaan</p>
+                  <p>Total Pengadaan</p>
 
                 </div>
                 <table class="styled-table">
@@ -356,7 +357,7 @@
 
 
               <div class="text-detail-pagu">
-                <p>Laporan Total Jumlah Pagu</p>
+                <p>Total Jumlah Pagu</p>
 
               </div>
               <table class="styled-table">
@@ -370,7 +371,7 @@
 
               </table>
               <div class="text-detail-pagu">
-                <p>Laporan Total Jumlah Pengadaan Tender / Tender Cepat/ Seleksi</p>
+                <p>Total Tender/ Tender Cepat/ Seleksi</p>
 
               </div>
               <table class="styled-table">
@@ -391,7 +392,7 @@
                 </tr>
               </table>
               <div class="text-detail-pagu">
-                <p>Laporan Total Jumlah Pagu dalam Rupiah</p>
+                <p>Total Jumlah Pagu dalam Rupiah</p>
 
               </div>
               <table class="styled-table">
@@ -417,7 +418,7 @@
                 </tr>
               </table>
               <div class="text-detail-pagu">
-                <p>Laporan Total Jumlah pagu dalam Rupiah Pengadaan Tender / Tender Cepat/ Seleksi</p>
+                <p>Total Tender / Tender Cepat/ Seleksi</p>
 
               </div>
 
@@ -449,6 +450,208 @@
                   <p style="margin-top: 40px;">------------------</p>
                 </div>
               </div>
+            </div>
+            <div id="printviewinputbox">
+              <div class="text-detail-pagu">
+                <table>
+                  <thead>
+                    <tr>
+                      <th class="header-text-tender">
+                        Pagu anggaran kegiatan
+                      </th>
+                    </tr>
+                  </thead>
+                </table>
+               
+              </div>
+              <table class="styled-table">
+                <thead>
+                  <tr>
+                    <th width="2%">NO</th>
+                    <th width="45%">SUB KEGIATAN</th>
+                    <th width="38%">JUMLAH</th>
+                    <th width="10%">PDN (%)</th>
+                  </tr>
+                </thead>
+                <tbody id="anggaranlaporan">
+                  <tr></tr>
+                </tbody>
+              </table>
+              <!-------------------------->
+              <div class="text-detail-pagu">
+                <table>
+                  <thead>
+                    <tr>
+                      <th class="header-text-tender">                   
+                        Tender/ Tender Cepat / Seleksi
+                      </th>
+                    </tr>
+                  </thead>
+                </table>
+               
+              </div>
+              <table class="styled-table" id="tablecepatx">
+  
+                <thead>
+                  <tr>
+                  <tr>
+                    <th width="2%">NO</th>
+                    <th width="13%">SUB KEGIATAN</th>
+                    <th width="13%">NAMA PAKET</th>
+                    <th width="13%%">PAGU</th>
+                    <th width="14%">WAKTU PEMILIHAN</th>
+                    <th width="12%">WAKTU PELAKSANAAN</th>
+                    <th width="12%">WAKTU PEMANFAATAN</th>
+                    <th width="8%">KET</th>
+                    <th width="8%">PDN(%)</th>
+                  </tr>
+                  </tr>
+                </thead>
+                <tbody id="tenderlaporan">
+                  <tr></tr>
+                </tbody>
+              </table>
+              <!------------------------>
+              <div class="text-detail-pagu">
+                <table>
+                  <thead>
+                    <tr>
+                      <th class="header-text-tender">                   
+                        Pengadaan Langsung
+                      </th>
+                    </tr>
+                  </thead>
+                </table>
+               
+              </div>
+              <table class="styled-table">
+                <thead>
+                  <tr>
+                    <th width="2%">NO</th>
+                    <th width="28%">SUB KEGIATAN</th>
+                    <th width="30%">NAMA PAKET</th>
+                    <th width="22%%">PAGU</th>
+                    <th width="10%">PELAKSANAAN</th>
+                    <th width="8%">PDN (%)</th>
+                  </tr>
+                </thead>
+                <tbody id="pengadaanlangsungreport">
+                  <tr></tr>
+                </tbody>
+              </table>
+              <!------------------------->
+              <div class="text-detail-pagu">
+                <table>
+                  <thead>
+                    <tr>
+                      <th class="header-text-tender">                   
+                         Penunjukan Langsung
+                      </th>
+                    </tr>
+                  </thead>
+                </table>
+               
+              </div>
+              <table class="styled-table">
+                <thead>
+                  <tr>
+                    <th width="2%">NO</th>
+                    <th width="28%">SUB KEGIATAN</th>
+                    <th width="30%">NAMA PAKET</th>
+                    <th width="22%%">PAGU</th>
+                    <th width="10%">PELAKSANAAN</th>
+                    <th width="8%">PDN (%)</th>
+                  </tr>
+                </thead>
+                <tbody id="reportpenunjukanlangsung">
+                  <tr></tr>
+                </tbody>
+              </table>
+              <!-----purchasing----------->
+              <div class="text-detail-pagu">
+                <table>
+                  <thead>
+                    <tr>
+                      <th class="header-text-tender">                   
+                         E-purchasing
+                      </th>
+                    </tr>
+                  </thead>
+                </table>
+               
+              </div>
+              <table class="styled-table">
+                <thead>
+                  <tr>
+                    <th width="2%">NO</th>
+                    <th width="28%">SUB KEGIATAN</th>
+                    <th width="30%">NAMA PAKET</th>
+                    <th width="22%%">PAGU</th>
+                    <th width="10%">PELAKSANAAN</th>
+                    <th width="8%">PDN (%)</th>
+                  </tr>
+                </thead>
+                <tbody id="reportpurchasing">
+                  <tr></tr>
+                </tbody>
+              </table>
+              <!--------dikecualiken------>
+              <div class="text-detail-pagu">
+                <table>
+                  <thead>
+                    <tr>
+                      <th class="header-text-tender">                   
+                         Pengadaan Di kecualikan
+                      </th>
+                    </tr>
+                  </thead>
+                </table>
+               
+              </div>
+              <table class="styled-table">
+  
+                <thead>
+                  <tr>
+                    <th width="2%">NO</th>
+                    <th width="28%">SUB KEGIATAN</th>
+                    <th width="30%">NAMA PAKET</th>
+                    <th width="22%%">PAGU</th>
+                    <th width="10%">PELAKSANAAN</th>
+                    <th width="8%">PDN (%)</th>
+                  </tr>
+                </thead>
+                <tbody id="laporandikecualikan">
+                  <tr></tr>
+                </tbody>
+              </table>
+              <!------------------------->
+              <div class="text-detail-pagu">
+                <table>
+                  <thead>
+                    <tr>
+                      <th class="header-text-tender">                   
+                        Swakelola
+                      </th>
+                    </tr>
+                  </thead>
+                </table>
+               
+              </div>
+              <table class="styled-table">
+  
+                <thead>
+                  <tr>
+                    <th width="2%">NO</th>
+                    <th width="28%">SUB KEGIATAN</th>
+                    <th width="25%%">PAGU</th>
+                    <th width="30%%">KETERANGAN</th>
+                    <th width="10%">PDN (%)</th>
+                  </tr>
+                </thead>
+                <tbody id="laporanswakelola">
+                  <tr></tr>
+                </tbody>
+              </table>
             </div>
           </div>
           <!---------input form-->
@@ -720,208 +923,7 @@
               </div>
             </div>
           </div>
-          <div id="printviewinputbox">
-            <div class="text-detail-pagu">
-              <table>
-                <thead>
-                  <tr>
-                    <th class="header-text-tender">
-                      Pagu anggaran kegiatan
-                    </th>
-                  </tr>
-                </thead>
-              </table>
-             
-            </div>
-            <table class="styled-table">
-              <thead>
-                <tr>
-                  <th width="2%">NO</th>
-                  <th width="45%">SUB KEGIATAN</th>
-                  <th width="38%">JUMLAH</th>
-                  <th width="10%">PDN (%)</th>
-                </tr>
-              </thead>
-              <tbody id="anggaranlaporan">
-                <tr></tr>
-              </tbody>
-            </table>
-            <!-------------------------->
-            <div class="text-detail-pagu">
-              <table>
-                <thead>
-                  <tr>
-                    <th class="header-text-tender">                   
-                      Tender/ Tender Cepat / Seleksi
-                    </th>
-                  </tr>
-                </thead>
-              </table>
-             
-            </div>
-            <table class="styled-table" id="tablecepatx">
-
-              <thead>
-                <tr>
-                <tr>
-                  <th width="2%">NO</th>
-                  <th width="13%">SUB KEGIATAN</th>
-                  <th width="13%">NAMA PAKET</th>
-                  <th width="13%%">PAGU</th>
-                  <th width="14%">WAKTU PEMILIHAN</th>
-                  <th width="12%">WAKTU PELAKSANAAN</th>
-                  <th width="12%">WAKTU PEMANFAATAN</th>
-                  <th width="8%">KET</th>
-                  <th width="8%">PDN(%)</th>
-                </tr>
-                </tr>
-              </thead>
-              <tbody id="tenderlaporan">
-                <tr></tr>
-              </tbody>
-            </table>
-            <!------------------------>
-            <div class="text-detail-pagu">
-              <table>
-                <thead>
-                  <tr>
-                    <th class="header-text-tender">                   
-                      Pengadaan Langsung
-                    </th>
-                  </tr>
-                </thead>
-              </table>
-             
-            </div>
-            <table class="styled-table">
-              <thead>
-                <tr>
-                  <th width="2%">NO</th>
-                  <th width="28%">SUB KEGIATAN</th>
-                  <th width="30%">NAMA PAKET</th>
-                  <th width="22%%">PAGU</th>
-                  <th width="10%">PELAKSANAAN</th>
-                  <th width="8%">PDN (%)</th>
-                </tr>
-              </thead>
-              <tbody id="pengadaanlangsungreport">
-                <tr></tr>
-              </tbody>
-            </table>
-            <!------------------------->
-            <div class="text-detail-pagu">
-              <table>
-                <thead>
-                  <tr>
-                    <th class="header-text-tender">                   
-                       Penunjukan Langsung
-                    </th>
-                  </tr>
-                </thead>
-              </table>
-             
-            </div>
-            <table class="styled-table">
-              <thead>
-                <tr>
-                  <th width="2%">NO</th>
-                  <th width="28%">SUB KEGIATAN</th>
-                  <th width="30%">NAMA PAKET</th>
-                  <th width="22%%">PAGU</th>
-                  <th width="10%">PELAKSANAAN</th>
-                  <th width="8%">PDN (%)</th>
-                </tr>
-              </thead>
-              <tbody id="reportpenunjukanlangsung">
-                <tr></tr>
-              </tbody>
-            </table>
-            <!-----purchasing----------->
-            <div class="text-detail-pagu">
-              <table>
-                <thead>
-                  <tr>
-                    <th class="header-text-tender">                   
-                       E-purchasing
-                    </th>
-                  </tr>
-                </thead>
-              </table>
-             
-            </div>
-            <table class="styled-table">
-              <thead>
-                <tr>
-                  <th width="2%">NO</th>
-                  <th width="28%">SUB KEGIATAN</th>
-                  <th width="30%">NAMA PAKET</th>
-                  <th width="22%%">PAGU</th>
-                  <th width="10%">PELAKSANAAN</th>
-                  <th width="8%">PDN (%)</th>
-                </tr>
-              </thead>
-              <tbody id="reportpurchasing">
-                <tr></tr>
-              </tbody>
-            </table>
-            <!--------dikecualiken------>
-            <div class="text-detail-pagu">
-              <table>
-                <thead>
-                  <tr>
-                    <th class="header-text-tender">                   
-                       Pengadaan Di kecualikan
-                    </th>
-                  </tr>
-                </thead>
-              </table>
-             
-            </div>
-            <table class="styled-table">
-
-              <thead>
-                <tr>
-                  <th width="2%">NO</th>
-                  <th width="28%">SUB KEGIATAN</th>
-                  <th width="30%">NAMA PAKET</th>
-                  <th width="22%%">PAGU</th>
-                  <th width="10%">PELAKSANAAN</th>
-                  <th width="8%">PDN (%)</th>
-                </tr>
-              </thead>
-              <tbody id="laporandikecualikan">
-                <tr></tr>
-              </tbody>
-            </table>
-            <!------------------------->
-            <div class="text-detail-pagu">
-              <table>
-                <thead>
-                  <tr>
-                    <th class="header-text-tender">                   
-                      Swakelola
-                    </th>
-                  </tr>
-                </thead>
-              </table>
-             
-            </div>
-            <table class="styled-table">
-
-              <thead>
-                <tr>
-                  <th width="2%">NO</th>
-                  <th width="28%">SUB KEGIATAN</th>
-                  <th width="25%%">PAGU</th>
-                  <th width="30%%">KETERANGAN</th>
-                  <th width="10%">PDN (%)</th>
-                </tr>
-              </thead>
-              <tbody id="laporanswakelola">
-                <tr></tr>
-              </tbody>
-            </table>
-          </div>
+         
 
         </div>
         <!---------------End report informasi-->

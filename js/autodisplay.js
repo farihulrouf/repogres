@@ -20,10 +20,12 @@ const inputDetailData = () => {
   var hideeninpuxbox = document.getElementById("inputbox")
   var inputboxprint = document.getElementById("inputboxprint")
   var reporttoexcel = document.getElementById("reporttoexcel")
+  var printviewinputbox = document.getElementById("printviewinputbox")
   var idlaporan = document.getElementById("idlaporan")
   var clickreport = document.getElementById("clickreport")
   var printreportid = document.getElementById("printreportid")
   hideeninpuxbox.style.display = "block"
+  printviewinputbox.style.display ="none"
   inputboxprint.style.display = "none"
   reporttoexcel.style.display="flex"
   clickreport.style.display = "flex"
@@ -70,7 +72,7 @@ const ExportToExcel = (type, fn, dl) => {
 
 
 
-  var elt = document.getElementById('inputbox');
+  var elt = document.getElementById('printdetaildesk');
   
   var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
   
@@ -83,26 +85,29 @@ const ExportToExcel = (type, fn, dl) => {
 
 
 
-function convert(){
-  let tbl1 = document.getElementsByTagName("table")[1]
-  let tbl2 = document.getElementById("tenderanggaran")
-  //let tbl3 = document.getElementById("tablecepatx")
+function ExportReportToExel(){
+  //let tbl1 = document.getElementById("tableinformaridetail")
+  let tbl2 = document.getElementById("printviewinputbox")
+  let tbl3 = document.getElementById("titleformat")
      
-  let worksheet_tmp1 = XLSX.utils.table_to_sheet(tbl1);
+  //let worksheet_tmp1 = XLSX.utils.table_to_sheet(tbl1);
   let worksheet_tmp2 = XLSX.utils.table_to_sheet(tbl2);
-  //let worksheet_tmp3 = XLSX.utils.table_to_sheet(tbl3);
-  console.log("isi dari",worksheet_tmp2)
-  let a = XLSX.utils.sheet_to_json(worksheet_tmp1, { header: 1 })
-  let b = XLSX.utils.sheet_to_json(worksheet_tmp2, { header: 1 })
+  let worksheet_tmp3 = XLSX.utils.table_to_sheet(tbl3);
+  //console.log("isi dari",worksheet_tmp2)
+
+  //const wb = XLSX.read(target,{type:'binary',cellText:false,cellDates:true});
+  //let a = XLSX.utils.sheet_to_json(worksheet_tmp1, { header: 1, raw: false, dateNF:'YYYY-MM-DD' })
+  let b = XLSX.utils.sheet_to_json(worksheet_tmp2, { header: 1, raw: false, dateNF:'YYYY-MM-DD' })
+  let c = XLSX.utils.sheet_to_json(worksheet_tmp3, { header: 1, raw: false, dateNF:'YYYY-MM-DD' })
   //let c = XLSX.utils.sheet_to_json(worksheet_tmp3, { header: 1 })
      
-  //a = a.concat(['']).concat(b).concat(c)
+  c = c.concat(['']).concat(b)
   //ws['!ref'] = "A2:C3" 
-  let worksheet = XLSX.utils.json_to_sheet(b, { skipHeader: true })
+  let worksheet = XLSX.utils.json_to_sheet(c, { skipHeader: true })
   
   const new_workbook = XLSX.utils.book_new()
   XLSX.utils.book_append_sheet(new_workbook, worksheet, "worksheet")
-  XLSX.writeFile(new_workbook, 'restfile.xlsx')
+  XLSX.writeFile(new_workbook, 'reportskpblp.xlsx')
 }
 
 
