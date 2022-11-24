@@ -114,7 +114,7 @@
           </div>
           <div class="text-detail-pagu">
             <p>Pagu Anggaran</p>
-            <a href="javascript:void(0)" id="add-data" onclick="showUserCreateBox()">
+            <a href="javascript:void(0)" onclick="showUserCreateBox()">
               <span> Add Data</span>
               <i class='bx bx-plus bx-sm bx-burst-hover'></i>
             </a>
@@ -143,8 +143,12 @@
               <i class='bx bx-arrow-to-left bx-sm bx-fade-left'></i>
               Back To Skpd
             </a>
-            <div>
-
+            <div style="display:flex;">
+            <a class="back-button" href="javascript:void(0)" id="excelfprintall" onclick="ExportTotalPrint()">
+                Export Excel
+               <i class='bx bx-down-arrow-circle bx-sm'></i>
+                
+             </a>
               <a class="back-button" style="color: blueviolet;" onclick="printFormTotal()" href="javascript:void(0)">
                 Print
                 <span class="material-symbols-outlined">
@@ -661,16 +665,20 @@
                 <table>
                   <thead>
                     <tr>
-                      <th class="header-text-tender">
-                        Pagu anggaran kegiatan
+                      <th style="display: flex; align-items: center; justify-content: space-between; width: 400px;" class="header-text-tender">
+                        Pagu anggaran kegiatan  <a href="javascript:void(0)" class="add-data" onclick="hidePaguanggaran()">
+                          <i class='bx bx-chevron-down bx-sm bx-burst-hover'></i>
+                        </a>
                       </th>
                     </tr>
                   </thead>
                 </table>
-                <a href="javascript:void(0)" id="add-data" onclick="showCreateAnggaran(`anggaran`)">
-                  <span> Add Data</span>
-                  <i class='bx bx-plus bx-sm bx-burst-hover'></i>
-                </a>
+                 
+                  <a href="javascript:void(0)" id="adddata1" class="add-data" onclick="showCreateAnggaran(`anggaran`)">
+                    <span> Add Data</span>
+                    <i class='bx bx-plus bx-sm bx-burst-hover'></i>
+                  </a>
+               
               </div>
             </div>
             <table class="styled-table" id="tenderanggaran">
@@ -693,19 +701,23 @@
                 <table>
                   <thead>
                     <tr>
-                      <th class="header-text-tender">
-                        Tender/ Tender Cepat / Seleksi
+                      <th style="display: flex; align-items: center; justify-content: space-between; width: 400px;" class="header-text-tender">
+                        Tender/ Tender Cepat / Seleksi 
+                        <a href="javascript:void(0)" class="add-data" onclick="hideTenderCepet()">
+                          <i class='bx bx-chevron-down bx-sm bx-burst-hover'></i>
+                        </a>
                       </th>
                     </tr>
                   </thead>
                 </table>
-                <a href="javascript:void(0)" id="add-data" onclick="showFastTender('Tender Cepat/ Seleksi')">
-                  <span> Add Data</span>
-                  <i class='bx bx-plus bx-sm bx-burst-hover'></i>
+                       
+                <a href="javascript:void(0)" id="adddata2" class="add-data" onclick="showFastTender('Tender Cepat/ Seleksi')">
+                     Add Data
+                    <i class='bx bx-plus bx-sm bx-burst-hover'></i>
                 </a>
+                
               </div>
-              <table class="styled-table" id="tablecepatx">
-
+              <table  id="tablecepatxr" class="styled-table">
                 <thead>
                   <tr>
                   <tr>
@@ -734,18 +746,20 @@
                 <table>
                   <thead>
                     <tr>
-                      <th class="header-text-tender">
-                        Pengadaan Langsung
+                      <th style="display: flex; align-items: center; justify-content: space-between; width: 400px;" class="header-text-tender">
+                        Pengadaan Langsung <a href="javascript:void(0)" class="add-data" onclick="hideTenderLangsung()">
+                          <i class='bx bx-chevron-down bx-sm bx-burst-hover'></i>
+                        </a>
                       </th>
                     </tr>
                   </thead>
                 </table>
-                <a href="javascript:void(0)" id="add-data" onclick="showCreateAnggaran(`langsung`)">
+                <a href="javascript:void(0)" id="adddata3" onclick="showCreateAnggaran(`langsung`)">
                   <span> Add Data</span>
                   <i class='bx bx-plus bx-sm bx-burst-hover'></i>
                 </a>
               </div>
-              <table class="styled-table">
+              <table id="idanggaranlangsung" class="styled-table">
                 <thead>
                   <tr>
                     <th width="2%">NO</th>
@@ -769,19 +783,23 @@
                 <table>
                   <thead>
                     <tr>
-                      <th class="header-text-tender">
-                        Penunjukan Langsung
+                      <th style="display: flex; align-items:center; justify-content: space-between; width: 400px;" class="header-text-tender">
+                        Penunjukan Langsung <a href="javascript:void(0)" class="add-data" onclick="hidePlLangsung()">
+                          <i class='bx bx-chevron-down bx-sm bx-burst-hover'></i>
+                        </a>
                       </th>
                     </tr>
                   </thead>
                 </table>
-                <a href="javascript:void(0)" id="add-data" onclick="showCreateAnggaran(`plangsung`)">
-                  <span> Add Data</span>
-
-                  <i class='bx bx-plus bx-sm bx-burst-hover'></i>
-                </a>
+              
+                
+                  <a href="javascript:void(0)" id="adddata4" class="add-data" onclick="showCreateAnggaran(`plangsung`)">
+                    Add Data
+                    <i class='bx bx-plus bx-sm bx-burst-hover'></i>
+                  </a>
+               
               </div>
-              <table class="styled-table">
+              <table id="idtablepllangsung" class="styled-table">
                 <thead>
                   <tr>
                     <th width="2%">NO</th>
@@ -806,19 +824,20 @@
                 <table>
                   <thead>
                     <tr>
-                      <th class="header-text-tender">
-                        E-purchasing
+                      <th style="display: flex; align-items:center; justify-content: space-between; width: 400px;" class="header-text-tender">
+                        E-purchasing <a href="javascript:void(0)" class="add-data" onclick="hidePurchasing()">
+                          <i class='bx bx-chevron-down bx-sm bx-burst-hover'></i>
                       </th>
                     </tr>
                   </thead>
                 </table>
-                <a href="javascript:void(0)" id="add-data" onclick="showCreateAnggaran(`purchasing`)">
+                <a href="javascript:void(0)" id="adddata5" onclick="showCreateAnggaran(`purchasing`)">
                   <span> Add Data</span>
 
                   <i class='bx bx-plus bx-sm bx-burst-hover'></i>
                 </a>
               </div>
-              <table class="styled-table">
+              <table id="tablepurchasing" class="styled-table">
                 <thead>
                   <tr>
                     <th width="2%">NO</th>
@@ -843,19 +862,19 @@
                 <table>
                   <thead>
                     <tr>
-                      <th class="header-text-tender">
-                        Pengadaan Di Kecualikan
+                      <th style="display: flex; align-items:center; justify-content: space-between; width: 400px;" class="header-text-tender">
+                        Pengadaan Di Kecualikan <a href="javascript:void(0)" class="add-data" onclick="hidePengecialian()">
+                          <i class='bx bx-chevron-down bx-sm bx-burst-hover'></i>
                       </th>
                     </tr>
                   </thead>
                 </table>
-                <a href="javascript:void(0)" id="add-data" onclick="showCreateAnggaran(`kecuali`)">
+                <a href="javascript:void(0)" id="adddata6" onclick="showCreateAnggaran(`kecuali`)">
                   <span> Add Data</span>
-
                   <i class='bx bx-plus bx-sm bx-burst-hover'></i>
                 </a>
               </div>
-              <table class="styled-table">
+              <table id="idtablepengecialian" class="styled-table">
 
                 <thead>
                   <tr>
@@ -881,19 +900,20 @@
                 <table>
                   <thead>
                     <tr>
-                      <th class="header-text-tender">
-                        Swakelola
+                      <th style="display: flex; align-items:center; justify-content: space-between; width: 400px;" class="header-text-tender">
+                        Swakelola <a href="javascript:void(0)" class="add-data" onclick="hideSwakelola()">
+                          <i class='bx bx-chevron-down bx-sm bx-burst-hover'></i>
                       </th>
                     </tr>
                   </thead>
                 </table>
-                <a href="javascript:void(0)" id="add-data" onclick="showCreateAnggaran(`swakelola`)">
+                <a href="javascript:void(0)" id="adddata7" onclick="showCreateAnggaran(`swakelola`)">
                   <span> Add Data</span>
 
                   <i class='bx bx-plus bx-sm bx-burst-hover'></i>
                 </a>
               </div>
-              <table class="styled-table">
+              <table id="idswakelolatable" class="styled-table">
 
                 <thead>
                   <tr>
@@ -929,6 +949,8 @@
         <!---------------End report informasi-->
       </div>
     </div>
+    <!-----loader-->
+   
 
   </section>
   <!-- JavaScript Bundle with Popper -->

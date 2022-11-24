@@ -45,6 +45,7 @@ const loadTable = () => {
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       var trHTML = '';
+      //hideloader()
       let i = 0
       const objects = JSON.parse(this.responseText);
       for (let object of objects.data.data) {
@@ -77,6 +78,9 @@ const loadTable = () => {
 
     }
   };
+}
+const  hideloader = () => {
+  document.getElementById('loading').style.display = 'none';
 }
 
 loadTable();

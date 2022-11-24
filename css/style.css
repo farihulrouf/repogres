@@ -656,8 +656,8 @@ a {
 }
 
 .text-detail-pagu {
-  margin-top: 100px;
-  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 5px;
   justify-content: space-between;
   display: flex
 }
@@ -702,11 +702,9 @@ label {
   margin-left: 20px;
 }
 
-#add-data {
+.add-data {
   display: flex;
   align-items: center;
-  width: 110px;
-  justify-content: space-between;
 }
 
 #subkegiatan {
@@ -833,17 +831,7 @@ select#input-select {
   background: red;
   color: white;
 }
-#add-data {
-  color: #0A2558;
-  font-weight: 500;
-}
 
-#add-data:hover {
-  background: #0A2558;
-  padding-left: 3px;
-  padding-right: 3px;
-  color: white;
-}
 
 /* -----------------accordion ------------------ */
 #totalkeseluruhan .accordion {
@@ -965,6 +953,7 @@ select#input-select {
 }
 .header-text-tender {
   font-size: 18px;
+  padding: 5px;
   font-weight: 400 !important;
 }
 #printviewinputbox {
@@ -988,8 +977,23 @@ select#input-select {
   background: teal;
   color: white;
 }
+#excelfprintall {
+  border: 1px solid #ddd;
+  padding: 2px 8px 2px 8px;
+  border-radius: 10px;
+  background: teal;
+  color: white;
+}
 #pdfprint {
   border: 1px solid #ddd;
   padding: 2px 8px 2px 8px;
   border-radius: 10px;
 }
+#tenderanggaran, #tablecepatxr, #idanggaranlangsung, #idtablepllangsung, #tablepurchasing, #idtablepengecialian, #idswakelolatable {
+  display: none;
+}
+#adddata1, #adddata2, #adddata3, #adddata4, #adddata5, #adddata6, #adddata7 {
+  display: none;
+}
+
+ 

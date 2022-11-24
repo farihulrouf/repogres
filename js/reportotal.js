@@ -3,7 +3,7 @@
 const apiglobal = "http://localhost:3000/"
 const api_url_pagu = apiglobal + "api/pagus";
 const api_url_total = apiglobal + "api/langsung/totalsemua/"
-const api_url_cepat_tender_seleksi = apiglobal + "api/tender/totalpaket"
+const api_url_cepat_tender_seleksi = apiglobal + "api/langsung/totalseleksitender"
 function loadDataTotal() {
 
   const xhttp = new XMLHttpRequest();
@@ -112,7 +112,7 @@ const detailLaporanCepatSeleksi = (id, index, idclass) => {
           //i = i + 1;
           trHTML += '<div class="report-style-tr">';
           //titlepengadaan = object['ket'] =='Seleksi' ? 'Swakelola' : object['tipe'] == 'plangsung' ? "Penunjukan Langsung" : object['tipe'] == 'kecuali' ? "Pengadaaan Di kecualikan" : object['tipe']=='langsung' ? "Pengadaan Langsung" : "E-Purchsing"   
-          trHTML += '<p class="border-color-p">' + object['ket'] + '</p>';
+          trHTML += '<p class="border-color-p">' + object['tender'] + '</p>';
           trHTML += '<p class="border-color-p-center">' + object['total'] + '</p>';
           trHTML += '<p class="border-color-p">' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
             style: 'currency',

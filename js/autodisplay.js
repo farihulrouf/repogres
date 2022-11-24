@@ -109,9 +109,121 @@ function ExportReportToExel(){
   XLSX.utils.book_append_sheet(new_workbook, worksheet, "worksheet")
   XLSX.writeFile(new_workbook, 'reportskpblp.xlsx')
 }
+//totalprint
+
+
+const ExportTotalPrint = () => {
+  let tbl1 = document.getElementById("totalprint")
+     
+  let worksheet_tmp1 = XLSX.utils.table_to_sheet(tbl1);
+  //console.log("isi dari",worksheet_tmp2)
+
+  //const wb = XLSX.read(target,{type:'binary',cellText:false,cellDates:true});
+  let a = XLSX.utils.sheet_to_json(worksheet_tmp1, { header: 1, raw: false, dateNF:'YYYY-MM-DD' })
+
+  //c = c.concat(['']).concat(b)
+  //ws['!ref'] = "A2:C3" 
+  let worksheet = XLSX.utils.json_to_sheet(a, { skipHeader: true })
+  
+  const new_workbook = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(new_workbook, worksheet, "worksheet")
+  XLSX.writeFile(new_workbook, 'reportTotal.xlsx')
+}
 
 
 
+const hidePaguanggaran = () => {
+  var x = document.getElementById("tenderanggaran");
+  var y = document.getElementById("adddata1")
+  if (x.style.display === "block" || y.style.display === "blocl") {
+    console.log("saat display none")
+    x.style.display = "none";
+    y.style.display = "none";
+
+  } else {
+    x.style.display = "block";
+    y.style.display = "block";
+  }
+}
+
+const hideTenderCepet = () => {
+  
+  var tablecepatx = document.getElementById("tablecepatxr");
+  var y = document.getElementById("adddata2")
+  if (tablecepatx.style.display === "block") {
+    tablecepatx.style.display = "none";
+    y.style.display = "none";
+  } else {
+    tablecepatx.style.display = "block";
+   // console.log("none")
+    y.style.display = "block";
+  }
+}
+
+const hideTenderLangsung = () => {
+  var x = document.getElementById("idanggaranlangsung");
+  var y = document.getElementById("adddata3")
+  if (y.style.display === "block") {
+    x.style.display = "none";
+    y.style.display = "none";
+
+  } else {
+    x.style.display = "block";
+    y.style.display = "block";
+  }
+}
+//idanggaranlangsung
+
+const hidePlLangsung = () => {
+  var x = document.getElementById("idtablepllangsung");
+  var y = document.getElementById("adddata4")
+  if (y.style.display === "block") {
+    x.style.display = "none";
+    y.style.display = "none";
+
+  } else {
+    x.style.display = "block";
+    y.style.display = "block";
+  }
+}
+
+const hidePurchasing = () => {
+  var x = document.getElementById("tablepurchasing");
+  var y = document.getElementById("adddata5")
+  if (y.style.display === "block") {
+    x.style.display = "none";
+    y.style.display = "none";
+
+  } else {
+    x.style.display = "block";
+    y.style.display = "block";
+  }
+}
 
 
+const hidePengecialian = () => {
+  var x = document.getElementById("idtablepengecialian");
+  var y = document.getElementById("adddata6")
+  if (y.style.display === "block") {
+    x.style.display = "none";
+    y.style.display = "none";
 
+  } else {
+    x.style.display = "block";
+    y.style.display = "block";
+  }
+}
+
+
+const hideSwakelola = () => {
+  var x = document.getElementById("idswakelolatable");
+  var y = document.getElementById("adddata7")
+  if (y.style.display === "block") {
+    x.style.display = "none";
+    y.style.display = "none";
+
+  } else {
+    x.style.display = "block";
+    y.style.display = "block";
+  }
+}
