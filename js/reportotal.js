@@ -18,7 +18,7 @@ function loadDataTotal() {
         let id_obj = object['id']
 
         trHTML += '<div>'
-        trHTML += '<a class="bg-detail-report" href="javascript:void(0)" onclick="clickDetailReportTotal(\'' + id_obj + '\',`anggaran`,\'' + i + '\')">' + object['name'] + '</a>';
+        trHTML += '<div class="bg-detail-report"><a href="javascript:void(0)" onclick="clickDetailReportTotal(\'' + id_obj + '\',`anggaran`,\'' + i + '\')">' + object['name'] + '</a>' + '<i class="bx bx-chevron-down bx-sm bx-burst-hover" onclick="hidedetailskpd(\'' + 'tenderlangsungpurchasing'+i + '\',\'' + 'tendercepatseleksireport'+i + '\')"></i>' + '</div>';
         trHTML += '<div class="report-style" id="tenderlangsungpurchasing' + i + '">' + '' + '</div>';
         trHTML += '<div class="report-style" id="tendercepatseleksireport' + i + '">' + '' + '</div>';
         trHTML += "</div>";
@@ -39,17 +39,34 @@ const clickDetailReportTotal = (id, anggaran, index) => {
 loadDataTotal()
 
 
+const hidedetailskpd = (idclass1, idclass2) => {
+  console.log(idclass1, "dan", idclass2)
+
+  var x = document.getElementById(idclass1);
+  var y = document.getElementById(idclass2)
+  if (x.style.display === "none") {
+    x.style.display = "flex";
+    y.style.display = "flex";
+  } else {
+    x.style.display = "none";
+   // console.log("none")
+    y.style.display = "none";
+    console.log("nilai x", x)
+    console.log("nilai y", y)
+  }
+
+}
 const detailLaporanOpd = (id, index, idclass) => {
-  console.log(id)
-  console.log(index)
-  console.log("idclass", idclass)
+  //console.log(id)
+  //console.log(index)
+  //console.log("idclass", idclass)
 
   const xhttp = new XMLHttpRequest();
 
   xhttp.open("GET", api_url_total + id)
   //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
   xhttp.send();
-  console.log("anggaran di eksekusi", id)
+ // console.log("anggaran di eksekusi", id)
 
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {

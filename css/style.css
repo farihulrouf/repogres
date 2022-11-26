@@ -881,9 +881,13 @@ select#input-select {
   padding: 8px;
 }
 .bg-detail-report {
-  width: 400px;
-  font-size: 18px;
-  font-weight: 500;
+    /* width: 500px; */
+    font-size: 18px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
 }
 #totalseluruhcoolapse{
   /*background: #009879; */
@@ -984,16 +988,23 @@ select#input-select {
   background: teal;
   color: white;
 }
+
 #pdfprint {
   border: 1px solid #ddd;
   padding: 2px 8px 2px 8px;
   border-radius: 10px;
 }
+
 #tenderanggaran, #tablecepatxr, #idanggaranlangsung, #idtablepllangsung, #tablepurchasing, #idtablepengecialian, #idswakelolatable {
   display: none;
 }
 #adddata1, #adddata2, #adddata3, #adddata4, #adddata5, #adddata6, #adddata7 {
   display: none;
 }
+
+#uploudform {
+  display: none;
+}
+
 
  

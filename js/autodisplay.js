@@ -135,7 +135,7 @@ const ExportTotalPrint = () => {
 const hidePaguanggaran = () => {
   var x = document.getElementById("tenderanggaran");
   var y = document.getElementById("adddata1")
-  if (x.style.display === "block" || y.style.display === "blocl") {
+  if (x.style.display === "block" || y.style.display === "block") {
     console.log("saat display none")
     x.style.display = "none";
     y.style.display = "none";
@@ -143,8 +143,11 @@ const hidePaguanggaran = () => {
   } else {
     x.style.display = "block";
     y.style.display = "block";
+    //detailAnggaran(id_global)
+    //console.log("di buka")
   }
 }
+
 
 const hideTenderCepet = () => {
   
@@ -227,3 +230,18 @@ const hideSwakelola = () => {
     y.style.display = "block";
   }
 }
+
+const ShowUploud = () => {
+  var x = document.getElementById("uploudform");
+ // var y = document.getElementById("adddata7")
+  if (x.style.display === "block") {
+    x.style.display = "none";
+    //y.style.display = "none";
+
+  } else {
+    x.style.display = "block";
+    //y.style.display = "block";
+  }
+}
+
+

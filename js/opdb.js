@@ -225,7 +225,7 @@ function CreateAnggaran(api_param, header_title) {
   }));
 
   xhttp.onreadystatechange = function () {
-    //detailTender(id_global)
+   // detailTender(id_global)
     detailAnggaran(id_global)
   };
 
@@ -456,25 +456,6 @@ function detailDelete(id, tender, api) {
     }
   })
 
-  /*
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("DELETE", api + "/" + id);
-  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhttp.send(JSON.stringify({
-    "id": id
-  }));
-  xhttp.onreadystatechange = function () {
-    detailTender(id_global)
-    detailLangsung(id_global)
-    detailPenunjukanLangsug(id_global)
-    detailPurchasing(id_global)
-    detailPengecualian(id_global)
-    detailSwakelola(id_global)
-    refreshTotal()
-
-
-  };
-  */
 }
 
 
@@ -486,6 +467,7 @@ const deleteTender = (id, tender, api) => {
     "id": id
   }));
   xhttp.onreadystatechange = function () {
+    detailAnggaran(id_global)
     detailTender(id_global)
     detailLangsung(id_global)
     detailPenunjukanLangsug(id_global)
@@ -570,14 +552,58 @@ function getvals(id){
 
 const calculatePdn = (objectdata,id) => {
   if(objectdata.data.data==null){
-    console.log("data null")
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("GET", api_url_anggaran + '/pagu/' + id);
+    xhttp.send();
+    let objects = ''
+  
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        var trHTML = '';
+        objects = JSON.parse(this.responseText);
+  
+  
+        if (objects.data.data === null) {
+          console.log('data kosong')
+        }
+        else {
+          let i = 0;
+          let j = 0
+          for (let object of objects.data.data) {
+            let id_obj = object['id']
+            i++;
+            
+           
+            trHTML += '<tr>';
+            trHTML += '<td>' + i + '</td>';
+            trHTML += '<td>' + object['name'] + '</td>';
+            trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
+              style: 'currency',
+              currency: 'IDR'
+            }).format(object['pagu'])
+              .replace(/[IDR]/gi, '')
+              .replace(/(\.+\d{2})/, '')
+              .trimLeft() + '</td>';
+            trHTML += '<td>' + 'Nan' + '</td>';
+            trHTML += '<td class="actionbutton"><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showAnggaranEditBox(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')">edit </span></a>';
+            trHTML += '<a href="javascript:void(0) onclick="detailDelete(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')">delete_forever</span></a></td>';
+            //<img src="/images/icon/add.svg" width="24" height="24" alt="icon-svg">
+            trHTML += "</tr>";
+            j++;
+          }
+        }
+  
+        document.getElementById("anggaran").innerHTML = trHTML;
+  
+      }
+    };
+    
   }
   else {
     console.log(objectdata)
     const xhttp = new XMLHttpRequest();
     xhttp.open("GET", api_url_anggaran + '/pagu/' + id);
     xhttp.send();
-    //dataPdnPenmpungTemp = embkono
     let objects = ''
     let pdnavg = ''
     xhttp.onreadystatechange = function () {
@@ -595,16 +621,10 @@ const calculatePdn = (objectdata,id) => {
           for (let object of objects.data.data) {
             let id_obj = object['id']
             i++;
-           // console.log(objectdata.data.data[j].totalpagu)
-            //pdnavg = object['name'] == objectdata.data.data[j].name ? objectdata.data.data[j].pdn : 'Nan'
-            //if(army.indexOf("Marcos") !== -1) 
             if(objectdata.data.data[j] == undefined){
-              //console.log('data undifined')
               pdnavg = 'Nan'
             }
             else {
-              //pdnavg = object['name'] == objectdata.data.data[j].name ? objectdata.data.data[j].pdn : 'Nan'
-              //console.log(pdnavg)
               console.log(pdnavg)
               pdnavg = objectdata.data.data[j].pdn
             }
@@ -2065,7 +2085,7 @@ const detailReportAnggaran = (id) => {
 
 const calculatePdntwo = (objectdata,id) => {
   if(objectdata.data.data==null){
-    console.log("data null")
+    console.log(" data data null")
   }
   else {
     console.log(objectdata)
