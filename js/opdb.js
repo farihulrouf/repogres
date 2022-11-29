@@ -20,6 +20,7 @@ var Namepaguskpd = ''
 var Namepaguorp = ''
 var linkdownload = ''
 var dateTest = ''
+var dataresponse = ''
 let pdnTotalObject = {}
 let pdnTotalObjectAll = {}
 const pdncomparation = [
@@ -37,10 +38,10 @@ const pdncomparation = [
   }
 ]
 
-const loadTable = () => {
+const loadTable = (index) => {
 
   const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", api_url);
+  xhttp.open("GET", api+'api/pagus/filter?page='+index);
   xhttp.send();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
@@ -66,7 +67,6 @@ const loadTable = () => {
         }).format(object['paguorp']).replace(/[IDR]/gi, '')
           .replace(/(\.+\d{2})/, '')
           .trimLeft() + '</td>';
-          // <i class="bx bx- bx-sm bx-burst-hover"  onclick="showUserEditBox(\'' + id_obj + '\')></i>
         trHTML += '<td class="actionbutton"><a href="javascript:void(0)" onclick="showUserEditBox(\'' + id_obj + '\')"> <i class="bx bx-pencil bx-sm bx-tada-hover"></i></a>';
         trHTML += '<a href="javascript:void(0)" onclick="detailPage(\'' + id_obj + '\')"><i class="bx bx-paperclip bx-sm bx-tada-hover"></i></a>';
         trHTML += '<a href="javascript:void(0)" onclick="paguDelete(\'' + id_obj + '\')"><i style="color:red;" class="bx bx-x bx-sm bx-tada-hover"></i></a></td>';
@@ -79,11 +79,46 @@ const loadTable = () => {
     }
   };
 }
+
+/*
+const getData = async () => {
+  const response = await fetch(api+'api/pagus/filter')
+  const data = await response.json()
+  dataresponse = data
+  console.log(dataresponse)
+}
+*/
+
+
+const loadPagination = async () => {
+  const response = await fetch(api+'api/pagus/filter')
+  const data = await response.json()
+  //console.log(data.totaldata)
+  //console.log("data list", dataresponse)
+  const pagination = document.getElementById("pagination");
+  for(i=1;i<=Math.ceil(parseInt(data.totaldata)/10);i++){
+    pagination.innerHTML += "<a href='javascript:void(0)'><li class='sectionlist' onclick='showIndex("+i+")'>" + i + "</li></a>";
+  }
+
+}
+
+const showIndex = (index) => {
+ 
+  const pagination = document.getElementById('pagination');
+  const listItems = pagination.getElementsByTagName('li')
+  for(i=0;i<listItems.length;i++){
+    listItems[i].classList.remove("active")
+  }
+  listItems[index-1].classList.add('active');
+  loadTable(index)   
+}
+
 const  hideloader = () => {
   document.getElementById('loading').style.display = 'none';
 }
-
-loadTable();
+//getData()
+loadTable(1);
+loadPagination()
 //detailTotalTenderDetail(id_global)
 
 function paguCreate() {
@@ -100,7 +135,7 @@ function paguCreate() {
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 201) {
       Swal.fire('Saved Pagu!', '', 'success')
-      loadTable();
+      loadTable(1);
     }
     else {
       Swal.fire({
@@ -1358,10 +1393,6 @@ const swakelolaLangsungEdit = () => {
 }
 
 
-
-
-//const printForm = () =>
-
 const editAnggaran = () => {
 
 
@@ -1401,7 +1432,7 @@ const paguEdit = () => {
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       Swal.fire('Saved!', '', 'success')
-      loadTable();
+      loadTable(1);
     }
     else {
       Swal.fire({

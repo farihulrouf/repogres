@@ -1006,5 +1006,17 @@ select#input-select {
   display: none;
 }
 
+#pagination {
+  display: flex;
+}
+#paginationn ul, li {
+  list-style-type: none;
+  margin: 10px;
+  font-size: 18px;
+}
+.active {
+  color: red;
+}
+
 
  
