@@ -93,12 +93,14 @@ const getData = async () => {
 const loadPagination = async () => {
   const response = await fetch(api+'api/pagus/filter')
   const data = await response.json()
-  //console.log(data.totaldata)
-  //console.log("data list", dataresponse)
+ 
   const pagination = document.getElementById("pagination");
   for(i=1;i<=Math.ceil(parseInt(data.totaldata)/10);i++){
     pagination.innerHTML += "<a href='javascript:void(0)'><li class='sectionlist' onclick='showIndex("+i+")'>" + i + "</li></a>";
   }
+  const listItems = pagination.getElementsByTagName('li')
+  listItems[0].classList.add('active');
+
 
 }
 
