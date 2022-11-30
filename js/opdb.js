@@ -23,32 +23,30 @@ var dateTest = ''
 var dataresponse = ''
 let pdnTotalObject = {}
 let pdnTotalObjectAll = {}
-const pdncomparation = [
-  {
-    name: 'Pengelolaan Pengadaan Barang/Jasa',
-    pdn: 30
-  },
-  {
-    name: 'Pengelolaan LPSE',
-    pdn: 30
-  },
-  {
-    name: 'Pembinaan Dan Advokasi',
-    pdn: 20
-  }
-]
 
-const loadTable = (index) => {
+const loadTable = (index, search) => {
 
   const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", api+'api/pagus/filter?page='+index);
+  xhttp.open("GET", api+'api/pagus/filter?page='+index+'&'+'s='+search);
   xhttp.send();
   xhttp.onreadystatechange = function () {
+    
     if (this.readyState == 4 && this.status == 200) {
       var trHTML = '';
       //hideloader()
       let i = 0
       const objects = JSON.parse(this.responseText);
+      if(objects.totaldata == 0){
+        trHTML += '<tr>';
+        trHTML += '<td style="color:red">' + '0' + '</td>';
+        trHTML += '<td style="color:red">' + 'Data not found' + '</td>';
+        trHTML += '<td style="color:red">' + 'Data not found' +'</td>';
+        trHTML += '<td style="color:red">' + 'Data not found' +'</td>';      
+        trHTML += '<td style="color:red">' + 'Data not found' +'</td>';
+        trHTML += "</tr>";
+      }
+      else {
+
       for (let object of objects.data.data) {
         let id_obj = object['id']
         i++
@@ -73,21 +71,22 @@ const loadTable = (index) => {
 
         trHTML += "</tr>";
       }
+      }
+      
       document.getElementById("mytable").innerHTML = trHTML;
-      //console.log(subKegiatan)
 
     }
+    
   };
 }
 
-/*
-const getData = async () => {
-  const response = await fetch(api+'api/pagus/filter')
-  const data = await response.json()
-  dataresponse = data
-  console.log(dataresponse)
+const onserachdata = () => {
+  console.log("embo")
+  inputdata = document.getElementById("searchdata").value
+  console.log(inputdata)
+  loadTable("",inputdata)
+  //searchdata
 }
-*/
 
 
 const loadPagination = async () => {
@@ -112,14 +111,14 @@ const showIndex = (index) => {
     listItems[i].classList.remove("active")
   }
   listItems[index-1].classList.add('active');
-  loadTable(index)   
+  loadTable(index,"")   
 }
 
 const  hideloader = () => {
   document.getElementById('loading').style.display = 'none';
 }
 //getData()
-loadTable(1);
+loadTable(1,"");
 loadPagination()
 //detailTotalTenderDetail(id_global)
 
@@ -137,7 +136,7 @@ function paguCreate() {
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 201) {
       Swal.fire('Saved Pagu!', '', 'success')
-      loadTable(1);
+      loadTable(1,"");
     }
     else {
       Swal.fire({
@@ -419,7 +418,7 @@ const deletePagu = (id) => {
     "id": id
   }));
   xhttp.onreadystatechange = function () {
-    loadTable();
+    loadTable(1,"");
   };
 }
 
@@ -1434,7 +1433,7 @@ const paguEdit = () => {
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       Swal.fire('Saved!', '', 'success')
-      loadTable(1);
+      loadTable(1,"");
     }
     else {
       Swal.fire({
