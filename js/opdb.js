@@ -360,47 +360,48 @@ function CreateSwakelola(api_param, header_title) {
   const keterangan = document.getElementById("keterangan").value
 
   var selectSubkegiatan = document.getElementById("dropdown-list").value
-  // console.log(keterangan)
-  console.log("ini hereader", header_title)
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("POST", api_param);
-  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  xhttp.setRequestHeader("Accept", "application/json");
-  xhttp.setRequestHeader("token", localStorage.getItem('token'));
-  xhttp.send(JSON.stringify({
-    "name": selectSubkegiatan,
-    "paket": "default",
-    "pagu": parseInt(pagu),
-    "tipe": header_title,
-    "jadwal": "12-12-2022",
-    "ket": keterangan,
-    "tender": "default",
-    "pelaksanaan": "12-12-2022",
-    "pemilihan": "12-12-2022",
-    "pdn": parseInt(pdn),
-    "idpagu": id_global
-  }));
 
+  let data = new FormData()
+  data.append("name", selectSubkegiatan)
+  data.append("paket", "default")
+  data.append("pagu", parseInt(pagu))
+  data.append("tipe", header_title)
+  data.append("jadwal","12-12-2022")
+  data.append("ket", "keterangan")
+  data.append("tender", "default")
+  data.append("pelaksanaan", "12-12-2022")
+  data.append("pemilihan", "12-12-2022")
+  data.append("pdn", parseInt(pdn))
+  data.append("idpagu", id_global)
 
-
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 201) {
-      Swal.fire('Saved!', '', 'success')
+  fetch(api_param,{
+    method: 'POST',
+    headers: {
+       token: localStorage.getItem('token')
+    },
+    body: data
+  }).then(response => {
+    Swal.fire(
+      'Good job!',
+      'Your data have been save',
+      'success'
+    )
       detailLangsung(id_global)
       detailPenunjukanLangsug(id_global)
       detailPurchasing(id_global)
       detailPengecualian(id_global)
       detailSwakelola(id_global)
-    }
-    else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something went wrong!',
-        footer: '<a href="">Why do I have this issue?</a>'
-      })
-    }
-  };
+  }).catch(err => {
+    console.log(err)
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something went wrong!',
+      footer: '<a href="">Why do I have this issue?</a>'
+    })
+  })
+
+ 
 
 }
 
@@ -552,7 +553,7 @@ const deleteTender = (id, tender, api) => {
     console.log(response)
     Swal.fire(
       'Deleted!',
-      'Your file has been deleted.',
+      'Your data has been deleted.',
       'success'
     )
     detailAnggaran(id_global)
@@ -704,7 +705,7 @@ const calculatePdn = (objectdata, id) => {
             trHTML += '<td>' + 'Nan' + '</td>';
             trHTML += '<td class="actionbutton"><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showAnggaranEditBox(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')">edit </span></a>';
             trHTML += '<a href="javascript:void(0) onclick="detailDelete(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')">delete_forever</span></a></td>';
-            //<img src="/images/icon/add.svg" width="24" height="24" alt="icon-svg">
+
             trHTML += "</tr>";
             j++;
           }
@@ -1493,43 +1494,46 @@ const swakelolaLangsungEdit = () => {
   const idpagu = document.getElementById("idpagu").value
   const keterangan = document.getElementById("ket").value
 
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("PUT", api + "api/langsung/" + id);
-  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  xhttp.setRequestHeader("Accept", "application/json");
-  xhttp.setRequestHeader("token", localStorage.getItem('token'));
 
-  xhttp.send(JSON.stringify({
-    "name": selectSubkegiatan,
-    "pagu": parseInt(pagu),
-    "jadwal": "12-12-2022",
-    "tipe": 'swakelola',
-    "pdn": parseInt(pdn),
-    "idpagu": idpagu,
-    "tender": "default",
-    "pelaksanaan": "12-12-2022",
-    "pemilihan": "12-12-2022",
-    "paket": "default",
-    "ket": keterangan,
-  }));
+  let data = new FormData()
 
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      Swal.fire('Saved!', '', 'success')
-      detailSwakelola(id_global)
-      refreshTotal()
-    }
-    else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something went wrong!',
-        footer: '<a href="">Why do I have this issue?</a>'
-      })
-    }
 
-  };
-
+  data.append("name", selectSubkegiatan)
+  data.append("pagu", parseInt(pagu))
+  data.append("jadwal", "12-12-2022")
+  data.append("tipe", "swakelola")
+  data.append("pdn", parseInt(pdn))
+  data.append("idpagu", idpagu)
+  data.append("tender", "default")
+  data.append("pelaksanaan", "12-12-2022")
+  data.append("pemilihan", "12-12-2022")
+  data.append("paket", "default")
+  data.append("ket", keterangan)
+  // xhttp.open("PUT", api + "api/langsung/" + id);
+  fetch(api + "api/langsung/" + id,{
+    method: 'PUT',
+    headers: {
+       token: localStorage.getItem('token')
+    },
+    body: data
+  }).then(response => {
+    Swal.fire(
+      'Good job!',
+      'Your data have been Edit',
+      'success'
+    )
+     detailSwakelola(id_global)
+     refreshTotal()
+  }).catch(err => {
+    console.log(err)
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something went wrong!',
+      footer: '<a href="">Why do I have this issue?</a>'
+    })
+  })
+ 
 }
 
 
