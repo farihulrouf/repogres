@@ -24,59 +24,72 @@ var dataresponse = ''
 let pdnTotalObject = {}
 let pdnTotalObjectAll = {}
 
+var jwt = localStorage.getItem("token");
+if (jwt == null) {
+  console.log(jwt)
+  window.location.href = './login.html'
+}
+else {
+  console.log(jwt)
+}
+
 const loadTable = (index, search) => {
 
   const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", api+'api/pagus/filter?page='+index+'&'+'s='+search);
+  xhttp.open("GET", api + 'api/pagus/filter?page=' + index + '&' + 's=' + search);
+
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
   xhttp.send();
   xhttp.onreadystatechange = function () {
-    
+
     if (this.readyState == 4 && this.status == 200) {
       var trHTML = '';
       //hideloader()
       let i = 0
       const objects = JSON.parse(this.responseText);
-      if(objects.totaldata == 0){
+      if (objects.totaldata == 0) {
         trHTML += '<tr>';
         trHTML += '<td style="color:red">' + '0' + '</td>';
         trHTML += '<td style="color:red">' + 'Data not found' + '</td>';
-        trHTML += '<td style="color:red">' + 'Data not found' +'</td>';
-        trHTML += '<td style="color:red">' + 'Data not found' +'</td>';      
-        trHTML += '<td style="color:red">' + 'Data not found' +'</td>';
+        trHTML += '<td style="color:red">' + 'Data not found' + '</td>';
+        trHTML += '<td style="color:red">' + 'Data not found' + '</td>';
+        trHTML += '<td style="color:red">' + 'Data not found' + '</td>';
         trHTML += "</tr>";
       }
       else {
 
-      for (let object of objects.data.data) {
-        let id_obj = object['id']
-        i++
-        trHTML += '<tr>';
-        trHTML += '<td>' + i + '</td>';
-        trHTML += '<td>' + object['name'] + '</td>';
-        trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
-          style: 'currency',
-          currency: 'IDR'
-        }).format(object['paguopdp']).replace(/[IDR]/gi, '')
-          .replace(/(\.+\d{2})/, '')
-          .trimLeft() + '</td>';
-        trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
-          style: 'currency',
-          currency: 'IDR'
-        }).format(object['paguorp']).replace(/[IDR]/gi, '')
-          .replace(/(\.+\d{2})/, '')
-          .trimLeft() + '</td>';
-        trHTML += '<td class="actionbutton"><a href="javascript:void(0)" onclick="showUserEditBox(\'' + id_obj + '\')"> <i class="bx bx-pencil bx-sm bx-tada-hover"></i></a>';
-        trHTML += '<a href="javascript:void(0)" onclick="detailPage(\'' + id_obj + '\')"><i class="bx bx-paperclip bx-sm bx-tada-hover"></i></a>';
-        trHTML += '<a href="javascript:void(0)" onclick="paguDelete(\'' + id_obj + '\')"><i style="color:red;" class="bx bx-x bx-sm bx-tada-hover"></i></a></td>';
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          i++
+          trHTML += '<tr>';
+          trHTML += '<td>' + i + '</td>';
+          trHTML += '<td>' + object['name'] + '</td>';
+          trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
+            style: 'currency',
+            currency: 'IDR'
+          }).format(object['paguopdp']).replace(/[IDR]/gi, '')
+            .replace(/(\.+\d{2})/, '')
+            .trimLeft() + '</td>';
+          trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
+            style: 'currency',
+            currency: 'IDR'
+          }).format(object['paguorp']).replace(/[IDR]/gi, '')
+            .replace(/(\.+\d{2})/, '')
+            .trimLeft() + '</td>';
+          trHTML += '<td class="actionbutton"><a href="javascript:void(0)" onclick="showUserEditBox(\'' + id_obj + '\')"> <i class="bx bx-pencil bx-sm bx-tada-hover"></i></a>';
+          trHTML += '<a href="javascript:void(0)" onclick="detailPage(\'' + id_obj + '\')"><i class="bx bx-paperclip bx-sm bx-tada-hover"></i></a>';
+          trHTML += '<a href="javascript:void(0)" onclick="paguDelete(\'' + id_obj + '\')"><i style="color:red;" class="bx bx-x bx-sm bx-tada-hover"></i></a></td>';
 
-        trHTML += "</tr>";
+          trHTML += "</tr>";
+        }
       }
-      }
-      
+
       document.getElementById("mytable").innerHTML = trHTML;
 
     }
-    
+
   };
 }
 
@@ -84,18 +97,23 @@ const onserachdata = () => {
   console.log("embo")
   inputdata = document.getElementById("searchdata").value
   console.log(inputdata)
-  loadTable("",inputdata)
+  loadTable("", inputdata)
   //searchdata
 }
 
 
 const loadPagination = async () => {
-  const response = await fetch(api+'api/pagus/filter')
+  const response = await fetch(api + 'api/pagus/filter', {
+    headers: { token: localStorage.getItem('token') }
+  })
+
+  //xhttp.setRequestHeader("Accept", "application/json");
+  //xhttp.setRequestHeader("token", localStorage.getItem('token'));
   const data = await response.json()
- 
+
   const pagination = document.getElementById("pagination");
-  for(i=1;i<=Math.ceil(parseInt(data.totaldata)/10);i++){
-    pagination.innerHTML += "<a href='javascript:void(0)'><li class='sectionlist' onclick='showIndex("+i+")'>" + i + "</li></a>";
+  for (i = 1; i <= Math.ceil(parseInt(data.totaldata) / 10); i++) {
+    pagination.innerHTML += "<a href='javascript:void(0)'><li class='sectionlist' onclick='showIndex(" + i + ")'>" + i + "</li></a>";
   }
   const listItems = pagination.getElementsByTagName('li')
   listItems[0].classList.add('active');
@@ -104,50 +122,57 @@ const loadPagination = async () => {
 }
 
 const showIndex = (index) => {
- 
+
   const pagination = document.getElementById('pagination');
   const listItems = pagination.getElementsByTagName('li')
-  for(i=0;i<listItems.length;i++){
+  for (i = 0; i < listItems.length; i++) {
     listItems[i].classList.remove("active")
   }
-  listItems[index-1].classList.add('active');
-  loadTable(index,"")   
+  listItems[index - 1].classList.add('active');
+  loadTable(index, "")
 }
 
-const  hideloader = () => {
+const hideloader = () => {
   document.getElementById('loading').style.display = 'none';
 }
 //getData()
-loadTable(1,"");
+loadTable(1, "");
 loadPagination()
 //detailTotalTenderDetail(id_global)
 
-function paguCreate() {
+const paguCreate = () => {
   const name = document.getElementById("name").value;
   const paguopd = document.getElementById("paguopd").value;
   const paguorp = document.getElementById("paguorp").value;
+  let data = new FormData()
+  data.append("name", name)
+  data.append("paguopdp", paguopd)
+  data.append("paguorp", paguorp)
+  data.append("filetipe", "_")
 
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("POST", api_url);
-  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhttp.send(JSON.stringify({
-    "name": name, "paguopdp": paguopd, "paguorp": paguorp, "filetipe": "_"
-  }));
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 201) {
-      Swal.fire('Saved Pagu!', '', 'success')
-      loadTable(1,"");
-    }
-    else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something went wrong!',
-        footer: '<a href="">Why do I have this issue?</a>'
-      })
-    }
+  fetch(api_url,{
+    method: 'POST',
+    headers: {
+       token: localStorage.getItem('token')
+    },
+    body: data
+  }).then(response => {
+    Swal.fire(
+      'Good job!',
+      'Your data have been save',
+      'success'
+    )
+    loadTable(1, "")
+  }).catch(err => {
+    console.log(err)
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something went wrong!',
+      footer: '<a href="">Why do I have this issue?</a>'
+    })
+  })
 
-  };
 }
 
 function showUserCreateBox() {
@@ -247,23 +272,36 @@ function showCreateAnggaran(anggaran) {
 function CreateAnggaran(api_param, header_title) {
   const pagu = document.getElementById("pagu").value
   const name = document.getElementById("name").value
-  //console.log("isi dari name", name, "dan isi dari pagu", pagu)
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("POST", api_param);
-  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhttp.send(JSON.stringify({
-    "name": name,
-    "paket": "000",
-    "pagu": parseInt(pagu),
-    "jadwal": "12-12-2022",
-    "pdn": parseInt(20),
-    "idpagu": id_global
-  }));
 
-  xhttp.onreadystatechange = function () {
-   // detailTender(id_global)
+  let data = new FormData()
+ 
+  data.append("name", name)
+  data.append("paket", "000")
+  data.append("pagu", parseInt(pagu))
+  data.append("jadwal", "12-12-2022")
+  data.append("pdn", parseInt(20))
+  data.append("idpagu", id_global)
+
+  fetch(api_param,{
+    method: 'POST',
+    headers: {
+       token: localStorage.getItem('token')
+    },
+    body: data
+  }).then(response => {
+    console.log('response.status: ', response.status);
+    console.log(response)
+    Swal.fire('Saved!', '', 'success')
     detailAnggaran(id_global)
-  };
+  }).catch(err => {
+    console.log(err)
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something went wrong!',
+      footer: '<a href="">Why do I have this issue?</a>'
+    })
+  })
 
 }
 
@@ -281,7 +319,9 @@ const CreateDetailPagu = (api_param, header_title) => {
 
   const xhttp = new XMLHttpRequest();
   xhttp.open("POST", api + 'api/langsung');
-  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
   xhttp.send(JSON.stringify({
     "name": selectSubkegiatan,
     "paket": paket,
@@ -324,7 +364,9 @@ function CreateSwakelola(api_param, header_title) {
   console.log("ini hereader", header_title)
   const xhttp = new XMLHttpRequest();
   xhttp.open("POST", api_param);
-  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
   xhttp.send(JSON.stringify({
     "name": selectSubkegiatan,
     "paket": "default",
@@ -411,15 +453,26 @@ function CreateDetailLain(api_param, header_title) {
 }
 
 const deletePagu = (id) => {
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("DELETE", api + "api/pagus/" + id);
-  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhttp.send(JSON.stringify({
-    "id": id
-  }));
-  xhttp.onreadystatechange = function () {
-    loadTable(1,"");
-  };
+
+  fetch(api+"api/pagus/"+id, {
+    method: 'DELETE',
+    headers: {
+      token: localStorage.getItem('token')
+   },
+  }).then(response => {
+    console.log('response.status: ', response.status);
+    console.log(response)
+    Swal.fire(
+      'Deleted!',
+      'Your file has been deleted.',
+      'success'
+    )
+    loadTable(1, "")
+  }).catch(err => {
+    console.log(err)
+    
+  })
+
 }
 
 function paguDelete(id) {
@@ -437,12 +490,8 @@ function paguDelete(id) {
 
   }).then((result) => {
     if (result.isConfirmed) {
-      Swal.fire(
-        deletePagu(id),
-        'Deleted!',
-        'Your file has been deleted.',
-        'success'
-      )
+      deletePagu(id)
+     
     } else if (
       /* Read more about handling dismissals below */
       result.dismiss === Swal.DismissReason.cancel
@@ -474,12 +523,7 @@ function detailDelete(id, tender, api) {
 
   }).then((result) => {
     if (result.isConfirmed) {
-      Swal.fire(
-        deleteTender(id, tender, api),
-        'Deleted!',
-        'Your file has been deleted.',
-        'success'
-      )
+       deleteTender(id, tender, api)
     } else if (
       /* Read more about handling dismissals below */
       result.dismiss === Swal.DismissReason.cancel
@@ -496,9 +540,40 @@ function detailDelete(id, tender, api) {
 
 
 const deleteTender = (id, tender, api) => {
+
+
+  fetch(api + "/" +id, {
+    method: 'DELETE',
+    headers: {
+      token: localStorage.getItem('token')
+   },
+  }).then(response => {
+    console.log('response.status: ', response.status);
+    console.log(response)
+    Swal.fire(
+      'Deleted!',
+      'Your file has been deleted.',
+      'success'
+    )
+    detailAnggaran(id_global)
+    detailTender(id_global)
+    detailLangsung(id_global)
+    detailPenunjukanLangsug(id_global)
+    detailPurchasing(id_global)
+    detailPengecualian(id_global)
+    detailSwakelola(id_global)
+    refreshTotal()
+  }).catch(err => {
+    console.log(err)
+    
+  })
+  /*
   const xhttp = new XMLHttpRequest();
   xhttp.open("DELETE", api + "/" + id);
-  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
   xhttp.send(JSON.stringify({
     "id": id
   }));
@@ -514,6 +589,7 @@ const deleteTender = (id, tender, api) => {
 
 
   };
+  */
 
 }
 const refreshPage = () => [
@@ -545,7 +621,7 @@ function detailPage(id) {
   //detailTotalTenderDetailReportSeleksi(id)
   detailTotalTenderDetailReportSeleksiJumlah(id)
   detailTotalTenderDetailReportSeleksiRupiah(id)
- // detaiDownload()
+  // detaiDownload()
   //totalPdn(id)
   //totalPdnTender(id)
   //detaiDownload()
@@ -568,37 +644,42 @@ function createElement() {
 
 
 
-function getvals(id){
-  return fetch(api+'api/totalpdn/'+id,
-  {
-    method: "GET",
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-  })
-  .then((response) => response.json())
-  .then((responseData) => {
-    //console.log(responseData);
-    dataobject = responseData
-    return responseData;
-  })
-  .catch(error => console.warn(error));
+function getvals(id) {
+  //headers: {token: localStorage.getItem('token')}
+  return fetch(api + 'api/totalpdn/' + id,
+    {
+      method: "GET",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'token': localStorage.getItem('token')
+      },
+    })
+    .then((response) => response.json())
+    .then((responseData) => {
+      //console.log(responseData);
+      dataobject = responseData
+      return responseData;
+    })
+    .catch(error => console.warn(error));
 }
 
-const calculatePdn = (objectdata,id) => {
-  if(objectdata.data.data==null){
+const calculatePdn = (objectdata, id) => {
+  if (objectdata.data.data == null) {
     const xhttp = new XMLHttpRequest();
     xhttp.open("GET", api_url_anggaran + '/pagu/' + id);
+    xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhttp.setRequestHeader("Accept", "application/json");
+    xhttp.setRequestHeader("token", localStorage.getItem('token'));
     xhttp.send();
     let objects = ''
-  
+
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         var trHTML = '';
         objects = JSON.parse(this.responseText);
-  
-  
+
+
         if (objects.data.data === null) {
           console.log('data kosong')
         }
@@ -608,8 +689,8 @@ const calculatePdn = (objectdata,id) => {
           for (let object of objects.data.data) {
             let id_obj = object['id']
             i++;
-            
-           
+
+
             trHTML += '<tr>';
             trHTML += '<td>' + i + '</td>';
             trHTML += '<td>' + object['name'] + '</td>';
@@ -628,17 +709,20 @@ const calculatePdn = (objectdata,id) => {
             j++;
           }
         }
-  
+
         document.getElementById("anggaran").innerHTML = trHTML;
-  
+
       }
     };
-    
+
   }
   else {
     console.log(objectdata)
     const xhttp = new XMLHttpRequest();
     xhttp.open("GET", api_url_anggaran + '/pagu/' + id);
+    xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhttp.setRequestHeader("Accept", "application/json");
+    xhttp.setRequestHeader("token", localStorage.getItem('token'));
     xhttp.send();
     let objects = ''
     let pdnavg = ''
@@ -646,8 +730,8 @@ const calculatePdn = (objectdata,id) => {
       if (this.readyState == 4 && this.status == 200) {
         var trHTML = '';
         objects = JSON.parse(this.responseText);
-  
-  
+
+
         if (objects.data.data === null) {
           console.log('data kosong')
         }
@@ -657,7 +741,7 @@ const calculatePdn = (objectdata,id) => {
           for (let object of objects.data.data) {
             let id_obj = object['id']
             i++;
-            if(objectdata.data.data[j] == undefined){
+            if (objectdata.data.data[j] == undefined) {
               pdnavg = 'Nan'
             }
             else {
@@ -683,9 +767,9 @@ const calculatePdn = (objectdata,id) => {
           }
         }
         //console.log("data onject", objects)
-  
+
         document.getElementById("anggaran").innerHTML = trHTML;
-  
+
       }
     };
   }
@@ -694,7 +778,7 @@ const detailAnggaran = (id) => {
   //const embkono = ["silver", "larougm"]
   //console.log(getvals)
   //var dataob = ''
-  getvals(id).then(response => 
+  getvals(id).then(response =>
     calculatePdn(response, id)
   );
 }
@@ -704,6 +788,10 @@ const detailAnggaran = (id) => {
 function detailPaguItem(id) {
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api_url + '/' + id);
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
   xhttp.send();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
@@ -745,7 +833,9 @@ const detailTender = (id) => {
   const xhttp = new XMLHttpRequest();
 
   xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/default')
-
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
   xhttp.send();
 
   xhttp.onreadystatechange = function () {
@@ -771,10 +861,10 @@ const detailTender = (id) => {
             .replace(/[IDR]/gi, '')
             .replace(/(\.+\d{2})/, '')
             .trimLeft() + '</td>';
-            //console.log(mydate.toDateString().replace(/^\S+\s/,''));
-          trHTML += '<td>' + new Date(object['pemilihan']).toDateString().replace(/^\S+\s/,'') + '</td>';
-          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/,'') + '</td>';
-          trHTML += '<td>' + new Date(object['jadwal']).toDateString().replace(/^\S+\s/,'') + '</td>';
+          //console.log(mydate.toDateString().replace(/^\S+\s/,''));
+          trHTML += '<td>' + new Date(object['pemilihan']).toDateString().replace(/^\S+\s/, '') + '</td>';
+          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/, '') + '</td>';
+          trHTML += '<td>' + new Date(object['jadwal']).toDateString().replace(/^\S+\s/, '') + '</td>';
           trHTML += '<td>' + object['tender'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
           //<i class="bx bx-pencil bx-sm bx-tada-hover"></i>
@@ -796,7 +886,10 @@ const detailLangsung = (id) => {
   const xhttp = new XMLHttpRequest();
 
   xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/langsung')
-  //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
+
   xhttp.send();
   //console.log("anggaran di eksekusi", id)
 
@@ -824,7 +917,7 @@ const detailLangsung = (id) => {
             .replace(/[IDR]/gi, '')
             .replace(/(\.+\d{2})/, '')
             .trimLeft() + '</td>';
-          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/,'') + '</td>';
+          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/, '') + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
           trHTML += '<td class="actionbutton"><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showLangsungEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')">edit </span></a>';
           trHTML += '<a href="javascript:void(0)"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
@@ -844,6 +937,10 @@ const detailPenunjukanLangsug = (id) => {
   const xhttp = new XMLHttpRequest();
 
   xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/plangsung')
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
+
   //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
   xhttp.send();
   //console.log("anggaran di eksekusi", id)
@@ -872,7 +969,7 @@ const detailPenunjukanLangsug = (id) => {
             .replace(/[IDR]/gi, '')
             .replace(/(\.+\d{2})/, '')
             .trimLeft() + '</td>';
-          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/,'') + '</td>';
+          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/, '') + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
           trHTML += '<td class="actionbutton"><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showLangsungEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')">edit </span></a>';
           trHTML += '<a href="javascript:void(0)"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`plangsung`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
@@ -893,6 +990,10 @@ const detailPurchasing = (id) => {
   const xhttp = new XMLHttpRequest();
 
   xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/purchasing')
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
+
   //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
   xhttp.send();
   //console.log("anggaran di eksekusi", id)
@@ -921,7 +1022,7 @@ const detailPurchasing = (id) => {
             .replace(/[IDR]/gi, '')
             .replace(/(\.+\d{2})/, '')
             .trimLeft() + '</td>';
-          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/,'') + '</td>';
+          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/, '') + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
           trHTML += '<td class="actionbutton"><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showLangsungEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')">edit </span></a>';
           trHTML += '<a href="javascript:void(0)"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`purchasing`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
@@ -942,6 +1043,10 @@ const detailPengecualian = (id) => {
   const xhttp = new XMLHttpRequest();
 
   xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/kecuali')
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
+
   //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
   xhttp.send();
   //console.log("anggaran di eksekusi", id)
@@ -970,7 +1075,7 @@ const detailPengecualian = (id) => {
             .replace(/[IDR]/gi, '')
             .replace(/(\.+\d{2})/, '')
             .trimLeft() + '</td>';
-          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/,'') + '</td>';
+          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/, '') + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
           trHTML += '<td class="actionbutton"><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showLangsungEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')">edit </span></a>';
           trHTML += '<a href="javascript:void(0)"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`kecuali`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
@@ -993,6 +1098,10 @@ const detailSwakelola = (id) => {
   const xhttp = new XMLHttpRequest();
 
   xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/swakelola')
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
+
   //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
   xhttp.send();
   //console.log("anggaran di eksekusi", id)
@@ -1039,6 +1148,10 @@ const detailSwakelola = (id) => {
 const showUserEditBox = (id) => {
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api_url + '/' + id);
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
+
   xhttp.send();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
@@ -1070,6 +1183,10 @@ const showAnggaranEditBox = (id, header_title, api_param_anggaran) => {
   console.log(api_param_anggaran)
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api_param_anggaran + '/' + id);
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
+
   xhttp.send();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
@@ -1121,6 +1238,10 @@ const tenderLangsungEdit = () => {
   const xhttp = new XMLHttpRequest();
   xhttp.open("PUT", api + "api/langsung/" + id);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
+
   xhttp.send(JSON.stringify({
     "name": selectSubkegiatan,
     "pagu": parseInt(pagu),
@@ -1143,7 +1264,7 @@ const tenderLangsungEdit = () => {
       detailAnggaran(id_global)
       detailPurchasing(id_global)
       detailPengecualian(id_global)
-      
+
       refreshTotal()
     }
     else {
@@ -1166,6 +1287,10 @@ const showLangsungEditBox = (id, header_title, api_param) => {
   //console.log(api_param_anggaran)
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api_param + '/' + id);
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
+
   xhttp.send();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
@@ -1228,7 +1353,10 @@ const tenderCepatEdit = () => {
 
   const xhttp = new XMLHttpRequest();
   xhttp.open("PUT", api + "api/langsung/" + id);
-  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  //xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+ // xhttp.setRequestHeader("Accept", "application/json");
+ // xhttp.setRequestHeader("token", localStorage.getItem('token'));
+
   xhttp.send(JSON.stringify({
     "name": selectSubkegiatan,
     "pagu": parseInt(pagu),
@@ -1269,6 +1397,10 @@ const showTenderDetailEditBox = (id, header_title, api_param) => {
   //console.log(api_param_anggaran)
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api_param + '/' + id);
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
+
   xhttp.send();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
@@ -1314,6 +1446,10 @@ const showSwakelolaEditBox = (id, header_title, api_param) => {
   //console.log(api_param_anggaran)
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api_param + '/' + id);
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
+
   xhttp.send();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
@@ -1359,7 +1495,10 @@ const swakelolaLangsungEdit = () => {
 
   const xhttp = new XMLHttpRequest();
   xhttp.open("PUT", api + "api/langsung/" + id);
-  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
+
   xhttp.send(JSON.stringify({
     "name": selectSubkegiatan,
     "pagu": parseInt(pagu),
@@ -1401,18 +1540,42 @@ const editAnggaran = () => {
   const name = document.getElementById("name").value;
   const paguopd = document.getElementById("pagu").value;
 
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("PUT", api_url_anggaran + "/" + id);
-  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhttp.send(JSON.stringify({
 
-    "name": name, "pagu": parseInt(paguopd), "paket": "default", "jadwal": "default", "pdn": parseInt(1), idpagu: id_global
-  }));
-  xhttp.onreadystatechange = function () {
+  let data = new FormData()
+ 
+  data.append("name", name)
+  data.append("paket", "000")
+  data.append("pagu", parseInt(paguopd))
+  data.append("jadwal", "12-12-2022")
+  data.append("pdn", parseInt(20))
+  data.append("idpagu", id_global)
 
+  fetch(api_url_anggaran+"/"+id,{
+    method: 'PUT',
+    headers: {
+       token: localStorage.getItem('token')
+    },
+    body: data
+  }).then(response => {
+    //console.log('response.status: ', response.status);
+    //console.log(response)
+    Swal.fire(
+      'Good job!',
+      'You edit have been save',
+      'success'
+    )
     detailAnggaran(id_global)
+  }).catch(err => {
+    console.log(err)
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something went wrong!',
+      footer: '<a href="">Why do I have this issue?</a>'
+    })
+  })
 
-  };
+  
 }
 
 
@@ -1423,28 +1586,35 @@ const paguEdit = () => {
   const paguopd = document.getElementById("paguopd").value;
   const paguorp = document.getElementById("paguorp").value;
   const filetipe = document.getElementById("filetipe").value;
+  let data = new FormData()
+  data.append("name", name)
+  data.append("paguopdp", paguopd)
+  data.append("paguorp", paguorp)
+  data.append("filetipe", filetipe)
 
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("PUT", api_url + "/" + id);
-  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhttp.send(JSON.stringify({
-    "name": name, "paguopdp": paguopd, "paguorp": paguorp, "filetipe": filetipe
-  }));
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      Swal.fire('Saved!', '', 'success')
-      loadTable(1,"");
-    }
-    else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something went wrong!',
-        footer: '<a href="">Why do I have this issue?</a>'
-      })
-    }
+  fetch(api_url+"/"+id,{
+    method: 'PUT',
+    headers: {
+       token: localStorage.getItem('token')
+    },
+    body: data
+  }).then(response => {
+    Swal.fire(
+      'Good job!',
+      'You edit have been save',
+      'success'
+    )
+    loadTable(1, "")
+  }).catch(err => {
+    console.log(err)
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something went wrong!',
+      footer: '<a href="">Why do I have this issue?</a>'
+    })
+  })
 
-  };
 }
 
 function showPagu() {
@@ -1478,6 +1648,9 @@ const loadDataKegiatan = () => {
 
   const request = new XMLHttpRequest();
   request.open('GET', api_sub_kegiatan + '/' + id_global, true);
+  request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  request.setRequestHeader("Accept", "application/json");
+  request.setRequestHeader("token", localStorage.getItem('token'));
 
   request.onload = function () {
     if (request.status === 200) {
@@ -1548,6 +1721,9 @@ const loadDataKegiatanEdit = (data) => {
   const request = new XMLHttpRequest();
   request.open('GET', api_sub_kegiatan + '/' + id_global, true);
 
+  request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  request.setRequestHeader("Accept", "application/json");
+  request.setRequestHeader("token", localStorage.getItem('token'));
   request.onload = function () {
     if (request.status === 200) {
       const objects = JSON.parse(request.responseText);
@@ -1621,6 +1797,10 @@ function detailTotalTenderDetailCepatSeleksi(id) {
   //console.log("lihat id",id)
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api + 'api/langsung/totalseleksitender/' + id)
+
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
   //xhttp.open("GET", api_url_total_tender_detail+'/'+id)
   xhttp.send();
   xhttp.onreadystatechange = function () {
@@ -1660,6 +1840,10 @@ function detailTotalTenderDetail(id) {
   //console.log("lihat id",id)
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api_url_total_tender_detail + '/' + id)
+
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
   //xhttp.open("GET", api_url_total_tender_detail+'/'+id)
   xhttp.send();
   xhttp.onreadystatechange = function () {
@@ -1711,6 +1895,10 @@ function detailTotalTenderDetailReport(id) {
   //console.log("lihat id",id)
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api_url_total_tender_detail + '/' + id)
+
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
   //xhttp.open("GET", api_url_total_tender_detail+'/'+id)
   xhttp.send();
   xhttp.onreadystatechange = function () {
@@ -1757,6 +1945,10 @@ function detailTotalTenderDetailReportJumlah(id) {
   //console.log("lihat id",id)
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api_url_total_tender_detail + '/' + id)
+
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
   //xhttp.open("GET", api_url_total_tender_detail+'/'+id)
   xhttp.send();
   xhttp.onreadystatechange = function () {
@@ -1802,6 +1994,10 @@ function detailTotalTenderDetailReportJumlahPagu(id) {
   //console.log("lihat id",id)
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api_url_total_tender_detail + '/' + id)
+
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
   //xhttp.open("GET", api_url_total_tender_detail+'/'+id)
   xhttp.send();
   xhttp.onreadystatechange = function () {
@@ -1855,6 +2051,10 @@ function detailTotalTenderDetailReportSeleksiJumlah(id) {
   //console.log("lihat id",id)
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api + 'api/langsung/totalseleksitender/' + id)
+
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
   //xhttp.open("GET", api_url_total_tender_detail+'/'+id)
   xhttp.send();
   xhttp.onreadystatechange = function () {
@@ -1885,6 +2085,10 @@ function detailTotalTenderDetailReportSeleksiRupiah(id) {
   //console.log("lihat id",id)
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api + 'api/langsung/totalseleksitender/' + id)
+
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
   //xhttp.open("GET", api_url_total_tender_detail+'/'+id)
   xhttp.send();
   xhttp.onreadystatechange = function () {
@@ -1952,7 +2156,7 @@ const uploudData = () => {
     const formData = new FormData();
     //console.log("data Use", userFile)
     console.log(fileSize)
-    if(userFile == null || fileSize > 2){
+    if (userFile == null || fileSize > 2) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -1960,7 +2164,7 @@ const uploudData = () => {
         footer: '<a href="">Please Uploud File First</a>'
       })
     }
-    
+
     else {
       formData.append('file', userFile);
       formData.append('paguorp', Namepaguorp)
@@ -1971,16 +2175,16 @@ const uploudData = () => {
         method: "PUT",
         body: formData,
       }).then(res => res.json())
-      .then(data => detaiDownload(id_global)).then()
-      .catch(err => console.log(err))
+        .then(data => detaiDownload(id_global)).then()
+        .catch(err => console.log(err))
       loadingswal()
-      
-    }  
-     //loadingswal()
-   
+
+    }
+    //loadingswal()
+
   })
 
- 
+
 }
 
 const removeDownload = () => {
@@ -1989,7 +2193,11 @@ const removeDownload = () => {
 
   xhttp.open("PUT", api_url + "/" + id_global);
   xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhttp.send(JSON.stringify({ 
+
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
+  xhttp.send(JSON.stringify({
     "name": namaSKPD, "paguopdp": Namepaguskpd, "paguorp": Namepaguorp, "filetipe": "kosong"
   }));
 
@@ -2011,7 +2219,7 @@ const removeDownload = () => {
     }
 
   };
-  
+
 }
 
 const loadingswal = () => {
@@ -2028,7 +2236,7 @@ const loadingswal = () => {
 const showFileDownlod = () => {
   var downloaddata = document.getElementsByClassName('download-data');
 
-  for (var i = 0; i < downloaddata.length; i ++) {
+  for (var i = 0; i < downloaddata.length; i++) {
     downloaddata[i].style.display = 'flex';
   }
 
@@ -2039,6 +2247,8 @@ const showFileDownlod = () => {
 function detaiDownload(id) {
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api_url + '/' + id);
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
   xhttp.send();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
@@ -2054,7 +2264,7 @@ function detaiDownload(id) {
       trHTML += link_data;
       trHTML += '<a href="javascript:void(0)" onclick="hidengFileDownlod()"><i class="bx bx-x bx-md bx-tada-hover" style="color:red;"></i></a>'
       trHTML += '</div>'
-      
+
 
       document.getElementById("listdownload").innerHTML = trHTML;
       //detaiDownload()
@@ -2066,7 +2276,7 @@ function detaiDownload(id) {
 const hidengFileDownlod = () => {
   var downloaddata = document.getElementsByClassName('download-data');
 
-  for (var i = 0; i < downloaddata.length; i ++) {
+  for (var i = 0; i < downloaddata.length; i++) {
     downloaddata[i].style.display = 'none';
   }
 
@@ -2087,7 +2297,7 @@ const alertNodownload = () => {
 //reportdata
 
 const hiddenAction = () => {
-  
+
   var printviewinputbox = document.getElementById("printviewinputbox")
   var inputbox = document.getElementById("inputbox")
   var reporttoexcel = document.getElementById("reporttoexcel")
@@ -2105,7 +2315,7 @@ const detailReportAnggaran = (id) => {
   //const embkono = ["silver", "larougm"]
   //console.log(getvals)
   //var dataob = ''
-  getvals(id).then(response => 
+  getvals(id).then(response =>
     calculatePdntwo(response, id)
   );
   detailTenderLaporan(id_global)
@@ -2115,14 +2325,18 @@ const detailReportAnggaran = (id) => {
   laporanSwakeola(id_global)
 }
 
-const calculatePdntwo = (objectdata,id) => {
-  if(objectdata.data.data==null){
+const calculatePdntwo = (objectdata, id) => {
+  if (objectdata.data.data == null) {
     console.log(" data data null")
   }
   else {
     console.log(objectdata)
     const xhttp = new XMLHttpRequest();
     xhttp.open("GET", api_url_anggaran + '/pagu/' + id);
+
+    xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhttp.setRequestHeader("Accept", "application/json");
+    xhttp.setRequestHeader("token", localStorage.getItem('token'));
     xhttp.send();
     //dataPdnPenmpungTemp = embkono
     let objects = ''
@@ -2131,8 +2345,8 @@ const calculatePdntwo = (objectdata,id) => {
       if (this.readyState == 4 && this.status == 200) {
         var trHTML = '';
         objects = JSON.parse(this.responseText);
-  
-  
+
+
         if (objects.data.data === null) {
           console.log('data kosong')
         }
@@ -2142,10 +2356,10 @@ const calculatePdntwo = (objectdata,id) => {
           for (let object of objects.data.data) {
             let id_obj = object['id']
             i++;
-           // console.log(objectdata.data.data[j].totalpagu)
+            // console.log(objectdata.data.data[j].totalpagu)
             //pdnavg = object['name'] == objectdata.data.data[j].name ? objectdata.data.data[j].pdn : 'Nan'
             //if(army.indexOf("Marcos") !== -1) 
-            if(objectdata.data.data[j] == undefined){
+            if (objectdata.data.data[j] == undefined) {
               //console.log('data undifined')
               pdnavg = 'Nan'
             }
@@ -2171,9 +2385,9 @@ const calculatePdntwo = (objectdata,id) => {
           }
         }
         //console.log("data onject", objects)
-  
+
         document.getElementById("anggaranlaporan").innerHTML = trHTML;
-  
+
       }
     };
   }
@@ -2184,6 +2398,9 @@ const detailTenderLaporan = (id) => {
 
   xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/default')
 
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
   xhttp.send();
 
   xhttp.onreadystatechange = function () {
@@ -2209,10 +2426,10 @@ const detailTenderLaporan = (id) => {
             .replace(/[IDR]/gi, '')
             .replace(/(\.+\d{2})/, '')
             .trimLeft() + '</td>';
-            //console.log(mydate.toDateString().replace(/^\S+\s/,''));
-          trHTML += '<td>' + new Date(object['pemilihan']).toDateString().replace(/^\S+\s/,'') + '</td>';
-          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/,'') + '</td>';
-          trHTML += '<td>' + new Date(object['jadwal']).toDateString().replace(/^\S+\s/,'') + '</td>';
+          //console.log(mydate.toDateString().replace(/^\S+\s/,''));
+          trHTML += '<td>' + new Date(object['pemilihan']).toDateString().replace(/^\S+\s/, '') + '</td>';
+          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/, '') + '</td>';
+          trHTML += '<td>' + new Date(object['jadwal']).toDateString().replace(/^\S+\s/, '') + '</td>';
           trHTML += '<td>' + object['tender'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
           trHTML += "</tr>";
@@ -2230,6 +2447,10 @@ const reportPengadaanLangsung = (id) => {
   const xhttp = new XMLHttpRequest();
 
   xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/langsung')
+
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
   //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
   xhttp.send();
   //console.log("anggaran di eksekusi", id)
@@ -2258,9 +2479,9 @@ const reportPengadaanLangsung = (id) => {
             .replace(/[IDR]/gi, '')
             .replace(/(\.+\d{2})/, '')
             .trimLeft() + '</td>';
-          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/,'') + '</td>';
+          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/, '') + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
-     
+
           trHTML += "</tr>";
         }
       }
@@ -2276,6 +2497,9 @@ const reportPenunjukaLangsungby = (id) => {
   const xhttp = new XMLHttpRequest();
 
   xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/plangsung')
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
   //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
   xhttp.send();
   //console.log("anggaran di eksekusi", id)
@@ -2304,9 +2528,9 @@ const reportPenunjukaLangsungby = (id) => {
             .replace(/[IDR]/gi, '')
             .replace(/(\.+\d{2})/, '')
             .trimLeft() + '</td>';
-          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/,'') + '</td>';
+          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/, '') + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
-      
+
           trHTML += "</tr>";
         }
       }
@@ -2320,8 +2544,10 @@ const reportPenunjukaLangsungby = (id) => {
 
 const reportPurchasingLangsung = (id) => {
   const xhttp = new XMLHttpRequest();
-
   xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/purchasing')
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
   //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
   xhttp.send();
   //console.log("anggaran di eksekusi", id)
@@ -2350,9 +2576,9 @@ const reportPurchasingLangsung = (id) => {
             .replace(/[IDR]/gi, '')
             .replace(/(\.+\d{2})/, '')
             .trimLeft() + '</td>';
-          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/,'') + '</td>';
+          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/, '') + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
-       
+
           trHTML += "</tr>";
         }
       }
@@ -2367,6 +2593,9 @@ const laporandetailPengecualian = (id) => {
   const xhttp = new XMLHttpRequest();
 
   xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/kecuali')
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
   //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
   xhttp.send();
   //console.log("anggaran di eksekusi", id)
@@ -2397,7 +2626,7 @@ const laporandetailPengecualian = (id) => {
             .trimLeft() + '</td>';
           trHTML += '<td>' + object['pelaksanaan'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
-       
+
           trHTML += "</tr>";
         }
       }
@@ -2413,6 +2642,10 @@ const laporanSwakeola = (id) => {
   const xhttp = new XMLHttpRequest();
 
   xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/swakelola')
+
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
   //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
   xhttp.send();
   //console.log("anggaran di eksekusi", id)
@@ -2442,7 +2675,7 @@ const laporanSwakeola = (id) => {
             .trimLeft() + '</td>';
           trHTML += '<td>' + object['ket'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
-      
+
           trHTML += "</tr>";
         }
       }

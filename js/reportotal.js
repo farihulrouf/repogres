@@ -8,6 +8,9 @@ function loadDataTotal() {
 
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api_url_pagu);
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
   xhttp.send();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
@@ -64,6 +67,10 @@ const detailLaporanOpd = (id, index, idclass) => {
   const xhttp = new XMLHttpRequest();
 
   xhttp.open("GET", api_url_total + id)
+
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
   //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
   xhttp.send();
  // console.log("anggaran di eksekusi", id)
@@ -111,6 +118,10 @@ const detailLaporanCepatSeleksi = (id, index, idclass) => {
   //console.log("lihat id",id)
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api_url_cepat_tender_seleksi + '/' + id)
+
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
   //xhttp.open("GET", api_url_total_tender_detail+'/'+id)
   xhttp.send();
   xhttp.onreadystatechange = function () {
