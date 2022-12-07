@@ -2,4 +2,12 @@
 .form-signin {
     max-width: 25rem;
     margin: auto;
-  }
+}
+.form-control {
+  margin-top: 10px;
+}
+
+.btn-login {
+  background: #0A2558;
+  color: white;
+}
