@@ -30,7 +30,7 @@ if (jwt == null) {
   window.location.href = './login.html'
 }
 else {
-  console.log(jwt)
+  
 }
 
 const loadTable = (index, search) => {
@@ -315,41 +315,43 @@ const CreateDetailPagu = (api_param, header_title) => {
   const pdn = document.getElementById("pdn").value;
   const paket = document.getElementById("paket").value;
   const pagu = document.getElementById("pagu").value;
-  console.log("isidari", selectSubkegiatan)
+  
+  let data = new FormData()
+  data.append("name", selectSubkegiatan)
+  data.append("paket", paket)
+  data.append("pagu", parseInt(pagu))
+  data.append("jadwal", waktupemanfaatan)
+  data.append("pemilihan", waktupemilihan)
+  data.append("tipe", "default")
+  data.append("pelaksanaan", waktupelaksanaan)
+  data.append("pdn", parseInt(pdn))
+  data.append("tender", selecinput)
+  data.append("idpagu", id_global)
+  data.append("ket", "ket")
+  fetch(api + 'api/langsung',{
+    method: 'POST',
+    headers: {
+       token: localStorage.getItem('token')
+    },
+    body: data
+  }).then(response => {
+    Swal.fire(
+      'Good job!',
+      'Your data have been save',
+      'success'
+    )
+    detailTender(id_global)
+  }).catch(err => {
+    console.log(err)
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something went wrong!',
+      footer: '<a href="">Why do I have this issue?</a>'
+    })
+  })
 
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("POST", api + 'api/langsung');
-  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  xhttp.setRequestHeader("Accept", "application/json");
-  xhttp.setRequestHeader("token", localStorage.getItem('token'));
-  xhttp.send(JSON.stringify({
-    "name": selectSubkegiatan,
-    "paket": paket,
-    "tipe": "default",
-    "pagu": parseInt(pagu),
-    "jadwal": waktupemanfaatan,
-    "pemilihan": waktupemilihan,
-    "pelaksanaan": waktupelaksanaan,
-    "pdn": parseInt(pdn),
-    "tender": selecinput,
-    "ket": "ket",
-    "idpagu": id_global
-  }));
-
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 201) {
-      Swal.fire('Saved!', '', 'success')
-      detailTender(id_global)
-    }
-    else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something went wrong!',
-        footer: '<a href="">Why do I have this issue?</a>'
-      })
-    }
-  };
+ 
 
 }
 
@@ -413,44 +415,51 @@ function CreateDetailLain(api_param, header_title) {
   const pdn = document.getElementById("pdn").value;
   const paket = document.getElementById("paket").value;
   const pagu = document.getElementById("pagu").value;
+  let data = new FormData()
+  data.append("name", selectSubkegiatan)
+  data.append("paket", paket)
+  data.append("pagu", parseInt(pagu))
+  data.append("tipe", header_title)
+  data.append("jadwal", waktupemanfaatan)
+  data.append("pdn",parseInt(pdn))
 
-  console.log("ini hereader", header_title)
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("POST", api_param);
-  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhttp.send(JSON.stringify({
-    "name": selectSubkegiatan,
-    "paket": paket,
-    "pagu": parseInt(pagu),
-    "tipe": header_title,
-    "jadwal": waktupemanfaatan,
-    "pdn": parseInt(pdn),
-    "ket": "ket",
-    "tender": "default",
-    "pelaksanaan": waktupemanfaatan,
-    "pemilihan": waktupemanfaatan,
-    "idpagu": id_global
-  }));
+  data.append("ket", "ket")
+  data.append("tender", "default")
+  data.append("pelaksanaan",waktupemanfaatan)
 
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 201) {
-      Swal.fire('Saved!', '', 'success')
+  data.append("tender", "default")
+  data.append("pemilihan",waktupemanfaatan)
+  data.append("idpagu", id_global)
+
+ 
+  fetch(api_param,{
+    method: 'POST',
+    headers: {
+       token: localStorage.getItem('token')
+    },
+    body: data
+  }).then(response => {
+    Swal.fire(
+      'Good job!',
+      'Your data have been save',
+      'success'
+    )
       detailLangsung(id_global)
       detailPenunjukanLangsug(id_global)
       detailPurchasing(id_global)
       detailPengecualian(id_global)
       refreshTotal()
-    }
-    else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something went wrong!',
-        footer: '<a href="">Why do I have this issue?</a>'
-      })
-    }
-  };
+  }).catch(err => {
+    console.log(err)
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something went wrong!',
+      footer: '<a href="">Why do I have this issue?</a>'
+    })
+  })
 
+  
 }
 
 const deletePagu = (id) => {
@@ -568,29 +577,7 @@ const deleteTender = (id, tender, api) => {
     console.log(err)
     
   })
-  /*
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("DELETE", api + "/" + id);
 
-  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  xhttp.setRequestHeader("Accept", "application/json");
-  xhttp.setRequestHeader("token", localStorage.getItem('token'));
-  xhttp.send(JSON.stringify({
-    "id": id
-  }));
-  xhttp.onreadystatechange = function () {
-    detailAnggaran(id_global)
-    detailTender(id_global)
-    detailLangsung(id_global)
-    detailPenunjukanLangsug(id_global)
-    detailPurchasing(id_global)
-    detailPengecualian(id_global)
-    detailSwakelola(id_global)
-    refreshTotal()
-
-
-  };
-  */
 
 }
 const refreshPage = () => [
@@ -703,9 +690,9 @@ const calculatePdn = (objectdata, id) => {
               .replace(/(\.+\d{2})/, '')
               .trimLeft() + '</td>';
             trHTML += '<td>' + 'Nan' + '</td>';
-            trHTML += '<td class="actionbutton"><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showAnggaranEditBox(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')">edit </span></a>';
-            trHTML += '<a href="javascript:void(0) onclick="detailDelete(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')">delete_forever</span></a></td>';
-
+            trHTML += '<td class="actionbutton"><a href="javascript:void(0)" onclick="showAnggaranEditBox(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')"> <i class="bx bx-pencil bx-sm bx-tada-hover"></i></a>';
+            trHTML += '<a href="javascript:void(0)" onclick="detailDelete(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')"><i style="color:red;" class="bx bx-x bx-sm bx-tada-hover"></i></a></td>';
+        
             trHTML += "</tr>";
             j++;
           }
@@ -759,10 +746,9 @@ const calculatePdn = (objectdata, id) => {
               .replace(/[IDR]/gi, '')
               .replace(/(\.+\d{2})/, '')
               .trimLeft() + '</td>';
-            trHTML += '<td>' + pdnavg + '</td>';
-            trHTML += '<td class="actionbutton"><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showAnggaranEditBox(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')">edit </span></a>';
-            trHTML += '<a href="javascript:void(0) onclick="detailDelete(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')">delete_forever</span></a></td>';
-            //<img src="/images/icon/add.svg" width="24" height="24" alt="icon-svg">
+            trHTML += '<td>' + pdnavg + '</td>';      
+            trHTML += '<td class="actionbutton"><a href="javascript:void(0)" onclick="showAnggaranEditBox(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')"> <i class="bx bx-pencil bx-sm bx-tada-hover"></i></a>';
+            trHTML += '<a href="javascript:void(0)" onclick="detailDelete(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')"><i style="color:red;" class="bx bx-x bx-sm bx-tada-hover"></i></a></td>';   
             trHTML += "</tr>";
             j++;
           }
@@ -862,15 +848,13 @@ const detailTender = (id) => {
             .replace(/[IDR]/gi, '')
             .replace(/(\.+\d{2})/, '')
             .trimLeft() + '</td>';
-          //console.log(mydate.toDateString().replace(/^\S+\s/,''));
           trHTML += '<td>' + new Date(object['pemilihan']).toDateString().replace(/^\S+\s/, '') + '</td>';
           trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/, '') + '</td>';
           trHTML += '<td>' + new Date(object['jadwal']).toDateString().replace(/^\S+\s/, '') + '</td>';
           trHTML += '<td>' + object['tender'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
-          //<i class="bx bx-pencil bx-sm bx-tada-hover"></i>
           trHTML += '<td class="actionbutton"><a href="javascript:void(0)" onclick="showTenderDetailEditBox(\'' + id_obj + '\',`tender`,\'' + api_url_langsung + '\')"><i class="bx bx-pencil bx-sm bx-tada-hover"></i></a>';
-          trHTML += '<a href="javascript:void(0)"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`plangsung`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
+          trHTML += '<a href="javascript:void(0)" onclick="detailDelete(\'' + id_obj + '\',`plangsung`,\'' + api_url_langsung + '\')"><i style="color:red;" class="bx bx-x bx-sm bx-tada-hover"></i></a></td>';
           trHTML += "</tr>";
         }
       }
@@ -919,10 +903,9 @@ const detailLangsung = (id) => {
             .replace(/(\.+\d{2})/, '')
             .trimLeft() + '</td>';
           trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/, '') + '</td>';
-          trHTML += '<td>' + object['pdn'] + '</td>';
-          trHTML += '<td class="actionbutton"><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showLangsungEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')">edit </span></a>';
-          trHTML += '<a href="javascript:void(0)"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
-
+          trHTML += '<td>' + object['pdn'] + '</td>';       
+          trHTML += '<td class="actionbutton"><a href="javascript:void(0)" onclick="showLangsungEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')"> <i class="bx bx-pencil bx-sm bx-tada-hover"></i></a>';
+          trHTML += '<a href="javascript:void(0)" onclick="detailDelete(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')"><i style="color:red;" class="bx bx-x bx-sm bx-tada-hover"></i></a></td>';
           trHTML += "</tr>";
         }
       }
@@ -972,9 +955,8 @@ const detailPenunjukanLangsug = (id) => {
             .trimLeft() + '</td>';
           trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/, '') + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
-          trHTML += '<td class="actionbutton"><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showLangsungEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')">edit </span></a>';
-          trHTML += '<a href="javascript:void(0)"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`plangsung`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
-
+          trHTML += '<td class="actionbutton"><a href="javascript:void(0)" onclick="showLangsungEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')"> <i class="bx bx-pencil bx-sm bx-tada-hover"></i></a>';
+          trHTML += '<a href="javascript:void(0)" onclick="detailDelete(\'' + id_obj + '\',`plangsung`,\'' + api_url_langsung + '\')"><i style="color:red;" class="bx bx-x bx-sm bx-tada-hover"></i></a></td>';
           trHTML += "</tr>";
         }
       }
@@ -1025,9 +1007,8 @@ const detailPurchasing = (id) => {
             .trimLeft() + '</td>';
           trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/, '') + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
-          trHTML += '<td class="actionbutton"><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showLangsungEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')">edit </span></a>';
-          trHTML += '<a href="javascript:void(0)"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`purchasing`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
-
+          trHTML += '<td class="actionbutton"><a href="javascript:void(0)" onclick="showLangsungEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')"> <i class="bx bx-pencil bx-sm bx-tada-hover"></i></a>';
+          trHTML += '<a href="javascript:void(0)" onclick="detailDelete(\'' + id_obj + '\',`purchasing`,\'' + api_url_langsung + '\')"><i style="color:red;" class="bx bx-x bx-sm bx-tada-hover"></i></a></td>';
           trHTML += "</tr>";
         }
       }
@@ -1078,9 +1059,10 @@ const detailPengecualian = (id) => {
             .trimLeft() + '</td>';
           trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/, '') + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
-          trHTML += '<td class="actionbutton"><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showLangsungEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')">edit </span></a>';
-          trHTML += '<a href="javascript:void(0)"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`kecuali`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
 
+          trHTML += '<td class="actionbutton"><a href="javascript:void(0)" onclick="showLangsungEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')"> <i class="bx bx-pencil bx-sm bx-tada-hover"></i></a>';
+          trHTML += '<a href="javascript:void(0)" onclick="detailDelete(\'' + id_obj + '\',`kecuali`,\'' + api_url_langsung + '\')"><i style="color:red;" class="bx bx-x bx-sm bx-tada-hover"></i></a></td>';
+      
           trHTML += "</tr>";
         }
       }
@@ -1132,9 +1114,9 @@ const detailSwakelola = (id) => {
             .trimLeft() + '</td>';
           trHTML += '<td>' + object['ket'] + '</td>';
           trHTML += '<td>' + object['pdn'] + '</td>';
-          trHTML += '<td class="actionbutton"><a href="javascript:void(0)"><span class="material-symbols-outlined edit-color" onclick="showSwakelolaEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')">edit </span></a>';
-          trHTML += '<a href="javascript:void(0)"><span class="material-symbols-outlined icon-delete" onclick="detailDelete(\'' + id_obj + '\',`swakelola`,\'' + api_url_langsung + '\')">delete_forever</span></a></td>';
 
+          trHTML += '<td class="actionbutton"><a href="javascript:void(0)" onclick="showSwakelolaEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')"> <i class="bx bx-pencil bx-sm bx-tada-hover"></i></a>';
+          trHTML += '<a href="javascript:void(0)" onclick="detailDelete(\'' + id_obj + '\',`swakelola`,\'' + api_url_langsung + '\')"><i style="color:red;" class="bx bx-x bx-sm bx-tada-hover"></i></a></td>';
           trHTML += "</tr>";
         }
       }
@@ -1236,48 +1218,51 @@ const tenderLangsungEdit = () => {
   const idpagu = document.getElementById("idpagu").value
   const keterangan = document.getElementById("ket").value
 
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("PUT", api + "api/langsung/" + id);
-  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  xhttp.setRequestHeader("Accept", "application/json");
-  xhttp.setRequestHeader("token", localStorage.getItem('token'));
+  let data = new FormData()
+  data.append("name", selectSubkegiatan)
+  data.append("paket", paket)
+  data.append("pagu", parseInt(pagu))
+  data.append("tipe", tipe)
+  data.append("jadwal", pelaksanaan)
+  data.append("pdn",parseInt(pdn))
 
-  xhttp.send(JSON.stringify({
-    "name": selectSubkegiatan,
-    "pagu": parseInt(pagu),
-    "jadwal": pelaksanaan,
-    "tipe": tipe,
-    "pdn": parseInt(pdn),
-    "idpagu": idpagu,
-    "tender": "default",
-    "pelaksanaan": pelaksanaan,
-    "pemilihan": pelaksanaan,
-    "paket": paket,
-    "ket": keterangan,
-  }));
+  data.append("ket", keterangan)
+  data.append("tender", "default")
+  data.append("pelaksanaan",pelaksanaan)
 
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      Swal.fire('Saved!', '', 'success')
+  data.append("tender", "default")
+  data.append("pemilihan",pelaksanaan)
+  data.append("idpagu", idpagu)
+
+ 
+  fetch(api + "api/langsung/" + id,{
+    method: 'PUT',
+    headers: {
+       token: localStorage.getItem('token')
+    },
+    body: data
+  }).then(response => {
+    Swal.fire(
+      'Good job!',
+      'Your data have been save',
+      'success'
+    )
       detailLangsung(id_global)
       detailPenunjukanLangsug(id_global)
-      detailAnggaran(id_global)
       detailPurchasing(id_global)
       detailPengecualian(id_global)
-
       refreshTotal()
-    }
-    else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something went wrong!',
-        footer: '<a href="">Why do I have this issue?</a>'
-      })
-    }
+  }).catch(err => {
+    console.log(err)
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something went wrong!',
+      footer: '<a href="">Why do I have this issue?</a>'
+    })
+  })
 
-  };
+  
 
 }
 
@@ -1350,46 +1335,46 @@ const tenderCepatEdit = () => {
   const paket = document.getElementById("name").value
   const idpagu = document.getElementById("idpagu").value
   //const keterangan = document.getElementById("ket").value
-  console.log(tenderlo)
+  let data = new FormData()
 
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("PUT", api + "api/langsung/" + id);
-  //xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
- // xhttp.setRequestHeader("Accept", "application/json");
- // xhttp.setRequestHeader("token", localStorage.getItem('token'));
 
-  xhttp.send(JSON.stringify({
-    "name": selectSubkegiatan,
-    "pagu": parseInt(pagu),
-    "jadwal": pelaksanaan,
-    "tipe": "default",
-    "pdn": parseInt(pdn),
-    "idpagu": idpagu,
-    "tender": tenderlo,
-    "pelaksanaan": pelaksanaan,
-    "pemilihan": pemilihan,
-    "paket": paket,
-    "ket": "ket",
-  }));
+  data.append("name", selectSubkegiatan)
+  data.append("pagu", parseInt(pagu))
+  data.append("jadwal", pelaksanaan)
+  data.append("tipe", "default")
+  data.append("pdn", parseInt(pdn))
+  data.append("idpagu", idpagu)
+  data.append("tender", tenderlo)
+  data.append("pelaksanaan", pelaksanaan)
+  data.append("pemilihan", pemilihan)
+  data.append("paket", paket)
+  data.append("ket", "ket")
 
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      Swal.fire('Saved!', '', 'success')
+  
+  fetch(api + "api/langsung/" + id,{
+    method: 'PUT',
+    headers: {
+       token: localStorage.getItem('token')
+    },
+    body: data
+  }).then(response => {
+    Swal.fire(
+      'Good job!',
+      'Your data have been Edit',
+      'success'
+    )
       detailAnggaran(id_global)
       detailTender(id_global)
       refreshTotal()
-
-    }
-    else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something went wrong!',
-        footer: '<a href="">Why do I have this issue?</a>'
-      })
-    }
-
-  };
+  }).catch(err => {
+    console.log(err)
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something went wrong!',
+      footer: '<a href="">Why do I have this issue?</a>'
+    })
+  })
 
 
 }
