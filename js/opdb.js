@@ -30,8 +30,22 @@ if (jwt == null) {
   window.location.href = './login.html'
 }
 else {
-  
+  //if(isValidToken(jwt)==true){
+   // window.location.href = './login.html'
+  //}
+  //isValidToken(jwt)  
 }
+/*
+function isValidToken(token){
+  cTs=Math.floor(Date.now() / 1000);
+  console.log(cTs)
+  console.log(token >= cTs)
+  return (token>=cTs);
+}
+*/
+
+
+
 
 const loadTable = (index, search) => {
 
@@ -2674,6 +2688,10 @@ const laporanSwakeola = (id) => {
     }
   };
 
+}
+const logout = () => {
+  localStorage.clear();
+  window.location.href = './login.html'
 }
 
 
