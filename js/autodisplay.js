@@ -54,7 +54,10 @@ const printForm = () => {
   printJS({
     printable: 'printdetaildesk',
     type: 'html',
-    targetStyles: ['*'],
+   // style: 'display: inline-block; text-align: center; padding: 30px; margin: 15px; text-align: center; padding: 15px; vertical-align: top;'},
+    
+    style: ".heavy {color: #0A2558;} .detail-pagu{ margin-top: 20px} .print-text {margin-top:20px} .width-sub{width: 200px} .subpagu{border-collapse: collapse; width:100%} .subpagu td, .subpagu th{border: 1px solid #ddd; padding: 8px}",
+    //targetStyles: ['*'],
     header: ''
   })
 }
