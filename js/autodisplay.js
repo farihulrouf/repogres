@@ -56,7 +56,7 @@ const printForm = () => {
     type: 'html',
    // style: 'display: inline-block; text-align: center; padding: 30px; margin: 15px; text-align: center; padding: 15px; vertical-align: top;'},
     
-    style: ".heavy {color: #0A2558;} .detail-pagu{ margin-top: 20px} .print-text {margin-top:20px} .width-sub{width: 200px} .subpagu{border-collapse: collapse; width:100%} .subpagu td, .subpagu th{border: 1px solid #ddd; padding: 8px}",
+    style: ".heavy {color: black;} .logo-print{margin-left:80px; margin-top:10px;} .heder-text{margin-top: 40px; margin-left:10px; margin-top:50px;} .detail-pagu-text{margin-bottom: 60px} .detail-pagu{ margin-top: 20px} .print-text {margin-top:20px} .width-sub{width: 15%; color:red} .subpagu{border-collapse: collapse; width:100%} .subpagu td, .subpagu th{border: 1px solid #ddd; padding: 8px}",
     //targetStyles: ['*'],
     header: ''
   })

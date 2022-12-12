@@ -785,7 +785,7 @@ const detailAnggaran = (id) => {
 }
 
 
-
+/*
 function detailPaguItem(id) {
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api_url + '/' + id);
@@ -808,6 +808,9 @@ function detailPaguItem(id) {
       //console.log(linkdownload)
       id_global = posts.id
       var trHTML = '';
+
+
+      trHTML += '<tr>';
       trHTML += '<td>' + 1 + '</td>';
       trHTML += '<td>' + posts['name'] + '</p>' + '</td>';
       trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
@@ -823,12 +826,65 @@ function detailPaguItem(id) {
         .replace(/(\.+\d{2})/, '')
         .trimLeft() + '</td>';
 
-      document.getElementById("detailinformasi").innerHTML = trHTML;
-      //detaiDownload()
+      trHTML += "</tr>";
     }
+
+    document.getElementById("detailinformasi").innerHTML = trHTML;
   };
 
 }
+*/
+
+const detailPaguItem = (id) => {
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", api_url + '/' + id);
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const objects = JSON.parse(this.responseText);
+
+      const posts = objects.data.data
+
+      namaSKPD = posts.name
+      dateTest = posts.name
+      Namepaguskpd = posts.paguopdp
+      Namepaguorp = posts.paguorp
+      linkdownload = posts.filetipe
+      //console.log(linkdownload)
+      id_global = posts.id
+      var trHTML = '';
+
+
+      trHTML += '<tr>';
+      trHTML += '<td>' + 1 + '</td>';
+      trHTML += '<td>' + posts['name'] + '</p>' + '</td>';
+      trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
+        style: 'currency',
+        currency: 'IDR'
+      }).format(posts['paguopdp']).replace(/[IDR]/gi, '')
+        .replace(/(\.+\d{2})/, '')
+        .trimLeft() + '</p>' + '</td>';
+      trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
+        style: 'currency',
+        currency: 'IDR'
+      }).format(posts['paguorp']).replace(/[IDR]/gi, '')
+        .replace(/(\.+\d{2})/, '')
+        .trimLeft() + '</td>';
+
+      trHTML += "</tr>";
+    }
+
+      document.getElementById("detailinformasi").innerHTML = trHTML;
+
+    }
+  };
+
+
+
 
 const detailTender = (id) => {
   const xhttp = new XMLHttpRequest();
