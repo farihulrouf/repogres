@@ -234,6 +234,20 @@ const hideSwakelola = () => {
   }
 }
 
+
+const hideLinkfile = () => {
+  var x = document.getElementById("linkfileinputdata");
+  var y = document.getElementById("adddata10")
+  if (x.style.display === "block") {
+    x.style.display = "none";
+    y.style.display = "none";
+
+  } else {
+    x.style.display = "block";
+    y.style.display = "block";
+  }
+}
+
 const ShowUploud = () => {
   var x = document.getElementById("uploudform");
  // var y = document.getElementById("adddata7")

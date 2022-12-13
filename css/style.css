@@ -995,10 +995,10 @@ select#input-select {
   border-radius: 10px;
 }
 
-#tenderanggaran, #tablecepatxr, #idanggaranlangsung, #idtablepllangsung, #tablepurchasing, #idtablepengecialian, #idswakelolatable {
+#tenderanggaran, #tablecepatxr, #idanggaranlangsung, #idtablepllangsung, #tablepurchasing, #idtablepengecialian, #idswakelolatable, #linkfileinputdata {
   display: none;
 }
-#adddata1, #adddata2, #adddata3, #adddata4, #adddata5, #adddata6, #adddata7 {
+#adddata1, #adddata2, #adddata3, #adddata4, #adddata5, #adddata6, #adddata7, #adddata10 {
   display: none;
 }
 

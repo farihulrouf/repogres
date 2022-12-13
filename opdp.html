@@ -55,6 +55,12 @@
         </a>
       </li>
       <li>
+        <a href="user.html">
+          <i class='bx bx-coin-stack'></i>
+          <span class="links_name">User Setting</span>
+        </a>
+      </li>
+      <li>
         <a href="javascript:void(0)">
           <i class='bx bx-book-alt'></i>
           <span class="links_name">Laporan</span>
@@ -930,6 +936,43 @@
                 </tbody>
               </table>
             </div>
+            <!-- end swakelola -->
+
+            <div id="uploufileimput">
+              <div class="text-detail-pagu">
+
+                <table>
+                  <thead>
+                    <tr>
+                      <th style="display: flex; align-items:center; justify-content: space-between; width: 400px;" class="header-text-tender">
+                        List Link File <a href="javascript:void(0)" class="add-data" onclick="hideLinkfile()">
+                          <i class='bx bx-chevron-down bx-sm bx-burst-hover'></i>
+                      </th>
+                    </tr>
+                  </thead>
+                </table>
+                <a href="javascript:void(0)" id="adddata10" onclick="showUserCreteLink()">
+                  <span> Add Data</span>
+
+                  <i class='bx bx-plus bx-sm bx-burst-hover'></i>
+                </a>
+              </div>
+              <table id="linkfileinputdata" class="styled-table">
+
+                <thead>
+                  <tr>
+                    <th width="2%">NO</th>
+                    <th width="28%">Nama File</th>
+                    <th width="25%%">Link Download</th>
+                    <th class="actionbutton" width="5%">ACTION</th>
+                  </tr>
+                </thead>
+                <tbody id="filidownloadlink">
+                  <tr></tr>
+                </tbody>
+              </table>
+            </div>
+
             <div>
               <table>
                 <thead>
@@ -969,7 +1012,7 @@
   <!-- JavaScript Bundle with Popper -->
   <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.all.min.js"></script>
-  <script src="js/pagination.js"></script>
+
   <script src="js/totalopd.js"></script>
   <script src="js/autodisplay.js"></script>
   <script src="js/reportotal.js"></script>

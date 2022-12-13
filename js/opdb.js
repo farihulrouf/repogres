@@ -54,6 +54,7 @@ const loadTable = (index, search) => {
 
   xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
   xhttp.setRequestHeader("Accept", "application/json");
+  //console.log( xhttp.setRequestHeader("Accept", "application/json"))
   xhttp.setRequestHeader("token", localStorage.getItem('token'));
   xhttp.send();
   xhttp.onreadystatechange = function () {
@@ -623,6 +624,7 @@ function detailPage(id) {
   //detailTotalTenderDetailReportSeleksi(id)
   detailTotalTenderDetailReportSeleksiJumlah(id)
   detailTotalTenderDetailReportSeleksiRupiah(id)
+  loadLink(id)
   // detaiDownload()
   //totalPdn(id)
   //totalPdnTender(id)
@@ -2745,6 +2747,232 @@ const laporanSwakeola = (id) => {
   };
 
 }
+
+function showUserCreteLink() {
+  Swal.fire({
+    title: 'Ceata Link',
+    icon: 'success',
+    showDenyButton: true,
+    confirmButtonText: 'Save',
+    denyButtonText: `Don't save`,
+    html:
+      '<input id="id" type="hidden">' +
+      '<input id="name" class="swal2-input" placeholder="Nama File">' +
+      '<input id="link" class="swal2-input" placeholder="Link Download">',
+    focusConfirm: false,
+    preConfirm: () => {
+      linkCreate()
+    }
+  })
+}
+
+const linkCreate = () => {
+  const name = document.getElementById("name").value;
+  const link = document.getElementById("link").value;
+  let data = new FormData()
+  data.append("name", name)
+  data.append("link", link)
+  data.append("idpagu", id_global)
+  fetch(api+'api/link',{
+    method: 'POST',
+    headers: {
+       token: localStorage.getItem('token')
+    },
+    body: data
+  }).then(response => {
+    Swal.fire(
+      'Good job!',
+      'Your data have been save',
+      'success'
+    )
+    loadLink()
+    //loadTable(1, "")
+  }).catch(err => {
+    console.log(err)
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something went wrong!',
+      footer: '<a href="">Why do I have this issue?</a>'
+    })
+  })
+
+}
+
+
+const loadLink = (id) => {
+
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", api + 'api/link');
+
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+
+    if (this.readyState == 4 && this.status == 200) {
+      var trHTML = '';
+      //hideloader()
+      let i = 0
+      const objects = JSON.parse(this.responseText);
+        console.log(objects)
+        if(objects.data.data == null) {
+          console.log('Data Not Found')
+        }
+        else {
+
+        for (let object of objects.data.data) {
+          let id_obj = object['id']
+          i++
+          trHTML += '<tr>';
+          trHTML += '<td>' + i + '</td>';
+          trHTML += '<td>' + object['name'] + '</td>'; 
+          trHTML += '<td>' +'<a style="color:red" href="' + object['link'] + '" target="_blank">' + 'Download File' + '</a>' + '</td>';
+          trHTML += '<td class="actionbutton"><a href="javascript:void(0)" onclick="showLinkEditBox(\'' + id_obj + '\')"> <i class="bx bx-pencil bx-sm bx-tada-hover"></i></a>';
+          trHTML += '<a href="javascript:void(0)" onclick="deletLink(\'' + id_obj + '\')"><i style="color:red;" class="bx bx-x bx-sm bx-tada-hover"></i></a></td>';
+
+          trHTML += "</tr>";
+        }
+        }
+      
+
+      document.getElementById("filidownloadlink").innerHTML = trHTML;
+
+    }
+
+  };
+}
+
+function deletLink(id) {
+
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'No, cancel!',
+    reverseButtons: true
+
+  }).then((result) => {
+    if (result.isConfirmed) {
+      linkDelete(id)
+     
+    } else if (
+      /* Read more about handling dismissals below */
+      result.dismiss === Swal.DismissReason.cancel
+    ) {
+      Swal.fire(
+        'Cancelled',
+        'Your imaginary file is safe :)',
+        'error'
+      )
+    }
+  })
+
+}
+
+const linkDelete = (id) => {
+
+  fetch(api+"api/link/"+id, {
+    method: 'DELETE',
+    headers: {
+      token: localStorage.getItem('token')
+   },
+  }).then(response => {
+    console.log('response.status: ', response.status);
+    console.log(response)
+    Swal.fire(
+      'Deleted!',
+      'Your file has been deleted.',
+      'success'
+    )
+    loadLink(id)
+  }).catch(err => {
+    console.log(err)
+    
+  })
+
+}
+
+
+const showLinkEditBox = (id) => {
+  const xhttp = new XMLHttpRequest();
+  xhttp.open("GET", api + 'api/link/' + id);
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("token", localStorage.getItem('token'));
+
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const objects = JSON.parse(this.responseText);
+      const posts = objects.data.data
+      Swal.fire({
+        title: 'Edit Pagu',
+        showDenyButton: true,
+        confirmButtonText: 'Save',
+        denyButtonText: `Don't save`,
+        html:
+          '<input id="id" type="hidden" value=' + posts['id'] + '>' +
+          '<input id="idpagu" type="hidden" value=' + posts['idpagu'] + '>' +
+          '<input id="name"  class="swal2-input" placeholder="Name File" value="' + posts['name'] + '">' +
+          '<input id="linkdata"  class="swal2-input" placeholder="Link Url" value="' + posts['link'] + '">',
+        focusConfirm: false,
+        preConfirm: () => {
+          linkEdit()
+          //paguEdit()
+        }
+      })
+
+
+    }
+  };
+}
+
+const linkEdit = () => {
+  console.log("edited")
+  const id = document.getElementById("id").value;
+  const name = document.getElementById("name").value;
+  const link = document.getElementById("linkdata").value;
+  const idpagu = document.getElementById("idpagu").value;
+  let data = new FormData()
+  data.append("name", name)
+  data.append("link", link)
+  data.append("idpagu", idpagu)
+  
+  fetch(api+"api/link/"+id,{
+    method: 'PUT',
+    headers: {
+       token: localStorage.getItem('token')
+    },
+    body: data
+  }).then(response => {
+    Swal.fire(
+      'Good job!',
+      'You edit have been save',
+      'success'
+    )
+    loadLink()
+  }).catch(err => {
+    console.log(err)
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something went wrong!',
+      footer: '<a href="">Why do I have this issue?</a>'
+    })
+  })
+  
+
+}
+
+
+
+
 const logout = () => {
   localStorage.clear();
   window.location.href = './login.html'
