@@ -132,6 +132,9 @@ const gridOptionAnggaran = {
       cellStyle: { // light green
         fontSize: '14px',
       },
+      cellRenderer: (data) => {
+        return moment(data.CreatedAt).format('MM/DD/YYYY HH:mm')
+      }
       // valueFormatter: dateFormatter,
 
     },
@@ -143,6 +146,9 @@ const gridOptionAnggaran = {
       cellStyle: { // light green
         fontSize: '14px',
       },
+      cellRenderer: (data) => {
+        return moment(data.UpdatedAt).format('MM/DD/YYYY HH:mm')
+      }
       // valueFormatter: dateFormatter,
 
     },
@@ -311,6 +317,9 @@ const gridOptionsTenderCepat = {
       cellStyle: { // light green
         fontSize: '14px',
       },
+      cellRenderer: (data) => {
+        return moment(data.CreatedAt).format('MM/DD/YYYY HH:mm')
+      }
       // valueFormatter: dateFormatter,
 
     },
@@ -322,6 +331,9 @@ const gridOptionsTenderCepat = {
       cellStyle: { // light green
         fontSize: '14px',
       },
+      cellRenderer: (data) => {
+        return moment(data.UpdatedAt).format('MM/DD/YYYY HH:mm')
+      }
       // valueFormatter: dateFormatter,
 
     },
@@ -478,6 +490,9 @@ const gridOptionsTenderLangsung = {
       cellStyle: { // light green
         fontSize: '14px',
       },
+      cellRenderer: (data) => {
+        return moment(data.CreatedAt).format('MM/DD/YYYY HH:mm')
+      }
       // valueFormatter: dateFormatter,
 
     },
@@ -489,6 +504,9 @@ const gridOptionsTenderLangsung = {
       cellStyle: { // light green
         fontSize: '14px',
       },
+      cellRenderer: (data) => {
+        return moment(data.UpdatedAt).format('MM/DD/YYYY HH:mm')
+      }
       // valueFormatter: dateFormatter,
 
     },
@@ -641,6 +659,9 @@ const gridOptionsPlangsug = {
       cellStyle: { // light green
         fontSize: '14px',
       },
+      cellRenderer: (data) => {
+        return moment(data.CreatedAt).format('MM/DD/YYYY HH:mm')
+      }
       // valueFormatter: dateFormatter,
 
     },
@@ -652,6 +673,9 @@ const gridOptionsPlangsug = {
       cellStyle: { // light green
         fontSize: '14px',
       },
+      cellRenderer: (data) => {
+        return moment(data.UpdatedAt).format('MM/DD/YYYY HH:mm')
+      }
       // valueFormatter: dateFormatter,
 
     },
@@ -804,6 +828,9 @@ const gridOptionPurchasing = {
       cellStyle: { // light green
         fontSize: '14px',
       },
+      cellRenderer: (data) => {
+        return moment(data.CreatedAt).format('MM/DD/YYYY HH:mm')
+      }
       // valueFormatter: dateFormatter,
 
     },
@@ -815,6 +842,9 @@ const gridOptionPurchasing = {
       cellStyle: { // light green
         fontSize: '14px',
       },
+      cellRenderer: (data) => {
+        return moment(data.UpdatedAt).format('MM/DD/YYYY HH:mm')
+      }
       // valueFormatter: dateFormatter,
 
     },
@@ -972,6 +1002,9 @@ const gridOptionsDikecualikan = {
       cellStyle: { // light green
         fontSize: '14px',
       },
+      cellRenderer: (data) => {
+        return moment(data.CreatedAt).format('MM/DD/YYYY HH:mm')
+      }
       // valueFormatter: dateFormatter,
 
     },
@@ -983,6 +1016,9 @@ const gridOptionsDikecualikan = {
       cellStyle: { // light green
         fontSize: '14px',
       },
+      cellRenderer: (data) => {
+        return moment(data.UpdatedAt).format('MM/DD/YYYY HH:mm')
+      }
       // valueFormatter: dateFormatter,
 
     },
@@ -1124,6 +1160,9 @@ const gridOptionsSwakelola = {
       cellStyle: { // light green
         fontSize: '14px',
       },
+      cellRenderer: (data) => {
+        return moment(data.CreatedAt).format('MM/DD/YYYY HH:mm')
+      }
       // valueFormatter: dateFormatter,
 
     },
@@ -1135,6 +1174,9 @@ const gridOptionsSwakelola = {
       cellStyle: { // light green
         fontSize: '14px',
       },
+      cellRenderer: (data) => {
+        return moment(data.UpdatedAt).format('MM/DD/YYYY HH:mm')
+      }
       // valueFormatter: dateFormatter,
 
     },
