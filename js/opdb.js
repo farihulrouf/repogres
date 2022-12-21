@@ -25,6 +25,8 @@ let pdnTotalObject = {}
 let pdnTotalObjectAll = {}
 
 var jwt = localStorage.getItem("token");
+var decoded = jwt_decode(jwt);
+console.log(decoded)
 if (jwt == null) {
   console.log(jwt)
   window.location.href = './login.html'
