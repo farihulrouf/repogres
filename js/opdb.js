@@ -38,6 +38,7 @@ else {
   //isValidToken(jwt)  
 }
 
+
 function multiBtnCellRenderer() { }
 
 multiBtnCellRenderer.prototype.init = function (params) {
@@ -132,10 +133,10 @@ const gridOptionAnggaran = {
       cellStyle: { // light green
         fontSize: '14px',
       },
-      cellRenderer: (data) => {
-        return moment(data.CreatedAt).format('MM/DD/YYYY HH:mm')
-      }
-      // valueFormatter: dateFormatter,
+      valueFormatter: function(params) {
+        let dt = moment(params.value, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
+        return (dt == 'Invalid date' || dt == '0001-01-01 00:00:00' ? '' : dt)
+       }
 
     },
     {
@@ -146,11 +147,11 @@ const gridOptionAnggaran = {
       cellStyle: { // light green
         fontSize: '14px',
       },
-      cellRenderer: (data) => {
-        return moment(data.UpdatedAt).format('MM/DD/YYYY HH:mm')
-      }
-      // valueFormatter: dateFormatter,
-
+      valueFormatter: function(params) {
+        let dt = moment(params.value, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
+        return (dt == 'Invalid date' || dt == '0001-01-01 00:00:00' ? '' : dt)
+       }
+      
     },
     {
 
@@ -317,9 +318,10 @@ const gridOptionsTenderCepat = {
       cellStyle: { // light green
         fontSize: '14px',
       },
-      cellRenderer: (data) => {
-        return moment(data.CreatedAt).format('MM/DD/YYYY HH:mm')
-      }
+      valueFormatter: function(params) {
+        let dt = moment(params.value, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
+        return (dt == 'Invalid date' || dt == '0001-01-01 00:00:00' ? '' : dt)
+       }
       // valueFormatter: dateFormatter,
 
     },
@@ -331,10 +333,10 @@ const gridOptionsTenderCepat = {
       cellStyle: { // light green
         fontSize: '14px',
       },
-      cellRenderer: (data) => {
-        return moment(data.UpdatedAt).format('MM/DD/YYYY HH:mm')
-      }
-      // valueFormatter: dateFormatter,
+      valueFormatter: function(params) {
+        let dt = moment(params.value, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
+        return (dt == 'Invalid date' || dt == '0001-01-01 00:00:00' ? '' : dt)
+       }
 
     },
     {
@@ -490,9 +492,10 @@ const gridOptionsTenderLangsung = {
       cellStyle: { // light green
         fontSize: '14px',
       },
-      cellRenderer: (data) => {
-        return moment(data.CreatedAt).format('MM/DD/YYYY HH:mm')
-      }
+      valueFormatter: function(params) {
+        let dt = moment(params.value, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
+        return (dt == 'Invalid date' || dt == '0001-01-01 00:00:00' ? '' : dt)
+       }
       // valueFormatter: dateFormatter,
 
     },
@@ -504,9 +507,10 @@ const gridOptionsTenderLangsung = {
       cellStyle: { // light green
         fontSize: '14px',
       },
-      cellRenderer: (data) => {
-        return moment(data.UpdatedAt).format('MM/DD/YYYY HH:mm')
-      }
+      valueFormatter: function(params) {
+        let dt = moment(params.value, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
+        return (dt == 'Invalid date' || dt == '0001-01-01 00:00:00' ? '' : dt)
+       }
       // valueFormatter: dateFormatter,
 
     },
@@ -659,9 +663,10 @@ const gridOptionsPlangsug = {
       cellStyle: { // light green
         fontSize: '14px',
       },
-      cellRenderer: (data) => {
-        return moment(data.CreatedAt).format('MM/DD/YYYY HH:mm')
-      }
+      valueFormatter: function(params) {
+        let dt = moment(params.value, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
+        return (dt == 'Invalid date' || dt == '0001-01-01 00:00:00' ? '' : dt)
+       }
       // valueFormatter: dateFormatter,
 
     },
@@ -673,9 +678,10 @@ const gridOptionsPlangsug = {
       cellStyle: { // light green
         fontSize: '14px',
       },
-      cellRenderer: (data) => {
-        return moment(data.UpdatedAt).format('MM/DD/YYYY HH:mm')
-      }
+      valueFormatter: function(params) {
+        let dt = moment(params.value, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
+        return (dt == 'Invalid date' || dt == '0001-01-01 00:00:00' ? '' : dt)
+       }
       // valueFormatter: dateFormatter,
 
     },
@@ -828,9 +834,10 @@ const gridOptionPurchasing = {
       cellStyle: { // light green
         fontSize: '14px',
       },
-      cellRenderer: (data) => {
-        return moment(data.CreatedAt).format('MM/DD/YYYY HH:mm')
-      }
+      valueFormatter: function(params) {
+        let dt = moment(params.value, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
+        return (dt == 'Invalid date' || dt == '0001-01-01 00:00:00' ? '' : dt)
+       }
       // valueFormatter: dateFormatter,
 
     },
@@ -842,9 +849,10 @@ const gridOptionPurchasing = {
       cellStyle: { // light green
         fontSize: '14px',
       },
-      cellRenderer: (data) => {
-        return moment(data.UpdatedAt).format('MM/DD/YYYY HH:mm')
-      }
+      valueFormatter: function(params) {
+        let dt = moment(params.value, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
+        return (dt == 'Invalid date' || dt == '0001-01-01 00:00:00' ? '' : dt)
+       }
       // valueFormatter: dateFormatter,
 
     },
@@ -1002,9 +1010,10 @@ const gridOptionsDikecualikan = {
       cellStyle: { // light green
         fontSize: '14px',
       },
-      cellRenderer: (data) => {
-        return moment(data.CreatedAt).format('MM/DD/YYYY HH:mm')
-      }
+      valueFormatter: function(params) {
+        let dt = moment(params.value, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
+        return (dt == 'Invalid date' || dt == '0001-01-01 00:00:00' ? '' : dt)
+       }
       // valueFormatter: dateFormatter,
 
     },
@@ -1016,9 +1025,10 @@ const gridOptionsDikecualikan = {
       cellStyle: { // light green
         fontSize: '14px',
       },
-      cellRenderer: (data) => {
-        return moment(data.UpdatedAt).format('MM/DD/YYYY HH:mm')
-      }
+      valueFormatter: function(params) {
+        let dt = moment(params.value, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
+        return (dt == 'Invalid date' || dt == '0001-01-01 00:00:00' ? '' : dt)
+       }
       // valueFormatter: dateFormatter,
 
     },
@@ -1160,9 +1170,10 @@ const gridOptionsSwakelola = {
       cellStyle: { // light green
         fontSize: '14px',
       },
-      cellRenderer: (data) => {
-        return moment(data.CreatedAt).format('MM/DD/YYYY HH:mm')
-      }
+      valueFormatter: function(params) {
+        let dt = moment(params.value, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
+        return (dt == 'Invalid date' || dt == '0001-01-01 00:00:00' ? '' : dt)
+       }
       // valueFormatter: dateFormatter,
 
     },
@@ -1174,9 +1185,10 @@ const gridOptionsSwakelola = {
       cellStyle: { // light green
         fontSize: '14px',
       },
-      cellRenderer: (data) => {
-        return moment(data.UpdatedAt).format('MM/DD/YYYY HH:mm')
-      }
+      valueFormatter: function(params) {
+        let dt = moment(params.value, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
+        return (dt == 'Invalid date' || dt == '0001-01-01 00:00:00' ? '' : dt)
+       }
       // valueFormatter: dateFormatter,
 
     },
