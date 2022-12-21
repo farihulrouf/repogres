@@ -31,20 +31,1034 @@ if (jwt == null) {
 }
 else {
   //if(isValidToken(jwt)==true){
-   // window.location.href = './login.html'
+  // window.location.href = './login.html'
   //}
   //isValidToken(jwt)  
 }
-/*
-function isValidToken(token){
-  cTs=Math.floor(Date.now() / 1000);
-  console.log(cTs)
-  console.log(token >= cTs)
-  return (token>=cTs);
+
+function multiBtnCellRenderer() { }
+
+multiBtnCellRenderer.prototype.init = function (params) {
+  var self = this;
+  self.params = params;
+  self.num_buttons = parseInt(this.params.num_buttons);
+  self.btnClickedHandlers = {};
+  let outerDiv = document.createElement('div')
+  for (let i = 0; i < self.num_buttons; i++) {
+    let button = document.createElement('button');
+    button.innerHTML = self.params.button_html[i];
+    outerDiv.appendChild(button);
+    self.btnClickedHandlers[i] = function (event) {
+      self.params.clicked[i](self.params.get_data_id());
+    }.bind(i, self);
+    button.addEventListener('click', self.btnClickedHandlers[i]);
+  }
+  self.eGui = outerDiv;
+};
+
+multiBtnCellRenderer.prototype.getGui = function () {
+  return this.eGui;
+};
+
+multiBtnCellRenderer.prototype.destroy = function () {
+  for (let i = 0; i < this.num_buttons; i++) {
+    this.eGui.removeEventListener('click', this.btnClickedHandlers[i]);
+  }
+};
+
+function currencyFormatter(params) {
+  return 'Rp' + ' ' + formatNumber(params.value);
 }
-*/
+
+function formatNumber(number) {
+  // this puts commas into the number eg 1000 goes to 1,000,
+  // i pulled this from stack overflow, i have no idea how it works
+  return Math.floor(number).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+}
+const dateFormatter = (params) => {
+  var dateAsString = params.data.date;
+  //var dateParts = dateAsString.split('-');
+  return `${dateAsString[0]} - ${dateAsString[1]} - ${dateAsString[2]}`;
+}
+const gridOptionAnggaran = {
+
+  defaultColDef: {
+    sortable: true,
+    filter: 'agTextColumnFilter',
+    resizable: true
+  },
+  columnDefs: [
+
+    //{ headerName: 'No', cellRendererFramework: AgGridRowNumberComponent},
+    {
+      headerName: "No",
+      valueGetter: "node.rowIndex + 1",
+      filter: false,
+      width: 40, maxWidth: 40,
+
+    },
+    {
+      headerName: 'Sub Kegiatan',
+      field: 'name', minWidth: 600,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+
+    {
+      field: 'pagu',
+      valueFormatter: currencyFormatter,
+      cellStyle: {
+        backgroundColor: '#aaffaa', // light green
+        fontSize: '14px',
 
 
+      }
+    },
+    {
+      field: 'pdn',
+      width: 70, maxWidth: 70,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+    {
+
+      headerName: 'Last Created',
+      field: 'CreatedAt',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+     
+    },
+    {
+
+      headerName: 'Last Updated',
+      field: 'UpdatedAt',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+     
+    },
+    {
+      headerName: "Action",
+      maxWidth: 90,
+      filter: false,
+      floatingFilter: false,
+      suppressMenu: true,
+      sortable: false,
+      cellRenderer: multiBtnCellRenderer,
+      cellRendererParams: {
+        num_buttons: 2, //<i class="bx bx-pencil bx-sm bx-tada-hover"></i>
+        button_html: ["<i class='bx bx-pencil bx-sm'></i>", "<i style='color:red;' class='bx bx-x bx-sm bx-tada-hover'></i>"],
+        get_data_id: function () {
+          return this.data.id;
+        },
+        clicked: {
+          0: function (data_id) {
+            showAnggaranEditBox(data_id, `anggaran`, api_url_anggaran)
+          },
+          1: function (data_id) {
+            detailDelete(data_id,`anggaran`, api_url_anggaran)
+            //$.delete(`/employee/${data_id}`)
+          }
+        }
+      }
+    }
+  ],
+
+  // autoHeaderHeight: true,
+  pagination: true,
+  paginationPageSize: 10,
+  domLayout: 'autoHeight',
+  enableSorting: true,
+  enableFilter: false,    // <-- HERE
+  autoHeight: true,
+  pagination: true
+};
+
+
+const aggridtable = (id) => {
+  const eGridDiv = document.querySelector('#myGrid');
+  new agGrid.Grid(eGridDiv, gridOptionAnggaran);
+  getApiAnggaran(id)   
+}
+
+
+const getApiAnggaran = (id) => {
+  fetch(api + 'api/anggaran/pagu/' + id, {
+    headers: {
+      'token': localStorage.getItem("token"),
+      'X-FP-API-KEY': 'iphone', //it can be iPhone or your any other attribute
+      'Content-Type': 'application/json'
+    }
+  }).then(function (response) {
+    return response.json();
+  }).then(function (data) {
+    //dynamicallyConfigureColumnsFromObject(data.data.data[0])
+    gridOptionAnggaran.api.setRowData(data.data.data);
+  })
+}
+const gridOptionsTenderCepat = {
+
+  defaultColDef: {
+    sortable: true,
+    filter: 'agTextColumnFilter',
+    resizable: true
+  },
+  columnDefs: [
+
+    {
+      headerName: "No",
+      valueGetter: "node.rowIndex + 1",
+      filter: false,
+      width: 40, maxWidth: 40,
+
+    },
+    {
+      headerName: 'Sub Kegiatan',
+      field: 'name', minWidth: 300,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+    {
+      headerName: 'Nama Paket',
+      field: 'paket', minWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+
+    {
+      field: 'pagu',
+      valueFormatter: currencyFormatter,
+      cellStyle: {
+        backgroundColor: '#aaffaa', // light green
+        fontSize: '14px',
+
+
+      }
+    },
+    {
+      headerName: 'Pemilihan',
+      field: 'pemilihan', minWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+    {
+      headerName: 'Pelaksanaan',
+      field: 'pelaksanaan', minWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+    {
+      headerName: 'Jadwal',
+      field: 'jadwal', minWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+    {
+      headerName: 'Keterangan',
+      field: 'tender', minWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+    {
+      field: 'pdn',
+      width: 70, maxWidth: 70,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+    {
+
+      headerName: 'Last Created',
+      field: 'CreatedAt',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+     
+    },
+    {
+
+      headerName: 'Last Updated',
+      field: 'UpdatedAt',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+     
+    },
+    {
+      headerName: "Action",
+      maxWidth: 90,
+      filter: false,
+      floatingFilter: false,
+      suppressMenu: true,
+      sortable: false,
+      cellRenderer: multiBtnCellRenderer,
+      cellRendererParams: {
+        num_buttons: 2, //<i class="bx bx-pencil bx-sm bx-tada-hover"></i>
+        button_html: ["<i class='bx bx-pencil bx-sm'></i>", "<i style='color:red;' class='bx bx-x bx-sm bx-tada-hover'></i>"],
+        get_data_id: function () {
+          return this.data.id;
+        },
+        clicked: {
+          0: function (data_id) {
+            showTenderDetailEditBox(data_id, `tender`, api_url_langsung)
+          },
+          1: function (data_id) {
+            detailDelete(data_id, `tender`, api_url_langsung)
+          }
+        }
+      }
+    }
+  ],
+
+  // autoHeaderHeight: true,
+  pagination: true,
+  domLayout: 'autoHeight',
+  paginationPageSize: 10,
+  enableSorting: true,
+  enableFilter: false,    // <-- HERE
+  autoHeight: true,
+  pagination: true
+};
+
+const aggridTenderCepat = (id) => {
+
+  const eGridDiv = document.querySelector('#myTender');
+
+  new agGrid.Grid(eGridDiv, gridOptionsTenderCepat);
+  getApiTenderCepat(id)
+
+}
+
+const getApiTenderCepat = (id) => {
+  fetch(api + 'api/langsung/pagu/' + id + '/default', {
+    headers: {
+      'token': localStorage.getItem("token"),
+      'X-FP-API-KEY': 'iphone', //it can be iPhone or your any other attribute
+      'Content-Type': 'application/json'
+    }
+  }).then(function (response) {
+    //console.log("coba data", response)
+    return response.json();
+  }).then(function (data) {
+    gridOptionsTenderCepat.api.setRowData(data.data.data);
+  })
+}
+const gridOptionsTenderLangsung = {
+
+  defaultColDef: {
+    sortable: true,
+    filter: 'agTextColumnFilter',
+    resizable: true
+  },
+  columnDefs: [
+
+    {
+      headerName: "No",
+      valueGetter: "node.rowIndex + 1",
+      filter: false,
+      width: 40, maxWidth: 40,
+
+    },
+    {
+      headerName: 'Sub Kegiatan',
+      field: 'name', minWidth: 300,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+    {
+      headerName: 'Nama Paket',
+      field: 'paket', minWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+
+    {
+      field: 'pagu',
+      valueFormatter: currencyFormatter,
+      cellStyle: {
+        backgroundColor: '#aaffaa', // light green
+        fontSize: '14px',
+
+
+      }
+    },
+    {
+      headerName: 'Pemilihan',
+      field: 'pemilihan', minWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+    {
+      headerName: 'Pelaksanaan',
+      field: 'pelaksanaan', minWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+
+
+    {
+      field: 'pdn',
+      width: 70, maxWidth: 70,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+    {
+
+      headerName: 'Last Created',
+      field: 'CreatedAt',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+     
+    },
+    {
+
+      headerName: 'Last Updated',
+      field: 'UpdatedAt',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+     
+    },
+    {
+      headerName: "Action",
+      maxWidth: 90,
+      filter: false,
+      floatingFilter: false,
+      suppressMenu: true,
+      sortable: false,
+      cellRenderer: multiBtnCellRenderer,
+      cellRendererParams: {
+        num_buttons: 2, //<i class="bx bx-pencil bx-sm bx-tada-hover"></i>
+        button_html: ["<i class='bx bx-pencil bx-sm'></i>", "<i style='color:red;' class='bx bx-x bx-sm bx-tada-hover'></i>"],
+        get_data_id: function () {
+          return this.data.id;
+        },
+        clicked: {
+          0: function (data_id) {
+            showLangsungEditBox(data_id, `langsung`, api_url_langsung)
+          },
+          1: function (data_id) {
+            detailDelete(data_id, `langsung`, api_url_langsung)
+          }
+        }
+      }
+    }
+  ],
+
+  // autoHeaderHeight: true,
+  pagination: true,
+  domLayout: 'autoHeight',
+  paginationPageSize: 10,
+  enableSorting: true,
+  enableFilter: false,    // <-- HERE
+  autoHeight: true,
+  pagination: true
+};
+const aggridTenderLangsung = (id) => {
+  const eGridDiv = document.querySelector('#myTenderLangsung');
+  new agGrid.Grid(eGridDiv, gridOptionsTenderLangsung);
+  getApiTenderLangsung(id)
+}
+
+const getApiTenderLangsung = (id) => {
+  fetch(api + 'api/langsung/pagu/' + id + '/langsung', {
+    headers: {
+      'token': localStorage.getItem("token"),
+      'X-FP-API-KEY': 'iphone', //it can be iPhone or your any other attribute
+      'Content-Type': 'application/json'
+    }
+  }).then(function (response) {
+    //console.log("coba data", response)
+    return response.json();
+  }).then(function (data) {
+    gridOptionsTenderLangsung.api.setRowData(data.data.data);
+  })
+}
+const gridOptionsPlangsug = {
+
+  defaultColDef: {
+    sortable: true,
+    filter: 'agTextColumnFilter',
+    resizable: true
+  },
+  columnDefs: [
+
+    {
+      headerName: "No",
+      valueGetter: "node.rowIndex + 1",
+      filter: false,
+      width: 40, maxWidth: 40,
+
+    },
+    {
+      headerName: 'Sub Kegiatan',
+      field: 'name', minWidth: 300,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+    {
+      headerName: 'Nama Paket',
+      field: 'paket', minWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+
+    {
+      field: 'pagu',
+      valueFormatter: currencyFormatter,
+      cellStyle: {
+        backgroundColor: '#aaffaa', // light green
+        fontSize: '14px',
+
+
+      }
+    },
+    {
+      headerName: 'Pemilihan',
+      field: 'pemilihan', minWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+    {
+      headerName: 'Pelaksanaan',
+      field: 'pelaksanaan', minWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+
+
+    {
+      field: 'pdn',
+      width: 70, maxWidth: 70,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+    {
+
+      headerName: 'Last Created',
+      field: 'CreatedAt',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+     
+    },
+    {
+
+      headerName: 'Last Updated',
+      field: 'UpdatedAt',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+     
+    },
+    {
+      headerName: "Action",
+      maxWidth: 90,
+      filter: false,
+      floatingFilter: false,
+      suppressMenu: true,
+      sortable: false,
+      cellRenderer: multiBtnCellRenderer,
+      cellRendererParams: {
+        num_buttons: 2, //<i class="bx bx-pencil bx-sm bx-tada-hover"></i>
+        button_html: ["<i class='bx bx-pencil bx-sm'></i>", "<i style='color:red;' class='bx bx-x bx-sm bx-tada-hover'></i>"],
+        get_data_id: function () {
+          return this.data.id;
+        },
+        clicked: {
+          0: function (data_id) {
+            showLangsungEditBox(data_id, `plangsung`, api_url_langsung)
+          },
+          1: function (data_id) {
+            detailDelete(data_id, `plangsung`, api_url_langsung)
+          }
+        }
+      }
+    }
+  ],
+
+  // autoHeaderHeight: true,
+  pagination: true,
+  domLayout: 'autoHeight',
+  paginationPageSize: 10,
+  enableSorting: true,
+  enableFilter: false,    // <-- HERE
+  autoHeight: true,
+  pagination: true
+};
+const aggridTenderPlangsung = (id) => {
+  const eGridDiv = document.querySelector('#myTenderPlangsung');
+  new agGrid.Grid(eGridDiv, gridOptionsPlangsug);
+  getApiPlangsung(id)
+ 
+}
+const getApiPlangsung  = (id) => {
+  fetch(api + 'api/langsung/pagu/' + id + '/plangsung', {
+    headers: {
+      'token': localStorage.getItem("token"),
+      'X-FP-API-KEY': 'iphone', //it can be iPhone or your any other attribute
+      'Content-Type': 'application/json'
+    }
+  }).then(function (response) {
+    //console.log("coba data", response)
+    return response.json();
+  }).then(function (data) {
+    gridOptionsPlangsug.api.setRowData(data.data.data);
+  })
+}
+const gridOptionPurchasing = {
+
+  defaultColDef: {
+    sortable: true,
+    filter: 'agTextColumnFilter',
+    resizable: true
+  },
+  columnDefs: [
+
+    {
+      headerName: "No",
+      valueGetter: "node.rowIndex + 1",
+      filter: false,
+      width: 40, maxWidth: 40,
+
+    },
+    {
+      headerName: 'Sub Kegiatan',
+      field: 'name', minWidth: 300,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+    {
+      headerName: 'Nama Paket',
+      field: 'paket', minWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+
+    {
+      field: 'pagu',
+      valueFormatter: currencyFormatter,
+      cellStyle: {
+        backgroundColor: '#aaffaa', // light green
+        fontSize: '14px',
+
+
+      }
+    },
+    {
+      headerName: 'Pemilihan',
+      field: 'pemilihan', minWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+    {
+      headerName: 'Pelaksanaan',
+      field: 'pelaksanaan', minWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+
+
+    {
+      field: 'pdn',
+      width: 70, maxWidth: 70,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+    {
+
+      headerName: 'Last Created',
+      field: 'CreatedAt',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+     
+    },
+    {
+
+      headerName: 'Last Updated',
+      field: 'UpdatedAt',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+     
+    },
+    {
+      headerName: "Action",
+      maxWidth: 90,
+      filter: false,
+      floatingFilter: false,
+      suppressMenu: true,
+      sortable: false,
+      cellRenderer: multiBtnCellRenderer,
+      cellRendererParams: {
+        num_buttons: 2, //<i class="bx bx-pencil bx-sm bx-tada-hover"></i>
+        button_html: ["<i class='bx bx-pencil bx-sm'></i>", "<i style='color:red;' class='bx bx-x bx-sm bx-tada-hover'></i>"],
+        get_data_id: function () {
+          return this.data.id;
+        },
+        clicked: {
+          0: function (data_id) {
+            showLangsungEditBox(data_id, `purchasing`, api_url_langsung)
+          },
+          1: function (data_id) {
+            detailDelete(data_id, `purchasing`, api_url_langsung)
+            //$.delete(`/employee/${data_id}`)
+          }
+        }
+      }
+    }
+  ],
+
+  // autoHeaderHeight: true,
+  pagination: true,
+  domLayout: 'autoHeight',
+  paginationPageSize: 10,
+  enableSorting: true,
+  enableFilter: false,    // <-- HERE
+  autoHeight: true,
+  pagination: true
+};
+const aggridTenderPurchasing = (id) => {
+
+  const eGridDiv = document.querySelector('#myTenderPurchasing');
+
+  new agGrid.Grid(eGridDiv, gridOptionPurchasing);
+  getApiTenderPurchsing(id)
+
+}
+
+const getApiTenderPurchsing = (id) => {
+  fetch(api + 'api/langsung/pagu/' + id + '/purchasing', {
+    headers: {
+      'token': localStorage.getItem("token"),
+      'X-FP-API-KEY': 'iphone', //it can be iPhone or your any other attribute
+      'Content-Type': 'application/json'
+    }
+  }).then(function (response) {
+    return response.json();
+  }).then(function (data) {
+    gridOptionPurchasing.api.setRowData(data.data.data);
+  })
+
+
+}
+const gridOptionsDikecualikan = {
+
+  defaultColDef: {
+    sortable: true,
+    filter: 'agTextColumnFilter',
+    resizable: true
+  },
+  columnDefs: [
+
+    {
+      headerName: "No",
+      valueGetter: "node.rowIndex + 1",
+      filter: false,
+      width: 40, maxWidth: 40,
+
+    },
+    {
+      headerName: 'Sub Kegiatan',
+      field: 'name', minWidth: 300,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+    {
+      headerName: 'Nama Paket',
+      field: 'paket', minWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+
+    {
+      field: 'pagu',
+      valueFormatter: currencyFormatter,
+      cellStyle: {
+        backgroundColor: '#aaffaa', // light green
+        fontSize: '14px',
+
+
+      }
+    },
+    {
+      headerName: 'Pemilihan',
+      field: 'pemilihan', minWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+    {
+      headerName: 'Pelaksanaan',
+      field: 'pelaksanaan', minWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+
+
+    {
+      field: 'pdn',
+      width: 70, maxWidth: 70,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+    {
+
+      headerName: 'Last Created',
+      field: 'CreatedAt',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+     
+    },
+    {
+
+      headerName: 'Last Updated',
+      field: 'UpdatedAt',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+     
+    },
+    {
+      headerName: "Action",
+      maxWidth: 90,
+      filter: false,
+      floatingFilter: false,
+      suppressMenu: true,
+      sortable: false,
+      cellRenderer: multiBtnCellRenderer,
+      cellRendererParams: {
+        num_buttons: 2, //<i class="bx bx-pencil bx-sm bx-tada-hover"></i>
+        button_html: ["<i class='bx bx-pencil bx-sm'></i>", "<i style='color:red;' class='bx bx-x bx-sm bx-tada-hover'></i>"],
+        get_data_id: function () {
+          return this.data.id;
+        },
+        clicked: {
+          0: function (data_id) {
+            showLangsungEditBox(data_id, `kecuali`, api_url_langsung)
+            //showLangsungEditBox(data_id,`langsung`, + api_url_langsung)
+          },
+          1: function (data_id) {
+            //$.delete(`/employee/${data_id}`)
+            detailDelete(data_id, `kecuali`, api_url_langsung)
+          }
+        }
+      }
+    }
+  ],
+
+  // autoHeaderHeight: true,
+  pagination: true,
+  domLayout: 'autoHeight',
+  paginationPageSize: 10,
+  enableSorting: true,
+  enableFilter: false,    // <-- HERE
+  autoHeight: true,
+  pagination: true
+};
+const aggridTenderDikecualikan = (id) => {
+  const eGridDiv = document.querySelector('#myTenderDikecualikan');
+  new agGrid.Grid(eGridDiv, gridOptionsDikecualikan);
+  getApiDikecualikan(id)
+}
+
+const getApiDikecualikan = (id) => {
+
+  fetch(api + 'api/langsung/pagu/' + id + '/kecuali', {
+    headers: {
+      'token': localStorage.getItem("token"),
+      'X-FP-API-KEY': 'iphone', //it can be iPhone or your any other attribute
+      'Content-Type': 'application/json'
+    }
+  }).then(function (response) {
+    return response.json();
+  }).then(function (data) {
+    gridOptionsDikecualikan.api.setRowData(data.data.data);
+  })
+}
+const gridOptionsSwakelola = {
+
+  defaultColDef: {
+    sortable: true,
+    filter: 'agTextColumnFilter',
+    resizable: true
+  },
+  columnDefs: [
+
+    {
+      headerName: "No",
+      valueGetter: "node.rowIndex + 1",
+      filter: false,
+      width: 40, maxWidth: 40,
+
+    },
+    {
+      headerName: 'Sub Kegiatan',
+      field: 'name', minWidth: 500,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+
+
+    {
+      field: 'pagu',
+      valueFormatter: currencyFormatter,
+      cellStyle: {
+        backgroundColor: '#aaffaa', // light green
+        fontSize: '14px',
+
+
+      }
+    },
+    {
+      headerName: 'Pdn',
+      field: 'pdn', width: 100, minWidth: 100,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+
+    {
+      headerName: 'Keterangan',
+      field: 'ket',
+      width: 150, maxWidth: 150,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+    {
+
+      headerName: 'Last Created',
+      field: 'CreatedAt',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+     
+    },
+    {
+
+      headerName: 'Last Updated',
+      field: 'UpdatedAt',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+     
+    },
+    {
+      headerName: "Action",
+      maxWidth: 90,
+      filter: false,
+      floatingFilter: false,
+      suppressMenu: true,
+      sortable: false,
+      cellRenderer: multiBtnCellRenderer,
+      cellRendererParams: {
+        num_buttons: 2, //<i class="bx bx-pencil bx-sm bx-tada-hover"></i>
+        button_html: ["<i class='bx bx-pencil bx-sm'></i>", "<i style='color:red;' class='bx bx-x bx-sm bx-tada-hover'></i>"],
+        get_data_id: function () {
+          return this.data.id;
+        },
+        clicked: {
+          0: function (data_id) {
+            showSwakelolaEditBox(data_id, `swakelola`, api_url_langsung)
+          },
+          1: function (data_id) {
+            detailDelete(data_id, `swakelola`, api_url_langsung)
+          }
+        }
+      }
+    }
+  ],
+
+  // autoHeaderHeight: true,
+  pagination: true,
+  domLayout: 'autoHeight',
+  paginationPageSize: 10,
+  enableSorting: true,
+  enableFilter: false,    // <-- HERE
+  autoHeight: true,
+  pagination: true
+};
+const aggridTenderSwakelola = (id) => {
+  const eGridDiv = document.querySelector('#myTenderSwakelola');
+  new agGrid.Grid(eGridDiv, gridOptionsSwakelola);
+  getApiTenderSwakelola(id)
+}
+
+const getApiTenderSwakelola = (id) => {
+  fetch(api + 'api/langsung/pagu/' + id + '/swakelola', {
+    headers: {
+      'token': localStorage.getItem("token"),
+      'X-FP-API-KEY': 'iphone', //it can be iPhone or your any other attribute
+      'Content-Type': 'application/json'
+    }
+  }).then(function (response) {
+    //console.log("coba data", response)
+    return response.json();
+  }).then(function (data) {
+    gridOptionsSwakelola.api.setRowData(data.data.data);
+  })
+}
 
 
 const loadTable = (index, search) => {
@@ -54,7 +1068,6 @@ const loadTable = (index, search) => {
 
   xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
   xhttp.setRequestHeader("Accept", "application/json");
-  //console.log( xhttp.setRequestHeader("Accept", "application/json"))
   xhttp.setRequestHeader("token", localStorage.getItem('token'));
   xhttp.send();
   xhttp.onreadystatechange = function () {
@@ -153,6 +1166,8 @@ const hideloader = () => {
 //getData()
 loadTable(1, "");
 loadPagination()
+
+
 //detailTotalTenderDetail(id_global)
 
 const paguCreate = () => {
@@ -165,10 +1180,10 @@ const paguCreate = () => {
   data.append("paguorp", paguorp)
   data.append("filetipe", "_")
 
-  fetch(api_url,{
+  fetch(api_url, {
     method: 'POST',
     headers: {
-       token: localStorage.getItem('token')
+      token: localStorage.getItem('token')
     },
     body: data
   }).then(response => {
@@ -224,10 +1239,10 @@ function showCreateAnggaran(anggaran) {
         '<input id="pagu" onfocus="(this.type=`number`)" class="swal2-input" placeholder="Jumlah">',
       focusConfirm: false,
       preConfirm: () => {
-        //console.log('diseksuusi engaran')
         CreateAnggaran(api_url_anggaran, header_title)
-        //detailGolbalAnggaran(id_global)
       }
+    }).then(val => {
+
     })
   }
   else if (header_title == 'swakelola') {
@@ -283,40 +1298,57 @@ function showCreateAnggaran(anggaran) {
 
 }
 
+const swallWarningMessage = (dataWarning) => {
+  Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: 'Something went wrong! ' + dataWarning + ' Must be Input',
+    footer: '<a href="">Why do I have this issue?</a>'
+  })
+}
 
 function CreateAnggaran(api_param, header_title) {
   const pagu = document.getElementById("pagu").value
   const name = document.getElementById("name").value
+  if (name == '') {
+    swallWarningMessage('Sub kegiatan')
+  }
+  else if (pagu == '') {
+    swallWarningMessage('Pagu')
+  }
+  else {
+    let data = new FormData()
+    data.append("name", name)
+    data.append("paket", "000")
+    data.append("pagu", parseInt(pagu))
+    data.append("jadwal", "12-12-2022")
+    data.append("pdn", parseInt(20))
+    data.append("idpagu", id_global)
 
-  let data = new FormData()
- 
-  data.append("name", name)
-  data.append("paket", "000")
-  data.append("pagu", parseInt(pagu))
-  data.append("jadwal", "12-12-2022")
-  data.append("pdn", parseInt(20))
-  data.append("idpagu", id_global)
-
-  fetch(api_param,{
-    method: 'POST',
-    headers: {
-       token: localStorage.getItem('token')
-    },
-    body: data
-  }).then(response => {
-    console.log('response.status: ', response.status);
-    console.log(response)
-    Swal.fire('Saved!', '', 'success')
-    detailAnggaran(id_global)
-  }).catch(err => {
-    console.log(err)
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Something went wrong!',
-      footer: '<a href="">Why do I have this issue?</a>'
+    fetch(api_param, {
+      method: 'POST',
+      headers: {
+        token: localStorage.getItem('token')
+      },
+      body: data
+    }).then(response => {
+      console.log('response.status: ', response.status);
+      console.log(response)
+      Swal.fire('Saved!', '', 'success')
+      getApiAnggaran(id_global)
+      //getApi()
+      //detailAnggaran(id_global)
+    }).catch(err => {
+      console.log(err)
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        footer: '<a href="">Why do I have this issue?</a>'
+      })
     })
-  })
+
+  }
 
 }
 
@@ -330,7 +1362,7 @@ const CreateDetailPagu = (api_param, header_title) => {
   const pdn = document.getElementById("pdn").value;
   const paket = document.getElementById("paket").value;
   const pagu = document.getElementById("pagu").value;
-  
+
   let data = new FormData()
   data.append("name", selectSubkegiatan)
   data.append("paket", paket)
@@ -343,10 +1375,10 @@ const CreateDetailPagu = (api_param, header_title) => {
   data.append("tender", selecinput)
   data.append("idpagu", id_global)
   data.append("ket", "ket")
-  fetch(api + 'api/langsung',{
+  fetch(api + 'api/langsung', {
     method: 'POST',
     headers: {
-       token: localStorage.getItem('token')
+      token: localStorage.getItem('token')
     },
     body: data
   }).then(response => {
@@ -355,7 +1387,12 @@ const CreateDetailPagu = (api_param, header_title) => {
       'Your data have been save',
       'success'
     )
-    detailTender(id_global)
+    getApiTenderCepat(id_global)
+    getApiTenderLangsung(id_global)
+    getApiPlangsung(id_global)
+    getApiDikecualikan(id_global)
+    getApiTenderPurchsing(id_global)
+    //detailTender(id_global)
   }).catch(err => {
     console.log(err)
     Swal.fire({
@@ -366,7 +1403,7 @@ const CreateDetailPagu = (api_param, header_title) => {
     })
   })
 
- 
+
 
 }
 
@@ -383,7 +1420,7 @@ function CreateSwakelola(api_param, header_title) {
   data.append("paket", "default")
   data.append("pagu", parseInt(pagu))
   data.append("tipe", header_title)
-  data.append("jadwal","12-12-2022")
+  data.append("jadwal", "12-12-2022")
   data.append("ket", "keterangan")
   data.append("tender", "default")
   data.append("pelaksanaan", "12-12-2022")
@@ -391,10 +1428,10 @@ function CreateSwakelola(api_param, header_title) {
   data.append("pdn", parseInt(pdn))
   data.append("idpagu", id_global)
 
-  fetch(api_param,{
+  fetch(api_param, {
     method: 'POST',
     headers: {
-       token: localStorage.getItem('token')
+      token: localStorage.getItem('token')
     },
     body: data
   }).then(response => {
@@ -403,11 +1440,8 @@ function CreateSwakelola(api_param, header_title) {
       'Your data have been save',
       'success'
     )
-      detailLangsung(id_global)
-      detailPenunjukanLangsug(id_global)
-      detailPurchasing(id_global)
-      detailPengecualian(id_global)
-      detailSwakelola(id_global)
+    getApiTenderSwakelola(id_global)
+
   }).catch(err => {
     console.log(err)
     Swal.fire({
@@ -418,7 +1452,7 @@ function CreateSwakelola(api_param, header_title) {
     })
   })
 
- 
+
 
 }
 
@@ -436,21 +1470,21 @@ function CreateDetailLain(api_param, header_title) {
   data.append("pagu", parseInt(pagu))
   data.append("tipe", header_title)
   data.append("jadwal", waktupemanfaatan)
-  data.append("pdn",parseInt(pdn))
+  data.append("pdn", parseInt(pdn))
 
   data.append("ket", "ket")
   data.append("tender", "default")
-  data.append("pelaksanaan",waktupemanfaatan)
+  data.append("pelaksanaan", waktupemanfaatan)
 
   data.append("tender", "default")
-  data.append("pemilihan",waktupemanfaatan)
+  data.append("pemilihan", waktupemanfaatan)
   data.append("idpagu", id_global)
 
- 
-  fetch(api_param,{
+
+  fetch(api_param, {
     method: 'POST',
     headers: {
-       token: localStorage.getItem('token')
+      token: localStorage.getItem('token')
     },
     body: data
   }).then(response => {
@@ -459,11 +1493,11 @@ function CreateDetailLain(api_param, header_title) {
       'Your data have been save',
       'success'
     )
-      detailLangsung(id_global)
-      detailPenunjukanLangsug(id_global)
-      detailPurchasing(id_global)
-      detailPengecualian(id_global)
-      refreshTotal()
+    getApiTenderCepat(id_global)
+    getApiTenderLangsung(id_global)
+    getApiPlangsung(id_global)
+    getApiDikecualikan(id_global)
+    getApiTenderPurchsing(id_global)
   }).catch(err => {
     console.log(err)
     Swal.fire({
@@ -474,16 +1508,16 @@ function CreateDetailLain(api_param, header_title) {
     })
   })
 
-  
+
 }
 
 const deletePagu = (id) => {
 
-  fetch(api+"api/pagus/"+id, {
+  fetch(api + "api/pagus/" + id, {
     method: 'DELETE',
     headers: {
       token: localStorage.getItem('token')
-   },
+    },
   }).then(response => {
     console.log('response.status: ', response.status);
     console.log(response)
@@ -495,7 +1529,7 @@ const deletePagu = (id) => {
     loadTable(1, "")
   }).catch(err => {
     console.log(err)
-    
+
   })
 
 }
@@ -516,7 +1550,7 @@ function paguDelete(id) {
   }).then((result) => {
     if (result.isConfirmed) {
       deletePagu(id)
-     
+
     } else if (
       /* Read more about handling dismissals below */
       result.dismiss === Swal.DismissReason.cancel
@@ -548,7 +1582,7 @@ function detailDelete(id, tender, api) {
 
   }).then((result) => {
     if (result.isConfirmed) {
-       deleteTender(id, tender, api)
+      deleteTender(id, tender, api)
     } else if (
       /* Read more about handling dismissals below */
       result.dismiss === Swal.DismissReason.cancel
@@ -567,11 +1601,11 @@ function detailDelete(id, tender, api) {
 const deleteTender = (id, tender, api) => {
 
 
-  fetch(api + "/" +id, {
+  fetch(api + "/" + id, {
     method: 'DELETE',
     headers: {
       token: localStorage.getItem('token')
-   },
+    },
   }).then(response => {
     console.log('response.status: ', response.status);
     console.log(response)
@@ -580,17 +1614,23 @@ const deleteTender = (id, tender, api) => {
       'Your data has been deleted.',
       'success'
     )
-    detailAnggaran(id_global)
-    detailTender(id_global)
+    getApiAnggaran(id_global)
+    getApiTenderCepat(id_global)
+    getApiPlangsung(id_global)
+    getApiTenderLangsung(id_global)
+    getApiTenderPurchsing(id_global)
+    getApiTenderSwakelola(id_global)
+    /* detailAnggaran(id_global)
     detailLangsung(id_global)
     detailPenunjukanLangsug(id_global)
     detailPurchasing(id_global)
     detailPengecualian(id_global)
     detailSwakelola(id_global)
     refreshTotal()
+    */
   }).catch(err => {
     console.log(err)
-    
+
   })
 
 
@@ -608,14 +1648,21 @@ function detailPage(id) {
   id_global = id;
   //detailGolbalAnggaran(id)
   detailPaguItem(id)
+  aggridtable(id)
+  aggridTenderCepat(id)
+  aggridTenderLangsung(id)
+  aggridTenderPlangsung(id)
+  aggridTenderPurchasing(id)
+  aggridTenderDikecualikan(id)
+  aggridTenderSwakelola(id)
   detaiDownload(id)
-  detailAnggaran(id)
-  detailTender(id)
-  detailLangsung(id)
-  detailPenunjukanLangsug(id)
-  detailPurchasing(id)
-  detailPengecualian(id)
-  detailSwakelola(id)
+  //detailAnggaran(id)
+  //detailTender(id)
+  //detailLangsung(id)
+  //detailPenunjukanLangsug(id)
+  //detailPurchasing(id)
+  //detailPengecualian(id)
+  //detailSwakelola(id)
   detailTotalTenderDetail(id)
   detailTotalTenderDetailCepatSeleksi(id)
   detailTotalTenderDetailReport(id)
@@ -661,7 +1708,7 @@ function getvals(id) {
     })
     .then((response) => response.json())
     .then((responseData) => {
-      //console.log(responseData);
+      //console.log("coba data",responseData);
       dataobject = responseData
       return responseData;
     })
@@ -708,7 +1755,7 @@ const calculatePdn = (objectdata, id) => {
             trHTML += '<td>' + 'Nan' + '</td>';
             trHTML += '<td class="actionbutton"><a href="javascript:void(0)" onclick="showAnggaranEditBox(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')"> <i class="bx bx-pencil bx-sm bx-tada-hover"></i></a>';
             trHTML += '<a href="javascript:void(0)" onclick="detailDelete(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')"><i style="color:red;" class="bx bx-x bx-sm bx-tada-hover"></i></a></td>';
-        
+
             trHTML += "</tr>";
             j++;
           }
@@ -762,17 +1809,14 @@ const calculatePdn = (objectdata, id) => {
               .replace(/[IDR]/gi, '')
               .replace(/(\.+\d{2})/, '')
               .trimLeft() + '</td>';
-            trHTML += '<td>' + pdnavg + '</td>';      
+            trHTML += '<td>' + pdnavg + '</td>';
             trHTML += '<td class="actionbutton"><a href="javascript:void(0)" onclick="showAnggaranEditBox(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')"> <i class="bx bx-pencil bx-sm bx-tada-hover"></i></a>';
-            trHTML += '<a href="javascript:void(0)" onclick="detailDelete(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')"><i style="color:red;" class="bx bx-x bx-sm bx-tada-hover"></i></a></td>';   
+            trHTML += '<a href="javascript:void(0)" onclick="detailDelete(\'' + id_obj + '\',`anggaran`,\'' + api_url_anggaran + '\')"><i style="color:red;" class="bx bx-x bx-sm bx-tada-hover"></i></a></td>';
             trHTML += "</tr>";
             j++;
           }
+          //document.getElementById("anggaran").innerHTML = trHTML;
         }
-        //console.log("data onject", objects)
-
-        document.getElementById("anggaran").innerHTML = trHTML;
-
       }
     };
   }
@@ -880,114 +1924,11 @@ const detailPaguItem = (id) => {
       trHTML += "</tr>";
     }
 
-      document.getElementById("detailinformasi").innerHTML = trHTML;
+    document.getElementById("detailinformasi").innerHTML = trHTML;
 
-    }
-  };
+  }
+};
 
-
-
-
-const detailTender = (id) => {
-  const xhttp = new XMLHttpRequest();
-
-  xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/default')
-  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  xhttp.setRequestHeader("Accept", "application/json");
-  xhttp.setRequestHeader("token", localStorage.getItem('token'));
-  xhttp.send();
-
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      var trHTML = '';
-      const objects = JSON.parse(this.responseText);
-      if (objects.data.data === null) {
-        //console.log('data kosong')
-      }
-      else {
-        let i = 0;
-        for (let object of objects.data.data) {
-          let id_obj = object['id']
-          i++
-          trHTML += '<tr>';
-          trHTML += '<td>' + i + '</td>';
-          trHTML += '<td>' + object['name'] + '</td>';
-          trHTML += '<td>' + object['paket'] + '</td>';
-          trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
-            style: 'currency',
-            currency: 'IDR'
-          }).format(object['pagu'])
-            .replace(/[IDR]/gi, '')
-            .replace(/(\.+\d{2})/, '')
-            .trimLeft() + '</td>';
-          trHTML += '<td>' + new Date(object['pemilihan']).toDateString().replace(/^\S+\s/, '') + '</td>';
-          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/, '') + '</td>';
-          trHTML += '<td>' + new Date(object['jadwal']).toDateString().replace(/^\S+\s/, '') + '</td>';
-          trHTML += '<td>' + object['tender'] + '</td>';
-          trHTML += '<td>' + object['pdn'] + '</td>';
-          trHTML += '<td class="actionbutton"><a href="javascript:void(0)" onclick="showTenderDetailEditBox(\'' + id_obj + '\',`tender`,\'' + api_url_langsung + '\')"><i class="bx bx-pencil bx-sm bx-tada-hover"></i></a>';
-          trHTML += '<a href="javascript:void(0)" onclick="detailDelete(\'' + id_obj + '\',`plangsung`,\'' + api_url_langsung + '\')"><i style="color:red;" class="bx bx-x bx-sm bx-tada-hover"></i></a></td>';
-          trHTML += "</tr>";
-        }
-      }
-
-      document.getElementById("tender").innerHTML = trHTML;
-
-    }
-  };
-
-}
-
-
-const detailLangsung = (id) => {
-  const xhttp = new XMLHttpRequest();
-
-  xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/langsung')
-  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  xhttp.setRequestHeader("Accept", "application/json");
-  xhttp.setRequestHeader("token", localStorage.getItem('token'));
-
-  xhttp.send();
-  //console.log("anggaran di eksekusi", id)
-
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      var trHTML = '';
-      const objects = JSON.parse(this.responseText);
-      if (objects.data.data === null) {
-        console.log('data kosong')
-      }
-      else {
-        let i = 0;
-        for (let object of objects.data.data) {
-          let id_obj = object['id']
-          i++
-
-          trHTML += '<tr>';
-          trHTML += '<td>' + i + '</td>';
-          trHTML += '<td>' + object['name'] + '</td>';
-          trHTML += '<td>' + object['paket'] + '</td>';
-          trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
-            style: 'currency',
-            currency: 'IDR'
-          }).format(object['pagu'])
-            .replace(/[IDR]/gi, '')
-            .replace(/(\.+\d{2})/, '')
-            .trimLeft() + '</td>';
-          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/, '') + '</td>';
-          trHTML += '<td>' + object['pdn'] + '</td>';       
-          trHTML += '<td class="actionbutton"><a href="javascript:void(0)" onclick="showLangsungEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')"> <i class="bx bx-pencil bx-sm bx-tada-hover"></i></a>';
-          trHTML += '<a href="javascript:void(0)" onclick="detailDelete(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')"><i style="color:red;" class="bx bx-x bx-sm bx-tada-hover"></i></a></td>';
-          trHTML += "</tr>";
-        }
-      }
-
-      document.getElementById("langsung").innerHTML = trHTML;
-
-    }
-  };
-
-}
 
 const detailPenunjukanLangsug = (id) => {
   const xhttp = new XMLHttpRequest();
@@ -1057,11 +1998,13 @@ const detailPurchasing = (id) => {
     if (this.readyState == 4 && this.status == 200) {
       var trHTML = '';
       const objects = JSON.parse(this.responseText);
+      // console.log("this data",objects)
       if (objects.data.data === null) {
         console.log('data kosong')
       }
       else {
         let i = 0;
+        console.log("this data", objects)
         for (let object of objects.data.data) {
           let id_obj = object['id']
           i++
@@ -1134,7 +2077,7 @@ const detailPengecualian = (id) => {
 
           trHTML += '<td class="actionbutton"><a href="javascript:void(0)" onclick="showLangsungEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')"> <i class="bx bx-pencil bx-sm bx-tada-hover"></i></a>';
           trHTML += '<a href="javascript:void(0)" onclick="detailDelete(\'' + id_obj + '\',`kecuali`,\'' + api_url_langsung + '\')"><i style="color:red;" class="bx bx-x bx-sm bx-tada-hover"></i></a></td>';
-      
+
           trHTML += "</tr>";
         }
       }
@@ -1235,7 +2178,7 @@ const showUserEditBox = (id) => {
 }
 
 const showAnggaranEditBox = (id, header_title, api_param_anggaran) => {
-  console.log(api_param_anggaran)
+  //console.log(api_param_anggaran)
   const xhttp = new XMLHttpRequest();
   xhttp.open("GET", api_param_anggaran + '/' + id);
   xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -1261,7 +2204,7 @@ const showAnggaranEditBox = (id, header_title, api_param_anggaran) => {
         focusConfirm: false,
         preConfirm: () => {
           editAnggaran()
-          detailAnggaran(id_global)
+          //detailAnggaran(id_global)
         }
       })
 
@@ -1296,21 +2239,21 @@ const tenderLangsungEdit = () => {
   data.append("pagu", parseInt(pagu))
   data.append("tipe", tipe)
   data.append("jadwal", pelaksanaan)
-  data.append("pdn",parseInt(pdn))
+  data.append("pdn", parseInt(pdn))
 
   data.append("ket", keterangan)
   data.append("tender", "default")
-  data.append("pelaksanaan",pelaksanaan)
+  data.append("pelaksanaan", pelaksanaan)
 
   data.append("tender", "default")
-  data.append("pemilihan",pelaksanaan)
+  data.append("pemilihan", pelaksanaan)
   data.append("idpagu", idpagu)
 
- 
-  fetch(api + "api/langsung/" + id,{
+
+  fetch(api + "api/langsung/" + id, {
     method: 'PUT',
     headers: {
-       token: localStorage.getItem('token')
+      token: localStorage.getItem('token')
     },
     body: data
   }).then(response => {
@@ -1319,11 +2262,16 @@ const tenderLangsungEdit = () => {
       'Your data have been save',
       'success'
     )
-      detailLangsung(id_global)
-      detailPenunjukanLangsug(id_global)
-      detailPurchasing(id_global)
-      detailPengecualian(id_global)
-      refreshTotal()
+    getApiTenderLangsung(id_global)
+    getApiPlangsung(id_global)
+    getApiTenderPurchsing(id_global)
+    getApiDikecualikan(id_global)
+    /*detailLangsung(id_global)
+    detailPenunjukanLangsug(id_global)
+    detailPurchasing(id_global)
+    detailPengecualian(id_global)
+    refreshTotal()
+    */
   }).catch(err => {
     console.log(err)
     Swal.fire({
@@ -1334,7 +2282,7 @@ const tenderLangsungEdit = () => {
     })
   })
 
-  
+
 
 }
 
@@ -1422,11 +2370,11 @@ const tenderCepatEdit = () => {
   data.append("paket", paket)
   data.append("ket", "ket")
 
-  
-  fetch(api + "api/langsung/" + id,{
+
+  fetch(api + "api/langsung/" + id, {
     method: 'PUT',
     headers: {
-       token: localStorage.getItem('token')
+      token: localStorage.getItem('token')
     },
     body: data
   }).then(response => {
@@ -1435,9 +2383,7 @@ const tenderCepatEdit = () => {
       'Your data have been Edit',
       'success'
     )
-      detailAnggaran(id_global)
-      detailTender(id_global)
-      refreshTotal()
+    getApiTenderCepat(id_global)
   }).catch(err => {
     console.log(err)
     Swal.fire({
@@ -1532,7 +2478,7 @@ const showSwakelolaEditBox = (id, header_title, api_param) => {
         focusConfirm: false,
         preConfirm: () => {
           swakelolaLangsungEdit()
-          detailAnggaran(id_global)
+          //detailAnggaran(id_global)
         }
       })
 
@@ -1567,10 +2513,10 @@ const swakelolaLangsungEdit = () => {
   data.append("paket", "default")
   data.append("ket", keterangan)
   // xhttp.open("PUT", api + "api/langsung/" + id);
-  fetch(api + "api/langsung/" + id,{
+  fetch(api + "api/langsung/" + id, {
     method: 'PUT',
     headers: {
-       token: localStorage.getItem('token')
+      token: localStorage.getItem('token')
     },
     body: data
   }).then(response => {
@@ -1579,8 +2525,9 @@ const swakelolaLangsungEdit = () => {
       'Your data have been Edit',
       'success'
     )
-     detailSwakelola(id_global)
-     refreshTotal()
+    getApiTenderSwakelola(id_global)
+    //detailSwakelola(id_global)
+    //refreshTotal()
   }).catch(err => {
     console.log(err)
     Swal.fire({
@@ -1590,7 +2537,7 @@ const swakelolaLangsungEdit = () => {
       footer: '<a href="">Why do I have this issue?</a>'
     })
   })
- 
+
 }
 
 
@@ -1600,43 +2547,44 @@ const editAnggaran = () => {
   const id = document.getElementById("id").value;
   const name = document.getElementById("name").value;
   const paguopd = document.getElementById("pagu").value;
+  if (name == '') {
+    swallWarningMessage('Sub Kegiatan')
+  }
+  else if (paguopd == '') {
+    swallWarningMessage('Pagu')
+  }
+  else {
+    let data = new FormData()
 
+    data.append("name", name)
+    data.append("paket", "000")
+    data.append("pagu", parseInt(paguopd))
+    data.append("jadwal", "12-12-2022")
+    data.append("pdn", parseInt(20))
+    data.append("idpagu", id_global)
 
-  let data = new FormData()
- 
-  data.append("name", name)
-  data.append("paket", "000")
-  data.append("pagu", parseInt(paguopd))
-  data.append("jadwal", "12-12-2022")
-  data.append("pdn", parseInt(20))
-  data.append("idpagu", id_global)
-
-  fetch(api_url_anggaran+"/"+id,{
-    method: 'PUT',
-    headers: {
-       token: localStorage.getItem('token')
-    },
-    body: data
-  }).then(response => {
-    //console.log('response.status: ', response.status);
-    //console.log(response)
-    Swal.fire(
-      'Good job!',
-      'You edit have been save',
-      'success'
-    )
-    detailAnggaran(id_global)
-  }).catch(err => {
-    console.log(err)
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Something went wrong!',
-      footer: '<a href="">Why do I have this issue?</a>'
+    fetch(api_url_anggaran + "/" + id, {
+      method: 'PUT',
+      headers: {
+        token: localStorage.getItem('token')
+      },
+      body: data
+    }).then(response => {
+      Swal.fire(
+        'Good job!',
+        'You edit have been save',
+        'success'
+      )
+      getApiAnggaran(id_global)
+      //aggridtable(id_global)
+      //detailAnggaran(id_global)
+    }).catch(err => {
+      console.log(err)
+      swallWarningMessage(err)
     })
-  })
 
-  
+
+  }
 }
 
 
@@ -1653,10 +2601,10 @@ const paguEdit = () => {
   data.append("paguorp", paguorp)
   data.append("filetipe", filetipe)
 
-  fetch(api_url+"/"+id,{
+  fetch(api_url + "/" + id, {
     method: 'PUT',
     headers: {
-       token: localStorage.getItem('token')
+      token: localStorage.getItem('token')
     },
     body: data
   }).then(response => {
@@ -1842,7 +2790,7 @@ const showFastTender = (anggaran) => {
 
       CreateDetailPagu(api_url_tender, anggaran)
       // Swal.fire('Saved!', '', 'success')
-      refreshTotal()
+      //refreshTotal()
       //paguCreate();
     }
   })
@@ -2265,9 +3213,9 @@ const removeDownload = () => {
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       Swal.fire('Saved!', '', 'success')
-      detailAnggaran(id_global)
-      detailTender(id_global)
-      refreshTotal()
+      //detailAnggaran(id_global)
+      //detailTender(id_global)
+      //refreshTotal()
 
     }
     else {
@@ -2773,10 +3721,10 @@ const linkCreate = () => {
   data.append("name", name)
   data.append("link", link)
   data.append("idpagu", id_global)
-  fetch(api+'api/link',{
+  fetch(api + 'api/link', {
     method: 'POST',
     headers: {
-       token: localStorage.getItem('token')
+      token: localStorage.getItem('token')
     },
     body: data
   }).then(response => {
@@ -2816,26 +3764,26 @@ const loadLink = (id) => {
       //hideloader()
       let i = 0
       const objects = JSON.parse(this.responseText);
-        console.log(objects)
-        if(objects.data.data == null) {
-          console.log('Data Not Found')
-        }
-        else {
+      console.log(objects)
+      if (objects.data.data == null) {
+        console.log('Data Not Found')
+      }
+      else {
 
         for (let object of objects.data.data) {
           let id_obj = object['id']
           i++
           trHTML += '<tr>';
           trHTML += '<td>' + i + '</td>';
-          trHTML += '<td>' + object['name'] + '</td>'; 
-          trHTML += '<td>' +'<a style="color:red" href="' + object['link'] + '" target="_blank">' + 'Download File' + '</a>' + '</td>';
+          trHTML += '<td>' + object['name'] + '</td>';
+          trHTML += '<td>' + '<a style="color:red" href="' + object['link'] + '" target="_blank">' + 'Download File' + '</a>' + '</td>';
           trHTML += '<td class="actionbutton"><a href="javascript:void(0)" onclick="showLinkEditBox(\'' + id_obj + '\')"> <i class="bx bx-pencil bx-sm bx-tada-hover"></i></a>';
           trHTML += '<a href="javascript:void(0)" onclick="deletLink(\'' + id_obj + '\')"><i style="color:red;" class="bx bx-x bx-sm bx-tada-hover"></i></a></td>';
 
           trHTML += "</tr>";
         }
-        }
-      
+      }
+
 
       document.getElementById("filidownloadlink").innerHTML = trHTML;
 
@@ -2860,7 +3808,7 @@ function deletLink(id) {
   }).then((result) => {
     if (result.isConfirmed) {
       linkDelete(id)
-     
+
     } else if (
       /* Read more about handling dismissals below */
       result.dismiss === Swal.DismissReason.cancel
@@ -2877,11 +3825,11 @@ function deletLink(id) {
 
 const linkDelete = (id) => {
 
-  fetch(api+"api/link/"+id, {
+  fetch(api + "api/link/" + id, {
     method: 'DELETE',
     headers: {
       token: localStorage.getItem('token')
-   },
+    },
   }).then(response => {
     console.log('response.status: ', response.status);
     console.log(response)
@@ -2893,7 +3841,7 @@ const linkDelete = (id) => {
     loadLink(id)
   }).catch(err => {
     console.log(err)
-    
+
   })
 
 }
@@ -2943,11 +3891,11 @@ const linkEdit = () => {
   data.append("name", name)
   data.append("link", link)
   data.append("idpagu", idpagu)
-  
-  fetch(api+"api/link/"+id,{
+
+  fetch(api + "api/link/" + id, {
     method: 'PUT',
     headers: {
-       token: localStorage.getItem('token')
+      token: localStorage.getItem('token')
     },
     body: data
   }).then(response => {
@@ -2966,7 +3914,7 @@ const linkEdit = () => {
       footer: '<a href="">Why do I have this issue?</a>'
     })
   })
-  
+
 
 }
 

@@ -96,32 +96,70 @@
 
     <div class="home-content">
       <div class="overview-table">
-        <div class="text-detail-pagu">
-          <p>Crete User</p>
-          <a href="javascript:void(0)" onclick="showUserCreteUser()">
-            <span> Add Data</span>
-            <i class='bx bx-plus bx-sm bx-burst-hover'></i>
-          </a>
-        </div>
-        <table class="styled-table">
+        <div id="detailuser">
+          <div class="text-detail-pagu">
+            <p>Crete User</p>
+          </div>
+          <table class="styled-table">
 
-          <thead>
-            <tr>
-              <th width="2%">NO</th>
-              <th width="28%">Nama</th>
-              <th width="30%">Email</th>
-              <th width="22%%">Last Updated</th>
-              <th class="actionbutton" width="12%">ACTION</th>
-            </tr>
-          </thead>
-          <tbody id="userpengguna">
-            <tr></tr>
-          </tbody>
-        </table>
+            <thead>
+              <tr>
+                <th width="2%">NO</th>
+                <th width="28%">Nama</th>
+                <th width="30%">Email</th>
+                <th width="22%%">Last Updated</th>
+                <th class="actionbutton" width="12%">ACTION</th>
+              </tr>
+            </thead>
+            <tbody id="userpengguna">
+              <tr></tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="detailuserpage">
+          <div class="detail-pagu-text">
+            <p style="margin-top:20px; margin-bottom: 10px;">Detail User</p>
+            <table class="subpagu styled-table">
+             <thead>
+               <tr>
+                 <th width="3%">NO</th>
+                 <th width="25%">NAMA</th>
+                 <th width="30%">EMAIL</th>
+                 <th width="42%">LAST LOGIN</th>
+               </tr>
+             </thead>
+              <tbody id="detailinformasiuser">
+               <tr></tr>
+             </tbody>
+            
+           </table>
+           <div style="display:flex; align-items: center; justify-content: space-between;">
+            <p style="margin-top:10px;margin-bottom: 10px;">Access Data</p>
+            <a href="javascript:void(0)" onclick="showCreateAccess()">
+             <span> Add Data</span>
+             <i class='bx bx-plus bx-sm bx-burst-hover'></i>
+           </a>
+          </div>
+           <table class="subpagu styled-table">
+            <thead>
+              <tr>
+                <th width="3%">NO</th>
+                <th width="25%">Access Name</th>
+                <th width="30%">EMAIL</th>
+                <th width="42%">LAST LOGIN</th>
+              </tr>
+            </thead>
+             <tbody id="detailaccess">
+              <tr></tr>
+            </tbody>
+           
+          </table>
+         </div>
+        </div>
       </div>
     </div>
-   <!-- end loader -->
-   
+    <!-- end loader -->
+
 
   </section>
   <!-- JavaScript Bundle with Popper -->

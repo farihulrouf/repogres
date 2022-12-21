@@ -1005,6 +1005,9 @@ select#input-select {
 #uploudform {
   display: none;
 }
+#detailuserpage{
+  display: none;
+}
 
 #pagination {
   display: flex;
@@ -1017,7 +1020,10 @@ select#input-select {
 .active {
   color: red;
 }
-
+button {
+  background: transparent;
+  border: none;
+}
 
 
  
