@@ -147,6 +147,28 @@ const gridOptionAnggaran = {
 
     },
     {
+
+      headerName: 'User Created',
+      field: 'usercreate',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+
+    },
+    {
+
+      headerName: 'User Updated',
+      field: 'userupdate',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+
+    },
+    {
       headerName: "Action",
       maxWidth: 90,
       filter: false,
@@ -304,6 +326,28 @@ const gridOptionsTenderCepat = {
 
     },
     {
+
+      headerName: 'User Created',
+      field: 'usercreate',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+
+    },
+    {
+
+      headerName: 'User Updated',
+      field: 'userupdate',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+
+    },
+    {
       headerName: "Action",
       maxWidth: 90,
       filter: false,
@@ -441,6 +485,28 @@ const gridOptionsTenderLangsung = {
 
       headerName: 'Last Updated',
       field: 'UpdatedAt',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+
+    },
+    {
+
+      headerName: 'User Created',
+      field: 'usercreate',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+
+    },
+    {
+
+      headerName: 'User Updated',
+      field: 'userupdate',
       width: 200, maxWidth: 200,
       cellStyle: { // light green
         fontSize: '14px',
@@ -590,6 +656,28 @@ const gridOptionsPlangsug = {
 
     },
     {
+
+      headerName: 'User Created',
+      field: 'usercreate',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+
+    },
+    {
+
+      headerName: 'User Updated',
+      field: 'userupdate',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+
+    },
+    {
       headerName: "Action",
       maxWidth: 90,
       filter: false,
@@ -723,6 +811,28 @@ const gridOptionPurchasing = {
 
       headerName: 'Last Updated',
       field: 'UpdatedAt',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+
+    },
+    {
+
+      headerName: 'User Created',
+      field: 'usercreate',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+
+    },
+    {
+
+      headerName: 'User Updated',
+      field: 'userupdate',
       width: 200, maxWidth: 200,
       cellStyle: { // light green
         fontSize: '14px',
@@ -877,6 +987,28 @@ const gridOptionsDikecualikan = {
 
     },
     {
+
+      headerName: 'User Created',
+      field: 'usercreate',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+
+    },
+    {
+
+      headerName: 'User Updated',
+      field: 'userupdate',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+
+    },
+    {
       headerName: "Action",
       maxWidth: 90,
       filter: false,
@@ -999,6 +1131,28 @@ const gridOptionsSwakelola = {
 
       headerName: 'Last Updated',
       field: 'UpdatedAt',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+
+    },
+    {
+
+      headerName: 'User Created',
+      field: 'usercreate',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      // valueFormatter: dateFormatter,
+
+    },
+    {
+
+      headerName: 'User Updated',
+      field: 'userupdate',
       width: 200, maxWidth: 200,
       cellStyle: { // light green
         fontSize: '14px',
@@ -1326,6 +1480,8 @@ function CreateAnggaran(api_param, header_title) {
     data.append("jadwal", "12-12-2022")
     data.append("pdn", parseInt(20))
     data.append("idpagu", id_global)
+    data.append("userupdate", decoded.First_name)
+    data.append("usercreate", decoded.First_name)
 
     fetch(api_param, {
       method: 'POST',
@@ -1402,6 +1558,8 @@ const CreateDetailPagu = (api_param, header_title) => {
     data.append("tender", selecinput)
     data.append("idpagu", id_global)
     data.append("ket", "ket")
+    data.append("userupdate", decoded.First_name)
+    data.append("usercreate", decoded.First_name)
     fetch(api + 'api/langsung', {
       method: 'POST',
       headers: {
@@ -1466,6 +1624,8 @@ function CreateSwakelola(api_param, header_title) {
     data.append("pemilihan", "12-12-2022")
     data.append("pdn", parseInt(pdn))
     data.append("idpagu", id_global)
+    data.append("userupdate", decoded.First_name)
+    data.append("usercreate", decoded.First_name)
 
     fetch(api_param, {
       method: 'POST',
@@ -1534,6 +1694,8 @@ function CreateDetailLain(api_param, header_title) {
     data.append("pemilihan", waktupemanfaatan)
     data.append("idpagu", id_global)
 
+    data.append("userupdate", decoded.First_name)
+    data.append("usercreate", decoded.First_name)
 
     fetch(api_param, {
       method: 'POST',
@@ -2264,7 +2426,9 @@ const tenderLangsungEdit = () => {
     data.append("tender", "default")
     data.append("pemilihan", pelaksanaan)
     data.append("idpagu", idpagu)
-  
+    
+    data.append("userupdate", decoded.First_name)
+    //data.append("usercreate", decoded)
   
     fetch(api + "api/langsung/" + id, {
       method: 'PUT',
@@ -2381,15 +2545,13 @@ const tenderCepatEdit = () => {
   else if (pdn == '') {
     swallWarningMessage('PDN')
   }
-  else if (waktupelaksanaan == '') {
+  else if (pelaksanaan == '') {
     swallWarningMessage('Waktu Pelaksanaan')
   }
-  else if (waktupemilihan == '') {
+  else if (pemilihan == '') {
     swallWarningMessage('Waktu Pemilihan')
   }
-  else if (waktupemanfaatan == '') {
-    swallWarningMessage('Waktu Pemanfaatan')
-  }
+  
   else {
     let data = new FormData()
 
@@ -2405,6 +2567,7 @@ const tenderCepatEdit = () => {
     data.append("pemilihan", pemilihan)
     data.append("paket", paket)
     data.append("ket", "ket")
+    data.append("userupdate", decoded.First_name)
 
 
     fetch(api + "api/langsung/" + id, {
@@ -2561,6 +2724,9 @@ const swakelolaLangsungEdit = () => {
     data.append("pemilihan", "12-12-2022")
     data.append("paket", "default")
     data.append("ket", keterangan)
+
+    data.append("userupdate", decoded.First_name)
+    //data.append("usercreate", decoded)
     // xhttp.open("PUT", api + "api/langsung/" + id);
     fetch(api + "api/langsung/" + id, {
       method: 'PUT',
@@ -2612,6 +2778,8 @@ const editAnggaran = () => {
     data.append("jadwal", "12-12-2022")
     data.append("pdn", parseInt(20))
     data.append("idpagu", id_global)
+    data.append("userupdate", decoded.First_name)
+    //data.append("usercreate", decoded)
 
     fetch(api_url_anggaran + "/" + id, {
       method: 'PUT',
