@@ -131,7 +131,7 @@ const gridOptionAnggaran = {
         fontSize: '14px',
       },
       // valueFormatter: dateFormatter,
-     
+
     },
     {
 
@@ -142,7 +142,7 @@ const gridOptionAnggaran = {
         fontSize: '14px',
       },
       // valueFormatter: dateFormatter,
-     
+
     },
     {
       headerName: "Action",
@@ -163,7 +163,7 @@ const gridOptionAnggaran = {
             showAnggaranEditBox(data_id, `anggaran`, api_url_anggaran)
           },
           1: function (data_id) {
-            detailDelete(data_id,`anggaran`, api_url_anggaran)
+            detailDelete(data_id, `anggaran`, api_url_anggaran)
             //$.delete(`/employee/${data_id}`)
           }
         }
@@ -185,7 +185,7 @@ const gridOptionAnggaran = {
 const aggridtable = (id) => {
   const eGridDiv = document.querySelector('#myGrid');
   new agGrid.Grid(eGridDiv, gridOptionAnggaran);
-  getApiAnggaran(id)   
+  getApiAnggaran(id)
 }
 
 
@@ -288,7 +288,7 @@ const gridOptionsTenderCepat = {
         fontSize: '14px',
       },
       // valueFormatter: dateFormatter,
-     
+
     },
     {
 
@@ -299,7 +299,7 @@ const gridOptionsTenderCepat = {
         fontSize: '14px',
       },
       // valueFormatter: dateFormatter,
-     
+
     },
     {
       headerName: "Action",
@@ -433,7 +433,7 @@ const gridOptionsTenderLangsung = {
         fontSize: '14px',
       },
       // valueFormatter: dateFormatter,
-     
+
     },
     {
 
@@ -444,7 +444,7 @@ const gridOptionsTenderLangsung = {
         fontSize: '14px',
       },
       // valueFormatter: dateFormatter,
-     
+
     },
     {
       headerName: "Action",
@@ -574,7 +574,7 @@ const gridOptionsPlangsug = {
         fontSize: '14px',
       },
       // valueFormatter: dateFormatter,
-     
+
     },
     {
 
@@ -585,7 +585,7 @@ const gridOptionsPlangsug = {
         fontSize: '14px',
       },
       // valueFormatter: dateFormatter,
-     
+
     },
     {
       headerName: "Action",
@@ -626,9 +626,9 @@ const aggridTenderPlangsung = (id) => {
   const eGridDiv = document.querySelector('#myTenderPlangsung');
   new agGrid.Grid(eGridDiv, gridOptionsPlangsug);
   getApiPlangsung(id)
- 
+
 }
-const getApiPlangsung  = (id) => {
+const getApiPlangsung = (id) => {
   fetch(api + 'api/langsung/pagu/' + id + '/plangsung', {
     headers: {
       'token': localStorage.getItem("token"),
@@ -715,7 +715,7 @@ const gridOptionPurchasing = {
         fontSize: '14px',
       },
       // valueFormatter: dateFormatter,
-     
+
     },
     {
 
@@ -726,7 +726,7 @@ const gridOptionPurchasing = {
         fontSize: '14px',
       },
       // valueFormatter: dateFormatter,
-     
+
     },
     {
       headerName: "Action",
@@ -861,7 +861,7 @@ const gridOptionsDikecualikan = {
         fontSize: '14px',
       },
       // valueFormatter: dateFormatter,
-     
+
     },
     {
 
@@ -872,7 +872,7 @@ const gridOptionsDikecualikan = {
         fontSize: '14px',
       },
       // valueFormatter: dateFormatter,
-     
+
     },
     {
       headerName: "Action",
@@ -991,7 +991,7 @@ const gridOptionsSwakelola = {
         fontSize: '14px',
       },
       // valueFormatter: dateFormatter,
-     
+
     },
     {
 
@@ -1002,7 +1002,7 @@ const gridOptionsSwakelola = {
         fontSize: '14px',
       },
       // valueFormatter: dateFormatter,
-     
+
     },
     {
       headerName: "Action",
@@ -1362,48 +1362,73 @@ const CreateDetailPagu = (api_param, header_title) => {
   const pdn = document.getElementById("pdn").value;
   const paket = document.getElementById("paket").value;
   const pagu = document.getElementById("pagu").value;
-
-  let data = new FormData()
-  data.append("name", selectSubkegiatan)
-  data.append("paket", paket)
-  data.append("pagu", parseInt(pagu))
-  data.append("jadwal", waktupemanfaatan)
-  data.append("pemilihan", waktupemilihan)
-  data.append("tipe", "default")
-  data.append("pelaksanaan", waktupelaksanaan)
-  data.append("pdn", parseInt(pdn))
-  data.append("tender", selecinput)
-  data.append("idpagu", id_global)
-  data.append("ket", "ket")
-  fetch(api + 'api/langsung', {
-    method: 'POST',
-    headers: {
-      token: localStorage.getItem('token')
-    },
-    body: data
-  }).then(response => {
-    Swal.fire(
-      'Good job!',
-      'Your data have been save',
-      'success'
-    )
-    getApiTenderCepat(id_global)
-    getApiTenderLangsung(id_global)
-    getApiPlangsung(id_global)
-    getApiDikecualikan(id_global)
-    getApiTenderPurchsing(id_global)
-    //detailTender(id_global)
-  }).catch(err => {
-    console.log(err)
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Something went wrong!',
-      footer: '<a href="">Why do I have this issue?</a>'
+  console.log(selecinput)
+  if (selectSubkegiatan == 'Kegiatan SKPD') {
+    swallWarningMessage('Kegiatan SKPD')
+  }
+  else if (selecinput == 'Jenis Tender' || selecinput == '') {
+    swallWarningMessage('Jenis Tender')
+  }
+  else if (paket == '') {
+    swallWarningMessage('Nama Paket')
+  }
+  else if (pagu == '') {
+    swallWarningMessage('Pagu')
+  }
+  else if (pdn == '') {
+    swallWarningMessage('PDN')
+  }
+  else if (waktupelaksanaan == '') {
+    swallWarningMessage('Waktu Pelaksanaan')
+  }
+  else if (waktupemilihan == '') {
+    swallWarningMessage('Waktu Pemililhan')
+  }
+  else if (waktupemanfaatan == '') {
+    swakelolaLangsungEdit('Waktu Pemanfaatan')
+  }
+  else {
+    let data = new FormData()
+    data.append("name", selectSubkegiatan)
+    data.append("paket", paket)
+    data.append("pagu", parseInt(pagu))
+    data.append("jadwal", waktupemanfaatan)
+    data.append("pemilihan", waktupemilihan)
+    data.append("tipe", "default")
+    data.append("pelaksanaan", waktupelaksanaan)
+    data.append("pdn", parseInt(pdn))
+    data.append("tender", selecinput)
+    data.append("idpagu", id_global)
+    data.append("ket", "ket")
+    fetch(api + 'api/langsung', {
+      method: 'POST',
+      headers: {
+        token: localStorage.getItem('token')
+      },
+      body: data
+    }).then(response => {
+      Swal.fire(
+        'Good job!',
+        'Your data have been save',
+        'success'
+      )
+      getApiTenderCepat(id_global)
+      getApiTenderLangsung(id_global)
+      getApiPlangsung(id_global)
+      getApiDikecualikan(id_global)
+      getApiTenderPurchsing(id_global)
+      //detailTender(id_global)
+    }).catch(err => {
+      console.log(err)
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        footer: '<a href="">Why do I have this issue?</a>'
+      })
     })
-  })
 
-
+  }
 
 }
 
@@ -1412,48 +1437,59 @@ function CreateSwakelola(api_param, header_title) {
   const pdn = document.getElementById("pdn").value;
   const pagu = document.getElementById("pagu").value;
   const keterangan = document.getElementById("keterangan").value
-
   var selectSubkegiatan = document.getElementById("dropdown-list").value
 
-  let data = new FormData()
-  data.append("name", selectSubkegiatan)
-  data.append("paket", "default")
-  data.append("pagu", parseInt(pagu))
-  data.append("tipe", header_title)
-  data.append("jadwal", "12-12-2022")
-  data.append("ket", "keterangan")
-  data.append("tender", "default")
-  data.append("pelaksanaan", "12-12-2022")
-  data.append("pemilihan", "12-12-2022")
-  data.append("pdn", parseInt(pdn))
-  data.append("idpagu", id_global)
+  if (selectSubkegiatan == 'Kegiatan SKPD') {
+    swallWarningMessage('Kegiatan SKPD')
+  }
+  else if (pagu == '') {
+    swallWarningMessage('Name Pagu')
+  }
+  else if (keterangan == '') {
+    swallWarningMessage('Keterangan')
+  }
+  else if (pdn == '') {
+    swallWarningMessage('PDN')
+  }
+  else {
+    let data = new FormData()
+    data.append("name", selectSubkegiatan)
+    data.append("paket", "default")
+    data.append("pagu", parseInt(pagu))
+    data.append("tipe", header_title)
+    data.append("jadwal", "12-12-2022")
+    data.append("ket", "keterangan")
+    data.append("tender", "default")
+    data.append("pelaksanaan", "12-12-2022")
+    data.append("pemilihan", "12-12-2022")
+    data.append("pdn", parseInt(pdn))
+    data.append("idpagu", id_global)
 
-  fetch(api_param, {
-    method: 'POST',
-    headers: {
-      token: localStorage.getItem('token')
-    },
-    body: data
-  }).then(response => {
-    Swal.fire(
-      'Good job!',
-      'Your data have been save',
-      'success'
-    )
-    getApiTenderSwakelola(id_global)
+    fetch(api_param, {
+      method: 'POST',
+      headers: {
+        token: localStorage.getItem('token')
+      },
+      body: data
+    }).then(response => {
+      Swal.fire(
+        'Good job!',
+        'Your data have been save',
+        'success'
+      )
+      getApiTenderSwakelola(id_global)
 
-  }).catch(err => {
-    console.log(err)
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Something went wrong!',
-      footer: '<a href="">Why do I have this issue?</a>'
+    }).catch(err => {
+      console.log(err)
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        footer: '<a href="">Why do I have this issue?</a>'
+      })
     })
-  })
 
-
-
+  }
 }
 
 function CreateDetailLain(api_param, header_title) {
@@ -1464,50 +1500,66 @@ function CreateDetailLain(api_param, header_title) {
   const pdn = document.getElementById("pdn").value;
   const paket = document.getElementById("paket").value;
   const pagu = document.getElementById("pagu").value;
-  let data = new FormData()
-  data.append("name", selectSubkegiatan)
-  data.append("paket", paket)
-  data.append("pagu", parseInt(pagu))
-  data.append("tipe", header_title)
-  data.append("jadwal", waktupemanfaatan)
-  data.append("pdn", parseInt(pdn))
+  if (selectSubkegiatan == 'Kegiatan SKPD') {
+    swallWarningMessage('Kegiatan SKPD')
+  }
+  else if (paket == '') {
+    swallWarningMessage('Paket')
+  }
+  else if (pagu == '') {
+    swallWarningMessage('Pagu')
+  }
+  else if (waktupemanfaatan == '') {
+    swallWarningMessage('Waktu Pemanfaatan')
+  }
+  else if (pdn == '') {
+    swallWarningMessage('PDN')
+  }
+  else {
+    let data = new FormData()
+    data.append("name", selectSubkegiatan)
+    data.append("paket", paket)
+    data.append("pagu", parseInt(pagu))
+    data.append("tipe", header_title)
+    data.append("jadwal", waktupemanfaatan)
+    data.append("pdn", parseInt(pdn))
 
-  data.append("ket", "ket")
-  data.append("tender", "default")
-  data.append("pelaksanaan", waktupemanfaatan)
+    data.append("ket", "ket")
+    data.append("tender", "default")
+    data.append("pelaksanaan", waktupemanfaatan)
 
-  data.append("tender", "default")
-  data.append("pemilihan", waktupemanfaatan)
-  data.append("idpagu", id_global)
+    data.append("tender", "default")
+    data.append("pemilihan", waktupemanfaatan)
+    data.append("idpagu", id_global)
 
 
-  fetch(api_param, {
-    method: 'POST',
-    headers: {
-      token: localStorage.getItem('token')
-    },
-    body: data
-  }).then(response => {
-    Swal.fire(
-      'Good job!',
-      'Your data have been save',
-      'success'
-    )
-    getApiTenderCepat(id_global)
-    getApiTenderLangsung(id_global)
-    getApiPlangsung(id_global)
-    getApiDikecualikan(id_global)
-    getApiTenderPurchsing(id_global)
-  }).catch(err => {
-    console.log(err)
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Something went wrong!',
-      footer: '<a href="">Why do I have this issue?</a>'
+    fetch(api_param, {
+      method: 'POST',
+      headers: {
+        token: localStorage.getItem('token')
+      },
+      body: data
+    }).then(response => {
+      Swal.fire(
+        'Good job!',
+        'Your data have been save',
+        'success'
+      )
+      getApiTenderCepat(id_global)
+      getApiTenderLangsung(id_global)
+      getApiPlangsung(id_global)
+      getApiDikecualikan(id_global)
+      getApiTenderPurchsing(id_global)
+    }).catch(err => {
+      console.log(err)
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        footer: '<a href="">Why do I have this issue?</a>'
+      })
     })
-  })
-
+  }
 
 }
 
@@ -1930,56 +1982,6 @@ const detailPaguItem = (id) => {
 };
 
 
-const detailPenunjukanLangsug = (id) => {
-  const xhttp = new XMLHttpRequest();
-
-  xhttp.open("GET", api_url_langsung + '/pagu/' + id + '/plangsung')
-  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  xhttp.setRequestHeader("Accept", "application/json");
-  xhttp.setRequestHeader("token", localStorage.getItem('token'));
-
-  //xhttp.open("GET", api_url_langsung+ '/pagu/'+id);
-  xhttp.send();
-  //console.log("anggaran di eksekusi", id)
-
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      var trHTML = '';
-      const objects = JSON.parse(this.responseText);
-      if (objects.data.data === null) {
-        console.log('data kosong')
-      }
-      else {
-        let i = 0;
-        for (let object of objects.data.data) {
-          let id_obj = object['id']
-          i++
-
-          trHTML += '<tr>';
-          trHTML += '<td>' + i + '</td>';
-          trHTML += '<td>' + object['name'] + '</td>';
-          trHTML += '<td>' + object['paket'] + '</td>';
-          trHTML += '<td>' + 'Rp' + ' ' + new Intl.NumberFormat('en-ID', {
-            style: 'currency',
-            currency: 'IDR'
-          }).format(object['pagu'])
-            .replace(/[IDR]/gi, '')
-            .replace(/(\.+\d{2})/, '')
-            .trimLeft() + '</td>';
-          trHTML += '<td>' + new Date(object['pelaksanaan']).toDateString().replace(/^\S+\s/, '') + '</td>';
-          trHTML += '<td>' + object['pdn'] + '</td>';
-          trHTML += '<td class="actionbutton"><a href="javascript:void(0)" onclick="showLangsungEditBox(\'' + id_obj + '\',`langsung`,\'' + api_url_langsung + '\')"> <i class="bx bx-pencil bx-sm bx-tada-hover"></i></a>';
-          trHTML += '<a href="javascript:void(0)" onclick="detailDelete(\'' + id_obj + '\',`plangsung`,\'' + api_url_langsung + '\')"><i style="color:red;" class="bx bx-x bx-sm bx-tada-hover"></i></a></td>';
-          trHTML += "</tr>";
-        }
-      }
-
-      document.getElementById("pllangsung").innerHTML = trHTML;
-
-    }
-  };
-
-}
 
 
 const detailPurchasing = (id) => {
@@ -2232,57 +2234,64 @@ const tenderLangsungEdit = () => {
   const paket = document.getElementById("paket").value
   const idpagu = document.getElementById("idpagu").value
   const keterangan = document.getElementById("ket").value
-
-  let data = new FormData()
-  data.append("name", selectSubkegiatan)
-  data.append("paket", paket)
-  data.append("pagu", parseInt(pagu))
-  data.append("tipe", tipe)
-  data.append("jadwal", pelaksanaan)
-  data.append("pdn", parseInt(pdn))
-
-  data.append("ket", keterangan)
-  data.append("tender", "default")
-  data.append("pelaksanaan", pelaksanaan)
-
-  data.append("tender", "default")
-  data.append("pemilihan", pelaksanaan)
-  data.append("idpagu", idpagu)
-
-
-  fetch(api + "api/langsung/" + id, {
-    method: 'PUT',
-    headers: {
-      token: localStorage.getItem('token')
-    },
-    body: data
-  }).then(response => {
-    Swal.fire(
-      'Good job!',
-      'Your data have been save',
-      'success'
-    )
-    getApiTenderLangsung(id_global)
-    getApiPlangsung(id_global)
-    getApiTenderPurchsing(id_global)
-    getApiDikecualikan(id_global)
-    /*detailLangsung(id_global)
-    detailPenunjukanLangsug(id_global)
-    detailPurchasing(id_global)
-    detailPengecualian(id_global)
-    refreshTotal()
-    */
-  }).catch(err => {
-    console.log(err)
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Something went wrong!',
-      footer: '<a href="">Why do I have this issue?</a>'
+  if(selectSubkegiatan=='Kegiatan SKPD'){
+    swallWarningMessage('Kegiatan SKPD')
+  }
+  else if(pagu==''){
+    swallWarningMessage('Pagu')
+  }
+  else if(paket==''){
+    swallWarningMessage('Paket')
+  }
+  else if(pdn==''){
+    swallWarningMessage('PDN')
+  }
+  else {
+    let data = new FormData()
+    data.append("name", selectSubkegiatan)
+    data.append("paket", paket)
+    data.append("pagu", parseInt(pagu))
+    data.append("tipe", tipe)
+    data.append("jadwal", pelaksanaan)
+    data.append("pdn", parseInt(pdn))
+  
+    data.append("ket", keterangan)
+    data.append("tender", "default")
+    data.append("pelaksanaan", pelaksanaan)
+  
+    data.append("tender", "default")
+    data.append("pemilihan", pelaksanaan)
+    data.append("idpagu", idpagu)
+  
+  
+    fetch(api + "api/langsung/" + id, {
+      method: 'PUT',
+      headers: {
+        token: localStorage.getItem('token')
+      },
+      body: data
+    }).then(response => {
+      Swal.fire(
+        'Good job!',
+        'Your data have been save',
+        'success'
+      )
+      getApiTenderLangsung(id_global)
+      getApiPlangsung(id_global)
+      getApiTenderPurchsing(id_global)
+      getApiDikecualikan(id_global)
+    }).catch(err => {
+      console.log(err)
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        footer: '<a href="">Why do I have this issue?</a>'
+      })
     })
-  })
-
-
+  
+  
+  }
 
 }
 
@@ -2355,45 +2364,71 @@ const tenderCepatEdit = () => {
   const paket = document.getElementById("name").value
   const idpagu = document.getElementById("idpagu").value
   //const keterangan = document.getElementById("ket").value
-  let data = new FormData()
+  if (selectSubkegiatan == 'Kegiatan SKPD' || selectSubkegiatan == '') {
+    swallWarningMessage('Kegiatan SKPD')
+  }
+  else if (paket == '') {
+    swallWarningMessage('Nama Paket')
+  }
+  else if (pagu == '') {
+    swallWarningMessage('Pagu')
+  }
+  else if (tenderlo == '') {
+    swallWarningMessage('Jenis Tender')
+  }
+  else if (pdn == '') {
+    swallWarningMessage('PDN')
+  }
+  else if (waktupelaksanaan == '') {
+    swallWarningMessage('Waktu Pelaksanaan')
+  }
+  else if (waktupemilihan == '') {
+    swallWarningMessage('Waktu Pemilihan')
+  }
+  else if (waktupemanfaatan == '') {
+    swallWarningMessage('Waktu Pemanfaatan')
+  }
+  else {
+    let data = new FormData()
 
 
-  data.append("name", selectSubkegiatan)
-  data.append("pagu", parseInt(pagu))
-  data.append("jadwal", pelaksanaan)
-  data.append("tipe", "default")
-  data.append("pdn", parseInt(pdn))
-  data.append("idpagu", idpagu)
-  data.append("tender", tenderlo)
-  data.append("pelaksanaan", pelaksanaan)
-  data.append("pemilihan", pemilihan)
-  data.append("paket", paket)
-  data.append("ket", "ket")
+    data.append("name", selectSubkegiatan)
+    data.append("pagu", parseInt(pagu))
+    data.append("jadwal", pelaksanaan)
+    data.append("tipe", "default")
+    data.append("pdn", parseInt(pdn))
+    data.append("idpagu", idpagu)
+    data.append("tender", tenderlo)
+    data.append("pelaksanaan", pelaksanaan)
+    data.append("pemilihan", pemilihan)
+    data.append("paket", paket)
+    data.append("ket", "ket")
 
 
-  fetch(api + "api/langsung/" + id, {
-    method: 'PUT',
-    headers: {
-      token: localStorage.getItem('token')
-    },
-    body: data
-  }).then(response => {
-    Swal.fire(
-      'Good job!',
-      'Your data have been Edit',
-      'success'
-    )
-    getApiTenderCepat(id_global)
-  }).catch(err => {
-    console.log(err)
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Something went wrong!',
-      footer: '<a href="">Why do I have this issue?</a>'
+    fetch(api + "api/langsung/" + id, {
+      method: 'PUT',
+      headers: {
+        token: localStorage.getItem('token')
+      },
+      body: data
+    }).then(response => {
+      Swal.fire(
+        'Good job!',
+        'Your data have been Edit',
+        'success'
+      )
+      getApiTenderCepat(id_global)
+    }).catch(err => {
+      console.log(err)
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        footer: '<a href="">Why do I have this issue?</a>'
+      })
     })
-  })
 
+  }
 
 }
 
@@ -2497,46 +2532,59 @@ const swakelolaLangsungEdit = () => {
   const idpagu = document.getElementById("idpagu").value
   const keterangan = document.getElementById("ket").value
 
+  if (selectSubkegiatan == 'Kegiatan SKPD') {
+    swallWarningMessage('Kegiatan SKPD')
+  }
+  else if (pagu == '') {
+    swallWarningMessage('Name Pagu')
+  }
+  else if (keterangan == '') {
+    swallWarningMessage('Keterangan')
+  }
+  else if (pdn == '') {
+    swallWarningMessage('PDN')
+  }
+  else {
+    let data = new FormData()
 
-  let data = new FormData()
 
-
-  data.append("name", selectSubkegiatan)
-  data.append("pagu", parseInt(pagu))
-  data.append("jadwal", "12-12-2022")
-  data.append("tipe", "swakelola")
-  data.append("pdn", parseInt(pdn))
-  data.append("idpagu", idpagu)
-  data.append("tender", "default")
-  data.append("pelaksanaan", "12-12-2022")
-  data.append("pemilihan", "12-12-2022")
-  data.append("paket", "default")
-  data.append("ket", keterangan)
-  // xhttp.open("PUT", api + "api/langsung/" + id);
-  fetch(api + "api/langsung/" + id, {
-    method: 'PUT',
-    headers: {
-      token: localStorage.getItem('token')
-    },
-    body: data
-  }).then(response => {
-    Swal.fire(
-      'Good job!',
-      'Your data have been Edit',
-      'success'
-    )
-    getApiTenderSwakelola(id_global)
-    //detailSwakelola(id_global)
-    //refreshTotal()
-  }).catch(err => {
-    console.log(err)
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Something went wrong!',
-      footer: '<a href="">Why do I have this issue?</a>'
+    data.append("name", selectSubkegiatan)
+    data.append("pagu", parseInt(pagu))
+    data.append("jadwal", "12-12-2022")
+    data.append("tipe", "swakelola")
+    data.append("pdn", parseInt(pdn))
+    data.append("idpagu", idpagu)
+    data.append("tender", "default")
+    data.append("pelaksanaan", "12-12-2022")
+    data.append("pemilihan", "12-12-2022")
+    data.append("paket", "default")
+    data.append("ket", keterangan)
+    // xhttp.open("PUT", api + "api/langsung/" + id);
+    fetch(api + "api/langsung/" + id, {
+      method: 'PUT',
+      headers: {
+        token: localStorage.getItem('token')
+      },
+      body: data
+    }).then(response => {
+      Swal.fire(
+        'Good job!',
+        'Your data have been Edit',
+        'success'
+      )
+      getApiTenderSwakelola(id_global)
+      //detailSwakelola(id_global)
+      //refreshTotal()
+    }).catch(err => {
+      console.log(err)
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        footer: '<a href="">Why do I have this issue?</a>'
+      })
     })
-  })
+  }
 
 }
 
@@ -2789,9 +2837,7 @@ const showFastTender = (anggaran) => {
     preConfirm: () => {
 
       CreateDetailPagu(api_url_tender, anggaran)
-      // Swal.fire('Saved!', '', 'success')
-      //refreshTotal()
-      //paguCreate();
+
     }
   })
 }
