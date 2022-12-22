@@ -1495,6 +1495,7 @@ function showCreateAnggaran(anggaran) {
         '<input id="paket" style="width:15em" class="swal2-input"  placeholder="Nama Paket">' +
         '<input id="pagu" style="width:15em" type="tex" onfocus="(this.type=`number`)"  class="swal2-input"  placeholder="Pagu">' +
         '<input type="text" style="width:15em" onfocus="(this.type=`date`)" placeholder="Waktu Pelaksanaan" class="swal2-input" id="pelaksanaan" name="trip-start"  min="2022-11-10" max="2025-12-31">' +
+        '<input type="text" style="width:15em" onfocus="(this.type=`date`)" placeholder="Waktu Pemilihan" class="swal2-input" id="pemilihan" name="trip-start"  min="2022-11-10" max="2025-12-31">' +
         '<input id="pdn" style="width:15em" type="text" onfocus="(this.type=`number`)" class="swal2-input" placeholder="PDN %">',
 
       focusConfirm: false,
@@ -1710,9 +1711,10 @@ function CreateSwakelola(api_param, header_title) {
 
 function CreateDetailLain(api_param, header_title) {
 
-  const waktupemanfaatan = document.getElementById("pelaksanaan").value;
+  const pelaksanaan = document.getElementById("pelaksanaan").value;
 
   var selectSubkegiatan = document.getElementById("dropdown-list").value
+  const pemilihan = document.getElementById('pemilihan').value
   const pdn = document.getElementById("pdn").value;
   const paket = document.getElementById("paket").value;
   const pagu = document.getElementById("pagu").value;
@@ -1725,8 +1727,11 @@ function CreateDetailLain(api_param, header_title) {
   else if (pagu == '') {
     swallWarningMessage('Pagu')
   }
-  else if (waktupemanfaatan == '') {
-    swallWarningMessage('Waktu Pemanfaatan')
+  else if (pelaksanaan == '') {
+    swallWarningMessage('Waktu Pelaksanaan')
+  }
+  else if(pemilihan==''){
+    swallWarningMessage('Waktu Pemilihan')
   }
   else if (pdn == '') {
     swallWarningMessage('PDN')
@@ -1737,15 +1742,15 @@ function CreateDetailLain(api_param, header_title) {
     data.append("paket", paket)
     data.append("pagu", parseInt(pagu))
     data.append("tipe", header_title)
-    data.append("jadwal", waktupemanfaatan)
+    data.append("jadwal", pemilihan)
     data.append("pdn", parseInt(pdn))
 
     data.append("ket", "ket")
     data.append("tender", "default")
-    data.append("pelaksanaan", waktupemanfaatan)
+    data.append("pelaksanaan", pelaksanaan)
 
     data.append("tender", "default")
-    data.append("pemilihan", waktupemanfaatan)
+    data.append("pemilihan", pemilihan)
     data.append("idpagu", id_global)
 
     data.append("userupdate", decoded.First_name)
@@ -2478,7 +2483,7 @@ const tenderLangsungEdit = () => {
     data.append("pelaksanaan", pelaksanaan)
   
     data.append("tender", "default")
-    data.append("pemilihan", pelaksanaan)
+    data.append("pemilihan", pemilihan)
     data.append("idpagu", idpagu)
     
     data.append("userupdate", decoded.First_name)
@@ -2544,13 +2549,14 @@ const showLangsungEditBox = (id, header_title, api_param) => {
           '<input id="idpagu" type="hidden" value=' + posts['idpagu'] + '>' +
           //'<input id="tender" type="text" value=' + posts['tender'] + '>' +
           //'<input id="pemanfaatan" type="hidden" value=' + posts['pemanfaatan'] + '>' +
-          '<input id="pemilihan" type="hidden" value=' + posts['pemilihan'] + '>' +
+          //'<input id="pemilihan" type="hidden" value=' + posts['pemilihan'] + '>' +
           //'<input id="paket" type="hidden" value=' + posts['paket'] + '>' + loadSelectTender
           '<input id="ket" type="hidden" value=' + posts['ket'] + '>' +
           '<select id="dropdown-list" style="width:15em"  onfocus="loadDataKegiatanEdit(\'' + posts['name'] + '\')" class="swal2-input"><option value="DEFAULT">Sub Kegiatan SKPD</option></select>' +
           '<input id="paket" style="width:15em" class="swal2-input" placeholder="Sub Kegiatan" value="' + posts['paket'] + '">' +
           '<input id="pagu" style="width:15em" class="swal2-input" placeholder="Jumlah" value="' + posts['pagu'] + '">' +
           '<input type="text" style="width:15em" onfocus="(this.type=`date`)" placeholder="Waktu Pelaksanaan" class="swal2-input" id="pelaksanaan" name="trip-start"  min="2022-11-10" max="2025-12-31"  value="' + posts['pelaksanaan'] + '">' +
+          '<input type="text" style="width:15em" onfocus="(this.type=`date`)" placeholder="Waktu Pemilihan" class="swal2-input" id="pemilihan" name="trip-start"  min="2022-11-10" max="2025-12-31"  value="' + posts['pemilihan'] + '">' +
           '<input id="pdn" style="width:15em" type="text" onfocus="(this.type=`number`)" class="swal2-input" placeholder="PDN %" value="' + posts['pdn'] + '">',
         focusConfirm: false,
         preConfirm: () => {
