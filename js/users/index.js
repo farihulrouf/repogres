@@ -1,53 +1,27 @@
 
 const apiuser = "http://localhost:3000/"
 var id_user = ''
-const loadUsers = () => {
+var jwt = localStorage.getItem("token");
 
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", apiuser + 'api/users/getall');
-
-  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  xhttp.setRequestHeader("Accept", "application/json");
-  xhttp.setRequestHeader("token", localStorage.getItem('token'));
-  xhttp.send();
-  xhttp.onreadystatechange = function () {
-
-    if (this.readyState == 4 && this.status == 200) {
-      var trHTML = '';
-      //hideloader()
-      let i = 0
-      const objects = JSON.parse(this.responseText);
-      console.log(objects)
-      if (objects.data.data == null) {
-        console.log('Data Not Found')
-      }
-      else {
-
-        for (let object of objects.data.data) {
-          let id_obj = object['user_id']
-          i++
-          trHTML += '<tr>';
-          trHTML += '<td>' + i + '</td>';
-          trHTML += '<td>' + object['first_name'] + '</td>';
-          trHTML += '<td>' + object['email'] + '</td>';
-          trHTML += '<td>' + object['updated_at'] + '</td>';
-          trHTML += '<td class="actionbutton"><a href="javascript:void(0)" onclick="showLinkUserEdit(\'' + id_obj + '\')"> <i class="bx bx-pencil bx-sm bx-tada-hover"></i></a>';
-          trHTML += '<a href="javascript:void(0)" onclick="userPage(\'' + id_obj + '\')"><i class="bx bx-paperclip bx-sm bx-tada-hover"></i></a>';
-          trHTML += '<a href="javascript:void(0)" onclick="deleteUser(\'' + id_obj + '\')"><i style="color:red;" class="bx bx-x bx-sm bx-tada-hover"></i></a></td>';
-
-          trHTML += "</tr>";
-        }
-      }
-
-
-      document.getElementById("userpengguna").innerHTML = trHTML;
-
-    }
-
-  };
+decoded = jwt_decode(jwt)
+//console.log(decoded)
+if (jwt === null) {
+  console.log(jwt)
+  window.location.href = './login.html'
+}
+else if (Date.now() >= decoded.exp * 1000) {
+  window.location.href = './login.html'
 }
 
-loadUsers()
+
+const userWarningMessage = (dataWarning) => {
+  Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: 'Something went wrong! ' + dataWarning + ' Must be Input',
+    footer: '<a href="">Why do I have this issue?</a>'
+  })
+}
 
 function deleteUser(id) {
   console.log(id)
@@ -96,7 +70,7 @@ const userDelete = (id) => {
       'Your file has been deleted.',
       'success'
     )
-    loadUsers()
+    getApiAllUser()
   }).catch(err => {
     console.log(err)
 
@@ -166,7 +140,7 @@ const userEdit = () => {
       'You edit have been save',
       'success'
     )
-    loadUsers()
+    getApiAllUser()
   }).catch(err => {
     console.log(err)
     Swal.fire({
@@ -229,7 +203,7 @@ const userCreate = () => {
       'Your data have been save',
       'success'
     )
-    loadUsers()
+    getApiAllUser()
     //loadTable(1, "")
   }).catch(err => {
     console.log(err)
@@ -249,64 +223,177 @@ const logoutUser = () => {
   window.location.href = './login.html'
 }
 
-const userPage = (id) => {
-  var x = document.getElementById("detailuser");
-  var y = document.getElementById("detailuserpage")
-  console.log(y)
-  x.style.display = "none";
-  y.style.display = "block";
-  id_user = id;
-  detaillUser(id)
-}
+function multiBtnCellRendererUser() { }
 
-const detaillUser = (id) => {
-  const xhttp = new XMLHttpRequest();
-  xhttp.open("GET", apiuser + 'api/user/' + id);
-  xhttp.setRequestHeader("Accept", "application/json");
-  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  xhttp.setRequestHeader("Accept", "application/json");
-  xhttp.setRequestHeader("token", localStorage.getItem('token'));
-  xhttp.send();
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      const objects = JSON.parse(this.responseText);
-      console.log(objects)
-      const posts = objects.data.data
+multiBtnCellRendererUser.prototype.init = function (params) {
+  var self = this;
+  self.params = params;
+  self.num_buttons = parseInt(this.params.num_buttons);
+  self.btnClickedHandlers = {};
+  let outerDiv = document.createElement('div')
+  for (let i = 0; i < self.num_buttons; i++) {
+    let button = document.createElement('button');
+    button.innerHTML = self.params.button_html[i];
+    outerDiv.appendChild(button);
+    self.btnClickedHandlers[i] = function (event) {
+      self.params.clicked[i](self.params.get_data_id());
+    }.bind(i, self);
+    button.addEventListener('click', self.btnClickedHandlers[i]);
+  }
+  self.eGui = outerDiv;
+};
 
-      var trHTML = '';
+multiBtnCellRendererUser.prototype.getGui = function () {
+  return this.eGui;
+};
 
-      trHTML += '<tr>';
-      trHTML += '<td>' + 1 + '</td>';
-      trHTML += '<td>' + posts['first_name'] + '</td>';
-      trHTML += '<td>' + posts['email'] + '</td>';
-      trHTML += '<td>' + posts['updated_at'] + '</td>';
-      trHTML += "</tr>";
-    }
-
-     document.getElementById("detailinformasiuser").innerHTML = trHTML;
-
-    }
+multiBtnCellRendererUser.prototype.destroy = function () {
+  for (let i = 0; i < this.num_buttons; i++) {
+    this.eGui.removeEventListener('click', this.btnClickedHandlers[i]);
+  }
 };
 
 
-const  showCreateAccess = () => {
-  console.log(id_user)
-  Swal.fire({
-    title: 'Ceata Link',
-    icon: 'success',
-    showDenyButton: true,
-    confirmButtonText: 'Save',
-    denyButtonText: `Don't save`,
-    html:
-      '<input id="id" type="hidden">' +
-      '<input id="first_name" class="swal2-input" placeholder="First Name">' +
-      '<input id="last_name" class="swal2-input" placeholder="Last Name">' +
-      '<input id="email" class="swal2-input" placeholder="email">' +
-      '<input id="password" type="password" class="swal2-input" placeholder="Password">',
+const gridOptionUser = {
 
-    focusConfirm: false,
-    preConfirm: () => {
-      //userCreate()
+  defaultColDef: {
+    sortable: true,
+    filter: 'agTextColumnFilter',
+    resizable: true
+  },
+  columnDefs: [
+
+    //{ headerName: 'No', cellRendererFramework: AgGridRowNumberComponent},
+    {
+      headerName: "No",
+      valueGetter: "node.rowIndex + 1",
+      filter: false,
+      width: 40, maxWidth: 40,
+
+    },
+    {
+      headerName: 'First Name',
+      field: 'first_name', minWidth: 150,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+    {
+      headerName: 'Last Name',
+      field: 'last_name',
+      width: 150, maxWidth: 150,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+    {
+      headerName: 'Email',
+      field: 'email',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+    {
+      headerName: 'phone',
+      field: 'phone',
+      width: 150, maxWidth: 150,
+      cellStyle: { // light green
+        fontSize: '14px',
+      }
+    },
+  
+    {
+
+      headerName: 'Last Created',
+      field: 'updated_at',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      valueFormatter: function(params) {
+        let dt = moment(params.value, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
+        return (dt == 'Invalid date' || dt == '0001-01-01 00:00:00' ? '' : dt)
+       }
+
+    },
+    {
+
+      headerName: 'Last Updated',
+      field: 'created_at',
+      width: 200, maxWidth: 200,
+      cellStyle: { // light green
+        fontSize: '14px',
+      },
+      valueFormatter: function(params) {
+        let dt = moment(params.value, 'YYYY-MM-DDTHH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
+        return (dt == 'Invalid date' || dt == '0001-01-01 00:00:00' ? '' : dt)
+       }
+      
+    },
+    {
+      headerName: "Action",
+      maxWidth: 90,
+      filter: false,
+      floatingFilter: false,
+      suppressMenu: true,
+      sortable: false,
+      cellRenderer: multiBtnCellRendererUser,
+      cellRendererParams: {
+        num_buttons: 2, //<i class="bx bx-pencil bx-sm bx-tada-hover"></i>
+        button_html: ["<i class='bx bx-pencil bx-sm'></i>", "<i style='color:red;' class='bx bx-x bx-sm bx-tada-hover'></i>"],
+        get_data_id: function () {
+          return this.data.user_id;
+        },
+        clicked: {
+          0: function (data_id) {
+            showLinkUserEdit(data_id)
+          },
+          1: function (data_id) {
+            deleteUser(data_id)
+          }
+        }
+      }
     }
+  ],
+
+  // autoHeaderHeight: true,
+  pagination: true,
+  paginationPageSize: 10,
+  domLayout: 'autoHeight',
+  enableSorting: true,
+  enableFilter: false,    // <-- HERE
+  autoHeight: true,
+  pagination: true
+};
+
+
+const aggridtableUser = () => {
+  const eGridDiv = document.querySelector('#myGridUser');
+  new agGrid.Grid(eGridDiv, gridOptionUser);
+  getApiAllUser()
+}
+
+
+const getApiAllUser = () => {
+  fetch(apiuser + 'api/users/getall', {
+    headers: {
+      'token': localStorage.getItem("token"),
+      'X-FP-API-KEY': 'iphone', //it can be iPhone or your any other attribute
+      'Content-Type': 'application/json'
+    }
+  }).then(function (response) {
+    return response.json();
+  }).then(function (data) {
+    //console.log(data)
+     gridOptionUser.api.setRowData(data.data.data);
   })
+}
+
+if(decoded.Email!='eko@blp.gresikkab.go.id'){
+  userWarningMessage('authorization is missing')
+  window.location.href = './opdp.html'
+}
+else {
+  aggridtableUser()
 }

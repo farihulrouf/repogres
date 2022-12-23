@@ -23,21 +23,22 @@ var dateTest = ''
 var dataresponse = ''
 let pdnTotalObject = {}
 let pdnTotalObjectAll = {}
-
+var decoded =''
 var jwt = localStorage.getItem("token");
-var decoded = jwt_decode(jwt);
-console.log(decoded)
-if (jwt == null) {
+
+decoded = jwt_decode(jwt)
+//console.log(decoded)
+if (jwt === null) {
   console.log(jwt)
   window.location.href = './login.html'
 }
-else {
-  //if(isValidToken(jwt)==true){
-  // window.location.href = './login.html'
-  //}
-  //isValidToken(jwt)  
+
+else if (Date.now() >= decoded.exp * 1000) {
+  window.location.href = './login.html'
 }
 
+
+document.getElementById("user-opdp").value = decoded.First_name
 
 function multiBtnCellRenderer() { }
 
@@ -1270,6 +1271,48 @@ const getApiTenderSwakelola = (id) => {
   })
 }
 
+const getApiTotal = (id) => {
+  fetch(api + 'api/anggaran/pagu/total/' + id, {
+    headers: {
+      'token': localStorage.getItem("token"),
+      'X-FP-API-KEY': 'iphone', //it can be iPhone or your any other attribute
+      'Content-Type': 'application/json'
+    }
+  }).then(function (response) {
+    return response.json();
+  }).then(function (data) {
+    getTotalPagu(data)
+  })
+}
+
+const getTotalPagu = (data) => {
+        //console.log("pagu",data.data.data[0].totalpagu)
+        //console.log(data)
+        const formatCurrencry = new Intl.NumberFormat('en-ID', {
+          style: 'currency',
+          currency: 'IDR'
+        }).format(data.data.data[0].totalpagu).replace(/[IDR]/gi, '')
+          .replace(/(\.+\d{2})/, '')
+          .trimLeft()
+
+        var trHTML = '';
+        trHTML += '<div>';
+        trHTML += '<div style="color:#0A2558; width: 400px; font-size:16px; padding-bottom: 15px; border-bottom: 1px solid #0A2558; font-weight: 400; margin-top:15px;margin-bottom:15px;">' +'Total Pagu: Rp'+' ' + formatCurrencry + '</div>';
+        trHTML += "</div>";
+
+        document.getElementById("totalPaguAnggaran").innerHTML = trHTML;
+  //console.log("pagu",data)
+}
+
+/*
+new Intl.NumberFormat('en-ID', {
+            style: 'currency',
+            currency: 'IDR'
+          }).format(object['paguopdp']).replace(/[IDR]/gi, '')
+            .replace(/(\.+\d{2})/, '')
+            .trimLeft()
+*/
+
 
 const loadTable = (index, search) => {
 
@@ -1549,6 +1592,7 @@ function CreateAnggaran(api_param, header_title) {
       console.log(response)
       Swal.fire('Saved!', '', 'success')
       getApiAnggaran(id_global)
+      getApiTotal(id_global)
       //getApi()
       //detailAnggaran(id_global)
     }).catch(err => {
@@ -1895,6 +1939,7 @@ const deleteTender = (id, tender, api) => {
     getApiTenderLangsung(id_global)
     getApiTenderPurchsing(id_global)
     getApiTenderSwakelola(id_global)
+    getApiTotal(id_global)
     /* detailAnggaran(id_global)
     detailLangsung(id_global)
     detailPenunjukanLangsug(id_global)
@@ -1930,6 +1975,7 @@ function detailPage(id) {
   aggridTenderPurchasing(id)
   aggridTenderDikecualikan(id)
   aggridTenderSwakelola(id)
+  getApiTotal(id)
   detaiDownload(id)
   //detailAnggaran(id)
   //detailTender(id)
@@ -2854,6 +2900,7 @@ const editAnggaran = () => {
         'success'
       )
       getApiAnggaran(id_global)
+      getApiTotal(id_global)
       //aggridtable(id_global)
       //detailAnggaran(id_global)
     }).catch(err => {

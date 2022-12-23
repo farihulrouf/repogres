@@ -2,11 +2,15 @@
 const apilogin = "http://localhost:3000/api/users/login"
 
 var jwt = localStorage.getItem("token");
-
-if (jwt != null) {
+decoded = jwt_decode(jwt)
+if (jwt != null && Date.now() >= decoded.exp * 1000) {
   console.log(jwt)
   window.location.href = './opdp.html'
 }
+else if (Date.now() >= decoded.exp * 1000) {
+  window.location.href = './login.html'
+}
+
 
 
 
