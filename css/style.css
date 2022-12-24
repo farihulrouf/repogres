@@ -637,6 +637,7 @@ nav .profile-details i {
 
 #detail {
   display: none;
+  width: 100%;
 }
 
 .back-button {
@@ -1024,6 +1025,17 @@ button {
   background: transparent;
   border: none;
 }
+.input-data {
+  /* background: teal; */
+  position: relative;
+}
 
-
- 
+.label-input {
+  color: #7367f0;
+  position: absolute;
+  top: 12px;
+  font-size: 12px;
+  padding: 1px;
+  background-color: #f5f7f7;
+  left: 76px;
+}
