@@ -34,6 +34,7 @@ if (jwt === null) {
 }
 
 else if (Date.now() >= decoded.exp * 1000) {
+  localStorage.clear();
   window.location.href = './login.html'
 }
 
@@ -119,13 +120,7 @@ const gridOptionAnggaran = {
 
       }
     },
-    {
-      field: 'pdn',
-      width: 70, maxWidth: 70,
-      cellStyle: { // light green
-        fontSize: '14px',
-      }
-    },
+  
     {
 
       headerName: 'Last Created',
@@ -2593,10 +2588,6 @@ const showLangsungEditBox = (id, header_title, api_param) => {
           '<input id="id" type="hidden" value=' + posts['id'] + '>' +
           '<input id="tipe" type="hidden" value=' + posts['tipe'] + '>' +
           '<input id="idpagu" type="hidden" value=' + posts['idpagu'] + '>' +
-          //'<input id="tender" type="text" value=' + posts['tender'] + '>' +
-          //'<input id="pemanfaatan" type="hidden" value=' + posts['pemanfaatan'] + '>' +
-          //'<input id="pemilihan" type="hidden" value=' + posts['pemilihan'] + '>' +
-          //'<input id="paket" type="hidden" value=' + posts['paket'] + '>' + loadSelectTender
           '<input id="ket" type="hidden" value=' + posts['ket'] + '>' +
           '<div class="input-data"><label class="label-input">Kegiatan SKPD</label><select id="dropdown-list" style="width:15em"  onfocus="loadDataKegiatanEdit(\'' + posts['name'] + '\')" class="swal2-input"><option value="DEFAULT">Sub Kegiatan SKPD</option></select></div>' +
           '<div class="input-data"><label class="label-input">Nama Paket</label><input id="paket" style="width:15em" class="swal2-input" placeholder="Sub Kegiatan" value="' + posts['paket'] + '"></div>' +
@@ -2627,7 +2618,7 @@ const tenderCepatEdit = () => {
   const pagu = document.getElementById("pagu").value;
   const pelaksanaan = document.getElementById("pelaksanaan").value;
   const pemilihan = document.getElementById("pemilihan").value;
-  //const pemanfaatan = document.getElementById("pemanfaatan").value;
+  const pemanfaatan = document.getElementById("pemanfaatan").value;
   const tipe = document.getElementById("input-select").value;
   const pdn = document.getElementById("pdn").value
   // const tender = document.getElementById("tender").value
@@ -2664,7 +2655,7 @@ const tenderCepatEdit = () => {
 
     data.append("name", selectSubkegiatan)
     data.append("pagu", parseInt(pagu))
-    data.append("jadwal", pelaksanaan)
+    data.append("jadwal", pemanfaatan)
     data.append("tipe", "default")
     data.append("pdn", parseInt(pdn))
     data.append("idpagu", idpagu)
@@ -3018,10 +3009,6 @@ const loadSelectTender = (data) => {
   let dropdown = document.getElementById('input-select');
   dropdown.length = 0;
 
-  //let defaultOption = document.createElement('option');
-  //defaultOption.text = 'Jenis Tender';
-  //dropdown.add(defaultOption);
-
   let dataselect = ["Tender", "Seleksi", "Tender Cepat"]
   //dropdown.add(defaultOption);
   for (i = 0; i < dataselect.length; i++) {
@@ -3047,10 +3034,6 @@ const loadDataKegiatanEdit = (data) => {
   defaultOption.text = 'Kegiatan SKPD';
 
   dropdown.add(defaultOption);
-  // dropdown.selectedIndex = 0;
-  //console.log(data)
-  //const url = 'http://localhost:3000/api/pagus';
-
   const request = new XMLHttpRequest();
   request.open('GET', api_sub_kegiatan + '/' + id_global, true);
 

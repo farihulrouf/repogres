@@ -1031,7 +1031,7 @@ button {
 }
 
 .label-input {
-  color: #7367f0;
+  color: grey;
   position: absolute;
   top: 12px;
   font-size: 12px;
