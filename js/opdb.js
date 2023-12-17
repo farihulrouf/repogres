@@ -1,6 +1,6 @@
 
 
-const api = "http://peaceful-sea-07883-cfa7562b8bcd.herokuapp.com/"
+const api = "https://peaceful-sea-07883-cfa7562b8bcd.herokuapp.com/"
 const api_url = api + "api/pagus";
 const api_url_anggaran = api + "api/anggaran";
 const api_url_tender = api + "api/tender"

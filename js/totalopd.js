@@ -1,6 +1,6 @@
-const apitotal = "http://peaceful-sea-07883-cfa7562b8bcd.herokuapp.com/api/jumlahtotal"
-const apialltotal = 'http://peaceful-sea-07883-cfa7562b8bcd.herokuapp.com/api/jumlahtender'
-const api_ = "http://peaceful-sea-07883-cfa7562b8bcd.herokuapp.com/"
+const apitotal = "https://peaceful-sea-07883-cfa7562b8bcd.herokuapp.com/api/jumlahtotal"
+const apialltotal = 'https://peaceful-sea-07883-cfa7562b8bcd.herokuapp.com/api/jumlahtender'
+const api_ = "https://peaceful-sea-07883-cfa7562b8bcd.herokuapp.com/"
 function detailTotalTenderDetailCepatSeleksiAll() {
     //console.log("lihat id",id)
     const xhttp = new XMLHttpRequest();
