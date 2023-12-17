@@ -1,5 +1,5 @@
 
-const apiuser = "http://localhost:3000/"
+const apiuser = "http://peaceful-sea-07883-cfa7562b8bcd.herokuapp.com/"
 const loadUsers = () => {
 
     const xhttp = new XMLHttpRequest();

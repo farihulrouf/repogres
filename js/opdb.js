@@ -1,6 +1,6 @@
 
 
-const api = "http://localhost:3000/"
+const api = "http://peaceful-sea-07883-cfa7562b8bcd.herokuapp.com/"
 const api_url = api + "api/pagus";
 const api_url_anggaran = api + "api/anggaran";
 const api_url_tender = api + "api/tender"
@@ -1705,7 +1705,7 @@ const loadDataKegiatan = () => {
   dropdown.add(defaultOption);
   dropdown.selectedIndex = 0;
   //console.log(data)
-  //const url = 'http://localhost:3000/api/pagus';
+  //const url = 'http://peaceful-sea-07883-cfa7562b8bcd.herokuapp.com/api/pagus';
 
   const request = new XMLHttpRequest();
   request.open('GET', api_sub_kegiatan + '/' + id_global, true);
@@ -1777,7 +1777,7 @@ const loadDataKegiatanEdit = (data) => {
   dropdown.add(defaultOption);
   // dropdown.selectedIndex = 0;
   //console.log(data)
-  //const url = 'http://localhost:3000/api/pagus';
+  //const url = 'http://peaceful-sea-07883-cfa7562b8bcd.herokuapp.com/api/pagus';
 
   const request = new XMLHttpRequest();
   request.open('GET', api_sub_kegiatan + '/' + id_global, true);

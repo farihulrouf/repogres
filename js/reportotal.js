@@ -1,6 +1,6 @@
 
 
-const apiglobal = "http://localhost:3000/"
+const apiglobal = "http://peaceful-sea-07883-cfa7562b8bcd.herokuapp.com/"
 const api_url_pagu = apiglobal + "api/pagus";
 const api_url_total = apiglobal + "api/langsung/totalsemua/"
 const api_url_cepat_tender_seleksi = apiglobal + "api/langsung/totalseleksitender"
